@@ -1,0 +1,173 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2e6ff;
+  padding: 10px 30px;
+}
+
+.logo {
+  font-size: 22px;
+  max-height: fit-content;
+  font-weight: bold;
+  color: #8667F2;
+  font-family: Irish Grover;
+  cursor: pointer; /* Makes it clear it's interactive */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.logo span {
+  color: #c56cf0;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #654ac6; /* Slightly darker or playful color */
+  transform: scale(1.05); /* Slight grow effect */
+}
+
+.logo:hover span {
+  color: #a05ce0;
+}
+
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+nav a:hover {
+  color: #8667F2; /* Change to your theme color */
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
+}
+
+nav a.active {
+  color: #8667F2; /* Highlighted color */
+  font-weight: bold;
+}
+
+/* About Section */
+.about-page {
+  padding: 50px 20px;
+  background: #fff;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.about-container h1 {
+  font-size: 36px;
+  color: #8667F2;
+  margin-bottom: 20px;
+}
+
+.about-container p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* About Image and Text Side by Side */
+.about-highlight {
+  background: #f2e6ff;
+  padding: 40px 20px;
+}
+
+.about-split {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: auto;
+  align-items: center;
+  gap: 30px;
+}
+
+.about-split-image img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.about-split-text {
+  flex: 1;
+}
+
+.about-split-text p {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* What We Offer Section */
+.what-we-offer {
+  background: #fff;
+  max-width: 1000px;
+  margin: auto;
+  padding: 50px 20px;
+}
+
+.what-we-offer h3 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #8667F2;
+  
+}
+
+/* Clean and simple list style */
+.what-we-offer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.what-we-offer li {
+  font-size: 18px;
+  color: #333;
+  margin: 12px 0;
+  padding-left: 30px;
+  position: relative;
+}
+
+/* Arrow icon style */
+.what-we-offer li i {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #110d1f;
+  font-size: 16px;
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-split {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+}

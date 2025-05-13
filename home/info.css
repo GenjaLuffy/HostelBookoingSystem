@@ -1,0 +1,180 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2e6ff;
+  padding: 10px 30px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #8667F2;
+  font-family: Irish Grover;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.logo span {
+  color: #c56cf0;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #654ac6;
+  transform: scale(1.05);
+}
+
+.logo:hover span {
+  color: #a05ce0;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+nav a:hover {
+  color: #8667F2;
+  border-bottom: 2px solid #8667F2;
+}
+
+nav a.active {
+  color: #8667F2;
+  font-weight: bold;
+}
+
+/* Container Flex */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 30px;
+  background: #f9f9f9;
+}
+
+
+/* Wrapper for the amenities and booking side-by-side */
+.info-section-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+/* Left and Right sections */
+.left-side {
+  flex: 2;
+}
+
+.right-side {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  align-self: flex-start;
+}
+
+/* Room Amenities in 2 Columns */
+.amenities {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 20px;
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+/* Hostel Rules */
+.rules {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  
+}
+
+/* Reviews styling */
+.reviews-section {
+  margin-top: 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+
+/* Comment box */
+.comment-box {
+  margin-top: 20px;
+}
+
+.comment-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+/* Right side price and check box */
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.price span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.checkin-out h4 {
+  margin: 10px 0 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.checkin-out p {
+  background: #f2f2f2;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.book-btn {
+  margin-top: 20px;
+  background-color: #28a745;
+  color: #fff;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.contact-box {
+  background: #e5d1fb;
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.contact-box p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.contact-box strong {
+  font-size: 20px;
+  color: #222;
+}
