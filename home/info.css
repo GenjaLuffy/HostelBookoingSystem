@@ -2,8 +2,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background: #f9f9f9;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -16,7 +18,8 @@ header {
   font-size: 22px;
   font-weight: bold;
   color: #8667F2;
-  font-family: Irish Grover;
+  text-decoration: none;
+  font-family: 'Irish Grover', cursive;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -53,39 +56,72 @@ nav a.active {
   font-weight: bold;
 }
 
-/* Container Flex */
+/* Container */
 .container {
   display: flex;
   flex-direction: column;
   padding: 30px;
   gap: 30px;
-  background: #f9f9f9;
 }
 
 
-/* Wrapper for the amenities and booking side-by-side */
+/* Image Section */
+.top-section .images {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.top-section .images img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.top-section h2 {
+  margin: 10px 0 5px;
+}
+
+.room-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.description {
+  margin-top: 10px;
+}
+
+/* Info Section Layout */
 .info-section-wrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   gap: 30px;
+  align-items: stretch;
 }
 
-/* Left and Right sections */
-.left-side {
-  flex: 2;
-}
-
+/* Left-side and Right-side box styles */
+.left-side,
 .right-side {
   flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  align-self: flex-start;
+  min-height: 400px;
 }
 
-/* Room Amenities in 2 Columns */
+/* Left-side inner box */
+.left-inner-box {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Room Amenities */
 .amenities {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -95,78 +131,107 @@ nav a.active {
   margin-top: 10px;
 }
 
+.amenities li {
+  background: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
 /* Hostel Rules */
 .rules {
   list-style: none;
-  padding-left: 0;
-  margin-top: 10px;
-  
-}
-
-/* Reviews styling */
-.reviews-section {
-  margin-top: 30px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-
-/* Comment box */
-.comment-box {
+  padding: 0;
   margin-top: 20px;
 }
 
-.comment-box input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
+.rules li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+/* Right-side panel */
+.right-side {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-/* Right side price and check box */
+/* Price Section */
 .price {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  color: #111;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .price span {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
 }
 
 .checkin-out h4 {
-  margin: 10px 0 5px;
+  margin: 10px 0;
   font-size: 16px;
   font-weight: bold;
+  color: #4b4b4b;
 }
 
-.checkin-out p {
-  background: #f2f2f2;
-  padding: 8px;
-  border-radius: 5px;
-  margin-bottom: 15px;
+/* Date Container for the calendar inputs */
+.date-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
+.date-container input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.date-container i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+}
+
+/* Book Button */
 .book-btn {
-  margin-top: 20px;
+  margin-top: auto;
   background-color: #28a745;
   color: #fff;
   padding: 12px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  align-self: center;
+  width: 100%;
+  transition: background-color 0.3s ease;
 }
 
+.book-btn:hover {
+  background-color: #218838;
+}
+
+/* Contact Box */
 .contact-box {
   background: #e5d1fb;
-  margin-top: 30px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .contact-box p {
@@ -177,4 +242,56 @@ nav a.active {
 .contact-box strong {
   font-size: 20px;
   color: #222;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.review-card {
+  background: #c9def1;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+}
+
+/* Comment Box */
+.comment-box {
+  margin-top: 20px;
+}
+
+.comment-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.comment-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .right-side {
+    padding: 15px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .book-btn {
+    font-size: 16px;
+    width: 100%;
+  }
 }

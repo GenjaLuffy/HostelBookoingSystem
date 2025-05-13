@@ -17,6 +17,8 @@ header {
   max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
+  text-decoration: none;
+  /* color: inherit; */
   font-family: Irish Grover;
   cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
@@ -36,7 +38,6 @@ header {
   color: #a05ce0;
 }
 
-
 nav a {
   margin: 0 10px;
   text-decoration: none;
@@ -53,6 +54,11 @@ nav a:hover {
 nav a.active {
   color: #8667F2; /* Highlighted color */
   font-weight: bold;
+}
+.hostels a {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* Ensures the whole card is clickable */
 }
 
 .hero {

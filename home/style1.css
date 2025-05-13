@@ -17,6 +17,7 @@ header {
   max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
+  text-decoration: none;
   font-family: Irish Grover;
   cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
