@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Mate</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-</head>
-
-<body>
-  <header>
-    <a href="index.html" class="logo">Book<br><span>Mate</span></a>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="#">Hostel</a>
-      <a href="#">Student</a>
-      <a href="#">Business</a>
-    </nav>
-  </header>
+<?php
+include_once './includes/header.php';
+?>
 
   <section class="hero">
     <div class="hero-text">
@@ -59,7 +39,7 @@
       <div class="hostel-card" data-name="XYZ Hostel" data-price="Rs 18000" data-location="Thamel, Kathmandu"
         data-image="pic/2.jpg" data-type="Boys Hostel"
         data-desc="XYZ Hostel located in Kathmandu (Thamel) provides quality rooms, amenities, and 24/7 support for students and working people. Prices: Single Seater - Rs. 10000, 2 Seater - Rs. 9500, 3 Seater - Rs. 8000.">
-        <img src="pic/2.jpg" alt="Hostel 1" />
+        <img src="./assets/images/1.png" alt="Hostel 1" />
         <h3>XYZ Hostel</h3>
         <p>Rs 18000 ★★★★☆<br>Thamel, Kathmandu</p>
       </div>
@@ -67,7 +47,7 @@
       <div class="hostel-card" data-name="Lily Hostel" data-price="Rs 15000" data-location="Putalisadak, Lalitpur"
         data-image="pic/HM2 1.png" data-type="Girls Hostel"
         data-desc="Lily Hostel in Lalitpur offers clean rooms, kitchen access, and peaceful environmentand 24/7 support for students and working people. Prices: Single Seater - Rs. 8000, 2 Seater - Rs. 7000, 3 Seater - Rs. 6000.">
-        <img src="pic/HM2 1.png" alt="Hostel 2" />
+        <img src="./assets/images/2.jpg" alt="Hostel 2" />
         <h3>Lily Hostel</h3>
         <p>Rs 15000 ★★★★☆<br>Putalisadak, Lalitpur</p>
       </div>
@@ -75,7 +55,7 @@
       <div class="hostel-card" data-name="ABC Hostel" data-price="Rs 5000" data-location="Maitidevi, Kathmandu"
         data-image="pic/image.png" data-type="Girls Hostel"
         data-desc="ABC Hostel provides affordable rooms for students and interns. Single rooms available for Rs. 1600.">
-        <img src="pic/image.png" alt="Hostel 3" />
+        <img src="./assets/images/google.png" alt="Hostel 3" />
         <h3>ABC Hostel</h3>
         <p>Rs 5000 ★★★★☆<br>Maitidevi, Kathmandu</p>
       </div>
@@ -83,7 +63,7 @@
       <div class="hostel-card" data-name="Sunrise Hostel" data-price="Rs 8000" data-location="Baneshwor, Kathmandu"
         data-image="pic/1.png" data-type="Boys Hostel"
         data-desc="Sunrise Hostel provides premium lodging at a low price in Baneshwor. Room starting at Rs.7000.">
-        <img src="pic/1.png" alt="Hostel 4" />
+        <img src="./assets/images/image.png" alt="Hostel 4" />
         <h3>Sunrise Hostel</h3>
         <p>Rs 8000 ★★★★☆<br>Baneshwor, Kathmandu</p>
       </div>
@@ -94,7 +74,7 @@
   <section class="about">
     <div class="about-content">
       <div class="about-image">
-        <img src="pic/image.png" alt="About Us Image" />
+        <img src="./assets/images/image.png" alt="About Us Image" />
       </div>
       <div class="about-text">
         <h3>About Us</h3>

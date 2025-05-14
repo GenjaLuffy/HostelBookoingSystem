@@ -154,21 +154,3 @@ nav a.active {
 
 
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .about-split {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
-  }
-
-  .logo {
-    font-size: 24px;
-  }
-}
