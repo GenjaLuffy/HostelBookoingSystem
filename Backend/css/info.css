@@ -1,0 +1,296 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2e6ff;
+  padding: 10px 30px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #8667F2;
+  text-decoration: none;
+  font-family: 'Irish Grover', cursive;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.logo span {
+  color: #c56cf0;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #654ac6;
+  transform: scale(1.05);
+}
+
+.logo:hover span {
+  color: #a05ce0;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+nav a:hover {
+  color: #8667F2;
+  border-bottom: 2px solid #8667F2;
+}
+
+nav a.active {
+  color: #8667F2;
+  font-weight: bold;
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 30px;
+}
+
+/* Image Section */
+.top-section .images {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.top-section .images img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.top-section h2 {
+  margin: 10px 0 5px;
+}
+
+.room-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.description {
+  margin-top: 10px;
+}
+
+/* Info Section Layout */
+.info-section-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+}
+
+/* Left-side and Right-side box styles */
+.left-side,
+.right-side {
+  flex: 1;
+  min-height: 400px;
+}
+
+/* Room Amenities */
+.amenities {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 20px;
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.amenities li {
+  background: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Hostel Rules */
+.rules {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.rules li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Right-side panel */
+.right-side {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Price Section */
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.price span {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.checkin-out h4 {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4b4b4b;
+}
+
+/* Date Container */
+.date-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.date-container input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Book Button */
+.book-btn {
+  margin-top: auto;
+  background-color: #28a745;
+  color: #fff;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px;
+  align-self: center;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #218838;
+}
+
+/* Contact Box */
+.contact-box {
+  background: #e5d1fb;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.contact-box p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.contact-box strong {
+  font-size: 20px;
+  color: #222;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.review-card {
+  background: #c9def1;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+}
+
+/* Comment Box */
+.comment-box {
+  margin-top: 20px;
+}
+
+.comment-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.comment-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Submit Review Button */
+.comment-box button {
+  background-color: #8667F2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-box button:hover {
+  background-color: #7558db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-section-wrapper {
+    flex-direction: column;
+  }
+
+  .right-side {
+    padding: 15px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .book-btn {
+    font-size: 16px;
+    width: 100%;
+  }
+}
