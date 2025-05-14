@@ -26,10 +26,10 @@
 
         <section class="top-section">
             <div class="images">
-                <img id="mainHostelImage" src="pic/HM1 1.png" alt="Room 1">
-                <img src="pic/HM2 1.png" alt="Room 2">
-                <img src="pic/1.png" alt="Room 3">
-                <img src="pic/HM2 1.png" alt="Room 4">
+                <img id="mainHostelImage" src="./assets/images/2.jpg" alt="Room 1">
+                <img src="./assets/images/HM2.png" alt="Room 2">
+                <img src="./assets/images/1.png" alt="Room 3">
+                <img src="./assets/images/HM2.png " alt="Room 4">
             </div>
 
             <h2 id="hostelTitle">XYZ Hostel</h2>
@@ -86,7 +86,8 @@
                     </div><br>
                 </div>
 
-                <button class="book-btn">Book Now</button>
+                <a href="book.html" class="book-btn">Book Now</a>
+
 
                 <div class="contact-box">
                     <p>“Check in as a guest, leave as family.”</p>

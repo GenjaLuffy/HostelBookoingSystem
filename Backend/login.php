@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="login-container">
         <button class="google-login">
-            <img src="pic/google.png" alt="Google Logo" class="google-icon" />
+            <img src="./assets/images/google.png" alt="Google Logo" class="google-icon" />
             LOGIN USING GOOGLE
         </button>
 

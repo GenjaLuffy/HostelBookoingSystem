@@ -15,8 +15,8 @@
   <header>
     <a href="index.html" class="logo">Book<br><span>Mate</span></a>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html" class="active">About Us</a>
+      <a href="index.php">Home</a>
+      <a href="about.php" class="active">About Us</a>
       <a href="#">Hostel</a>
       <a href="#">Student</a>
       <a href="#">Business</a>
@@ -39,7 +39,7 @@
   <section class="about-highlight">
     <div class="about-split">
       <div class="about-split-image">
-        <img src="pic/image.png" alt="Hostel Search Nepal" />
+        <img src="./assets/images/image.png" alt="Hostel Search Nepal" />
       </div>
       <div class="about-split-text">
         <p>
