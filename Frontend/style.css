@@ -208,51 +208,45 @@ button:hover {
 
 /* About Section */
 .about {
-  background-color: #f3eaff;
-  padding: 30px 20px;
-  text-align: center;
+  padding: 40px 20px;
+  background: #f2e6ff;
 }
 
 .about-content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .about-image {
   flex: 1;
-  max-width: 40%;
-  padding: 10px;
+  max-width: 400px;
+  margin-right: 100px;
 }
 
 .about-image img {
   width: 100%;
-  height: auto;
+  height: 250px;
+  object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.about-text h3 {
-  color: #4b0082;
-  font-size: 30px;
-  margin-bottom: 20px;
-text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .about-text {
   flex: 1;
-  max-width: 50%;
-  padding: 10px;
-  text-align: left;
+  max-width: 500px;
 }
 
-
+.about-text h3 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
 
 .about-text p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #555;
+  font-size: 1.1em;
+  line-height: 1.6;
 }
 
 /* Responsive Design */
