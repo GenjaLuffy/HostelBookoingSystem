@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Hostel</title>
+  <link rel="stylesheet" href="assets/css/addHostel.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">Book<br><span>Mate</span></a>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a href="addRoom.html"><i class="fas fa-door-open"></i><span>Rooms</span></a>
+        <a href="#"><i class="fas fa-cogs"></i><span>Managed Rooms</span></a>
+        <a href="addHostel.html"><i class="fas fa-bed"></i><span>Add Hostel</span></a>
+        <a href="#"><i class="fas fa-users"></i><span>Manage Students</span></a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1>Add Hostel</h1>
+      <div class="form-card">
+        <div class="form-header">Add Hostel</div>
+        <form id="hostelForm">
+          <label for="hostelName">Hostel Name:</label>
+          <input type="text" id="hostelName" required>
+
+          <label for="image">Image</label>
+          <input type="file" id="image">
+
+          <label for="description">Description:</label>
+          <textarea id="description" rows="3"></textarea>
+
+          <label>Room Amenities</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox"> Large bed</label>
+            <label><input type="checkbox"> Storage of luggage</label>
+            <label><input type="checkbox"> Dry cleaning</label>
+            <label><input type="checkbox"> Attached bathrooms</label>
+            <label><input type="checkbox"> Shared kitchen</label>
+            <label><input type="checkbox"> Free high speed WiFi</label>
+            <label><input type="checkbox"> Parking</label>
+            <label><input type="checkbox"> Air conditioning/24/7 support</label>
+          </div>
+
+          <label>Hostel Rules</label>
+          <div class="rules">
+            <label><input type="checkbox"> Time of arrival is after 14:00. Time of departure is to 12:00</label>
+            <label><input type="checkbox"> Furniture and fittings should not be moved or damaged.</label>
+            <label><input type="checkbox"> No guests or outsiders are allowed inside the hostel rooms.</label>
+          </div>
+
+          <label for="amount">Amount (Per Month):</label>
+          <input type="number" id="fee" required min="5000">
+
+          <label for="gender">Gender</label>
+          <select id="gender" required>
+            <option value="">-- Select --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <button type="submit">Add Hostel</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
