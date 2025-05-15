@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="./assets/css/book.css">
     <link rel="stylesheet" href="./assets/css/about.css" />
     <link rel="stylesheet" href="./assets/css/info.css">
-    <!-- <link rel="stylesheet" href="./assets/css/login.css" /> -->
-   <!-- <link rel="stylesheet" href="./assets/css/register.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 </head>

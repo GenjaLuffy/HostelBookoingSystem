@@ -1,0 +1,56 @@
+<?php
+include './includes/connect.php';
+session_start();
+include 'includes/auth.php'; 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">Book<br><span>Mate</span></a>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="index.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="profile.php"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a href="addRoom.php"><i class="fas fa-door-open"></i><span>Rooms</span></a>
+        <a href="#"><i class="fas fa-cogs"></i><span>Managed Rooms</span></a>
+        <a href="addHostel.php"><i class="fas fa-bed"></i><span>Add Hostel</span></a>
+        <a href="./includes/logout.php"><i class="fas fa-cogs"></i><span>logout</span></a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1>Dashboard</h1>
+
+      <div class="dashboard-cards">
+        <div class="dashboard-card">
+          <h2>7</h2>
+          <p>STUDENTS</p>
+          <div class="card-footer">
+            FULL DETAIL <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h2>5</h2>
+          <p>HOSTELS</p>
+          <div class="card-footer">
+            SEE ALL <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

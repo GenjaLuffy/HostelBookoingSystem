@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Booking Form</title>
-    <link rel="stylesheet" href="./assets/css/book.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</head>
-
-<body>
-    <header>
-        <a href="index.html" class="logo">Book<br><span>Mate</span></a>
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="about.html">About Us</a>
-            <a href="#">Hostel</a>
-            <a href="#">Student</a>
-            <a href="#">Business</a>
-        </nav>
-    </header>
-
+<?php
+include_once './includes/header.php';
+?>
     <h2>Book Now</h2>
     <div class="banner">Fill All Info</div>
 
