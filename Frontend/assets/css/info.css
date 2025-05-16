@@ -2,10 +2,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
 }
 
-/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -16,11 +14,13 @@ header {
 
 .logo {
   font-size: 22px;
+  max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  font-family: 'Irish Grover', cursive;
-  cursor: pointer;
+  /* color: inherit; */
+  font-family: Irish Grover;
+  cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -30,8 +30,8 @@ header {
 }
 
 .logo:hover {
-  color: #654ac6;
-  transform: scale(1.05);
+  color: #654ac6; /* Slightly darker or playful color */
+  transform: scale(1.05); /* Slight grow effect */
 }
 
 .logo:hover span {
@@ -47,12 +47,12 @@ nav a {
 }
 
 nav a:hover {
-  color: #8667F2;
-  border-bottom: 2px solid #8667F2;
+  color: #8667F2; /* Change to your theme color */
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
 nav a.active {
-  color: #8667F2;
+  color: #8667F2; /* Highlighted color */
   font-weight: bold;
 }
 
@@ -121,7 +121,19 @@ nav a.active {
   background: #f2f2f2;
   padding: 8px 12px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap:15px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+
+}
+.amenities li i {
+  margin-top: 3px; /* Aligns icon vertically with text */
+  color: #333;
+  min-width: 10px;
+  gap: 8px;
 }
 
 /* Hostel Rules */
@@ -132,9 +144,19 @@ nav a.active {
 }
 
 .rules li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   margin-bottom: 10px;
-  font-size: 14px;
+  line-height: 1.4;
 }
+
+.rules li i {
+  margin-top: 3px; /* Aligns icon vertically with text */
+  color: #333;
+  min-width: 20px;
+}
+
 
 /* Right-side panel */
 .right-side {

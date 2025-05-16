@@ -56,19 +56,14 @@ nav a.active {
   font-weight: bold;
 }
 
-.hostels a {
-  text-decoration: none;
-  color: inherit;
-  display: block; /* Ensures the whole card is clickable */
-}
 
 .hero {
-  background: url('../images/HM2.png') no-repeat center center/cover;
-  height: 400px;
-  color: white;
-  text-align: center;
+  height: 150px;
+  color: black;
   position: relative;
+  margin-left: 50px;
 }
+
 
 .hero-text {
   padding-top: 60px;
@@ -122,6 +117,30 @@ button:hover {
   box-sizing: border-box;
 }
 
+
+button {
+  color: white;              /* White text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 55px;
+  cursor: pointer;
+font-size: 18px;
+  font-weight: bolder;
+}
+
+
+.search-btn {
+  background-color: #0D6856; /* Green */
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #063e33;
+}
+
+.search-btn i {
+  margin-right: 5px;
+}
 .search-btn {
   height: 40px;
   display: flex;
@@ -157,7 +176,7 @@ button:hover {
 /* Featured Hostels */
 .featured {
   text-align: center;
-  padding: 60px 20px;
+  padding: 20px 10px;
   background-color: #ffffff;
 }
 
