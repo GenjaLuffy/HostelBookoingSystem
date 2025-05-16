@@ -2,25 +2,23 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9fb;
 }
 
-/* Header */
-.header {
-  height: 60px;
-  background-color: #f2e6ff;
+header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
+  align-items: center;
+  background-color: #f2e6ff;
+  padding: 10px 30px;
 }
 
 .logo {
   font-size: 22px;
+  max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  font-family: 'Irish Grover', cursive;
+  font-family: Irish Grover;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -39,7 +37,25 @@ body {
   color: #a05ce0;
 }
 
-/* Container Layout */
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+nav a:hover {
+  color: #8667F2;
+  border-bottom: 2px solid #8667F2;
+
+}
+
+nav a.active {
+  color: #8667F2;
+  font-weight: bold;
+}
+
 .container {
   display: flex;
   min-height: 100vh;
@@ -78,9 +94,8 @@ body {
 }
 
 .sidebar nav a i {
-  font-size: 16px;
   min-width: 20px;
-  text-align: center;
+  font-size: 16px;
 }
 
 .sidebar nav a span {
@@ -94,7 +109,6 @@ body {
 
 .sidebar nav a:hover {
   background-color: #a05ce0;
-  color: white;
   transform: scale(1.05);
 }
 
@@ -102,13 +116,14 @@ body {
 .main-content {
   flex: 1;
   padding: 30px;
-  margin-left: 50px;
+  background-color: #faf9f9;
 }
 
 .main-content h1 {
-  font-size: 28px;
-  color: #444;
-  margin-bottom: 30px;
+  font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #3f3e3e;
 }
 
 /* Dashboard Cards */
@@ -121,9 +136,9 @@ body {
 .dashboard-card {
   width: 240px;
   height: 130px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   justify-content: center;

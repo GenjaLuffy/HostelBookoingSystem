@@ -124,8 +124,10 @@ nav a.active {
 }
 
 h1 {
+    font-size: 24px;
     margin-bottom: 20px;
-    font-size: 20px;
+    font-weight: bold;
+    color: #3f3e3e;
 }
 
 /* Form */
