@@ -18,9 +18,8 @@ header {
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  /* color: inherit; */
   font-family: Irish Grover;
-  cursor: pointer; /* Makes it clear it's interactive */
+  cursor: pointer; 
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -30,8 +29,8 @@ header {
 }
 
 .logo:hover {
-  color: #654ac6; /* Slightly darker or playful color */
-  transform: scale(1.05); /* Slight grow effect */
+  color: #654ac6;
+  transform: scale(1.05); 
 }
 
 .logo:hover span {
@@ -47,7 +46,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #8667F2; /* Change to your theme color */
+  color: #8667F2; 
   border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
@@ -58,32 +57,21 @@ nav a.active {
 
 
 .hero {
-  height: 150px;
+  height: 140px;
   color: black;
   position: relative;
   margin-left: 50px;
 }
 
-
-.hero-text {
-  padding-top: 60px;
-  font-size: 24px;
-  color: red;
+.hero h1{
+    font-size: 34px;
+    color: #777;
+    margin-left: 40px;
 }
-
-.hero-text span {
-  color: #3a006f;
-}
-
-.hero-text p {
-  color: #014135;
-  font-style: italic;
-}
-
 
 button {
   background-color: #8667F2; 
-  color: white;              /* White text */
+  color: white;        
   border: none;
   padding: 10px 20px;
   border-radius: 55px;
@@ -146,6 +134,7 @@ font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 
 .location-input {

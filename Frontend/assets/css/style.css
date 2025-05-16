@@ -18,9 +18,8 @@ header {
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  /* color: inherit; */
   font-family: Irish Grover;
-  cursor: pointer; /* Makes it clear it's interactive */
+  cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -30,8 +29,8 @@ header {
 }
 
 .logo:hover {
-  color: #654ac6; /* Slightly darker or playful color */
-  transform: scale(1.05); /* Slight grow effect */
+  color: #654ac6;
+  transform: scale(1.05);
 }
 
 .logo:hover span {
@@ -47,19 +46,20 @@ nav a {
 }
 
 nav a:hover {
-  color: #8667F2; /* Change to your theme color */
-  border-bottom: 2px solid #8667F2; /* Optional underline effect */
+  color: #8667F2;
+  border-bottom: 2px solid #8667F2;
+
 }
 
 nav a.active {
-  color: #8667F2; /* Highlighted color */
+  color: #8667F2;
   font-weight: bold;
 }
 
 .hostels a {
   text-decoration: none;
   color: inherit;
-  display: block; /* Ensures the whole card is clickable */
+  display: block;
 }
 
 .hero {
@@ -87,18 +87,18 @@ nav a.active {
 
 
 button {
-  background-color: #8667F2; 
-  color: white;              /* White text */
+  background-color: #8667F2;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 55px;
   cursor: pointer;
-font-size: 18px;
+  font-size: 18px;
   font-weight: bolder;
 }
 
 button:hover {
-  background-color: #654ac6; 
+  background-color: #654ac6;
 }
 
 .search-box {
@@ -107,7 +107,8 @@ button:hover {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; /* Ensures all elements align vertically */
+  align-items: center;
+  /* Ensures all elements align vertically */
   gap: 10px;
 }
 
@@ -118,7 +119,7 @@ button:hover {
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
-  height: 40px; 
+  height: 40px;
   box-sizing: border-box;
 }
 
@@ -127,6 +128,20 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+}
+
+.search-btn {
+  background-color: #0D6856;
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #063e33;
+}
+
+.search-btn i {
+  margin-right: 5px;
 }
 
 .location-input {
@@ -145,7 +160,8 @@ button:hover {
 
 .location-input input {
   height: 40px;
-  padding-left: 35px; /* space for icon */
+  padding-left: 35px;
+  /* space for icon */
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
