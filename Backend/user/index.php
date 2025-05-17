@@ -5,12 +5,13 @@ include_once './includes/connect.php';
 $sql = "SELECT * FROM hostels ORDER BY id DESC";
 $result = $con->query($sql);
 ?>
-
 <section class="hero">
-  <div class="hero-text">
-    <h1>Welcome To <br>Book Mate</h1>
-    <p>"Find Your Stay, Fuel Your Adventure"</p>
-    <button>Book Now</button>
+    <div class="hero-text">
+      <h1>Welcome To <br>Book Mate</h1>
+      <p>"Find Your Stay, Fuel Your Adventure"</p>
+      <a href="hostel.php">
+        <button>See Hostel</button>
+      </a>
   </div>
   <div class="search-box">
     <div class="location-input">
@@ -37,16 +38,17 @@ $result = $con->query($sql);
   <div class="hostels">
     <?php
     if ($result && $result->num_rows > 0) {
+      $count = 0; // Counter to limit to 4 cards
       while ($hostel = $result->fetch_assoc()) {
-        // Fix image path relative to current file location
-        $image1 = !empty($hostel['image']) ? "../admin/" . $hostel['image'] : 'assets/images/default.jpg';
+        if ($count >= 4) break;
 
+        $image1 = !empty($hostel['image']) ? "../admin/" . $hostel['image'] : 'assets/images/default.jpg';
         $id = (int)$hostel['id'];
         $name = htmlspecialchars($hostel['name']);
         $price = htmlspecialchars($hostel['fee']);
         $location = htmlspecialchars($hostel['location']);
-        $type = htmlspecialchars($hostel['type'] ?? 'Not specified');  
-        $desc = htmlspecialchars($hostel['description'] ?? '');       
+        $type = htmlspecialchars($hostel['type'] ?? 'Not specified');
+        $desc = htmlspecialchars($hostel['description'] ?? '');
     ?>
         <div class="hostel-card"
           onclick="window.location.href='info.php?id=<?php echo $id; ?>'"
@@ -62,8 +64,8 @@ $result = $con->query($sql);
           <h3><?php echo $name; ?></h3>
           <p>Rs <?php echo $price; ?> ★★★★☆<br><?php echo $location; ?></p>
         </div>
-
     <?php
+        $count++; // Increase counter after rendering one card
       }
     } else {
       echo "<p>No hostels found.</p>";
@@ -71,6 +73,7 @@ $result = $con->query($sql);
     ?>
   </div>
 </section>
+
 
 <section class="about">
   <div class="about-content">

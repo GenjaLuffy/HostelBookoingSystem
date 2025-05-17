@@ -2,10 +2,8 @@
 include_once './includes/header.php';
 include_once './includes/connect.php';
 
-// Get hostel ID from query string or default to 1
 $hostel_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 
-// Fetch hostel data
 $sql = "SELECT * FROM hostels WHERE id = ?";
 $stmt = $con->prepare($sql);
 $stmt->bind_param("i", $hostel_id);
@@ -19,6 +17,16 @@ if (!$hostel) {
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title><?php echo htmlspecialchars($hostel['name']); ?> | Book Mate</title>
+    <link rel="stylesheet" href="./assets/css/info.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
 <main class="container">
 
     <section class="top-section">
@@ -30,7 +38,6 @@ if (!$hostel) {
         </div>
 
         <h2 id="hostelTitle"><?php echo htmlspecialchars($hostel['name']); ?></h2>
-        <!-- You can replace below with dynamic sharing/bed info if stored -->
         <p class="room-info">
             <i class="fa fa-users"></i> 3 Sharing &nbsp;
             <i class="fa fa-bed"></i> 1 Full bed &nbsp;
@@ -50,12 +57,37 @@ if (!$hostel) {
             <h3>Room Amenities</h3>
             <ul class="amenities">
                 <?php
+                $iconMap = [
+                    'large bed' => 'fa-bed',
+                    'bed' => 'fa-bed',
+                    'wifi' => 'fa-wifi',
+                    'free wifi' => 'fa-wifi',
+                    'storage' => 'fa-suitcase',
+                    'luggage' => 'fa-suitcase',
+                    'bathroom' => 'fa-bath',
+                    'attached bathrooms' => 'fa-bath',
+                    'dry cleaning' => 'fa-soap',
+                    'cleaning' => 'fa-soap',
+                    'ac' => 'fa-wind',
+                    'air conditioning' => 'fa-wind',
+                    'kitchen' => 'fa-utensils',
+                    'shared kitchen' => 'fa-utensils'
+                ];
+
                 if (!empty($hostel['amenities'])) {
                     $amenities = explode(',', $hostel['amenities']);
                     foreach ($amenities as $amenity) {
                         $amenity = trim($amenity);
                         if ($amenity) {
-                            echo '<li><i class="fa fa-check"></i> ' . htmlspecialchars($amenity) . '</li>';
+                            $key = strtolower($amenity);
+                            $iconClass = 'fa-check';
+                            foreach ($iconMap as $keyword => $icon) {
+                                if (strpos($key, $keyword) !== false) {
+                                    $iconClass = $icon;
+                                    break;
+                                }
+                            }
+                            echo '<li><i class="fa ' . $iconClass . '"></i> ' . htmlspecialchars($amenity) . '</li>';
                         }
                     }
                 }
@@ -65,18 +97,55 @@ if (!$hostel) {
             <h3>Hostel Rules</h3>
             <ul class="rules">
                 <?php
+                $ruleIconMap = [
+                    'guest' => 'fa-user-lock',
+                    'outsider' => 'fa-user-lock',
+                    'furniture' => 'fa-couch',
+                    'damage' => 'fa-couch',
+                    'smoking' => 'fa-smoking-ban',
+                    'alcohol' => 'fa-wine-bottle',
+                    'quiet' => 'fa-volume-mute',
+                    'noise' => 'fa-volume-mute',
+                    'cleanliness' => 'fa-broom'
+                ];
+
+                $arrivalRule = '';
+                $departureRule = '';
+                $otherRules = [];
+
                 if (!empty($hostel['rules'])) {
                     $rules = explode(',', $hostel['rules']);
                     foreach ($rules as $rule) {
                         $rule = trim($rule);
-                        if ($rule) {
-                            echo '<li><i class="fa fa-exclamation-circle"></i> ' . htmlspecialchars($rule) . '</li>';
+                        if (!$rule) continue;
+
+                        if (stripos($rule, 'arrival') !== false) {
+                            $arrivalRule = $rule;
+                        } elseif (stripos($rule, 'departure') !== false) {
+                            $departureRule = $rule;
+                        } else {
+                            $otherRules[] = $rule;
                         }
+                    }
+
+                    if ($arrivalRule || $departureRule) {
+                        $combined = trim($arrivalRule . ' & ' . $departureRule, ' & ');
+                        echo '<li><i class="fa fa-clock"></i> ' . htmlspecialchars($combined) . '</li>';
+                    }
+
+                    foreach ($otherRules as $rule) {
+                        $iconClass = 'fa-exclamation-circle';
+                        foreach ($ruleIconMap as $keyword => $icon) {
+                            if (stripos($rule, $keyword) !== false) {
+                                $iconClass = $icon;
+                                break;
+                            }
+                        }
+                        echo '<li><i class="fa ' . $iconClass . '"></i> ' . htmlspecialchars($rule) . '</li>';
                     }
                 }
                 ?>
             </ul>
-
         </section>
 
         <!-- Right Booking Panel -->
@@ -107,14 +176,11 @@ if (!$hostel) {
                 <p>“Check in as a guest, leave as family.”</p>
             </div>
         </section>
-
     </div>
 
     <div class="reviews-section">
         <h3>Reviews</h3>
-        <div class="reviews" id="reviewList">
-            <!-- Reviews will be loaded here dynamically -->
-        </div>
+        <div class="reviews" id="reviewList"></div>
 
         <div class="comment-box">
             <label>Leave a Comment</label>
@@ -126,7 +192,6 @@ if (!$hostel) {
 </main>
 
 <script>
-    // Reviews handling using localStorage per hostel
     const hostelId = <?php echo json_encode($hostel['id']); ?>;
     const reviewKey = `reviews_${hostelId}`;
     const reviewList = document.getElementById('reviewList');
@@ -134,7 +199,6 @@ if (!$hostel) {
     function loadReviews() {
         reviewList.innerHTML = '';
         const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-
         reviews.forEach((r, index) => {
             const div = document.createElement('div');
             div.className = 'review-card';
@@ -151,18 +215,15 @@ if (!$hostel) {
         const message = document.getElementById('reviewInput').value.trim();
         const name = prompt("Enter your name:");
         const stars = parseInt(prompt("Rate out of 5 (e.g., 4):"));
-
         if (message && name && stars >= 1 && stars <= 5) {
             const newReview = {
                 name: name,
                 stars: "★".repeat(stars) + "☆".repeat(5 - stars),
                 message: message
             };
-
             const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
             reviews.push(newReview);
             localStorage.setItem(reviewKey, JSON.stringify(reviews));
-
             document.getElementById("reviewInput").value = "";
             loadReviews();
         } else {
@@ -183,5 +244,6 @@ if (!$hostel) {
 
     loadReviews();
 </script>
+
 </body>
 </html>

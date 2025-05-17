@@ -19,7 +19,7 @@ header {
   color: #8667F2;
   text-decoration: none;
   font-family: Irish Grover;
-  cursor: pointer;
+  cursor: pointer; 
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -30,7 +30,7 @@ header {
 
 .logo:hover {
   color: #654ac6;
-  transform: scale(1.05);
+  transform: scale(1.05); 
 }
 
 .logo:hover span {
@@ -46,96 +46,79 @@ nav a {
 }
 
 nav a:hover {
-  color: #8667F2;
-  border-bottom: 2px solid #8667F2;
-
+  color: #8667F2; 
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
 nav a.active {
-  color: #8667F2;
+  color: #8667F2; /* Highlighted color */
   font-weight: bold;
 }
 
-.hostels a {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
 
-.hero {
-  background: url('../images/HM2.png') no-repeat center center/cover;
-  height: 400px;
-  color: white;
-  text-align: center;
+.heros {
+  height: 140px;
+  color: black;
   position: relative;
+  margin-left: 50px;
 }
 
-.hero-text {
-  padding-top: 60px;
-  font-size: 24px;
-  color: red;
+.heros h1{
+    font-size: 34px;
+    color: #777;
+    margin-left: 40px;
 }
-
-.hero-text span {
-  color: #3a006f;
-}
-
-.hero-text p {
-  color: #014135;
-  font-style: italic;
-}
-
 
 button {
-  background-color: #8667F2;
-  color: white;
+  background-color: #8667F2; 
+  color: white;        
   border: none;
   padding: 10px 20px;
   border-radius: 55px;
   cursor: pointer;
-  font-size: 18px;
+font-size: 18px;
   font-weight: bolder;
 }
 
 button:hover {
-  background-color: #654ac6;
+  background-color: #654ac6; 
 }
 
-.search-box {
+.search-boxs {
   position: absolute;
   bottom: 20px;
-  /* width: 100%; */
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-left: calc(100% - 70%);
-  margin-right: calc(100% - 70%);
-  /* Ensures all elements align vertically */
+  align-items: center; /* Ensures all elements align vertically */
   gap: 10px;
 }
 
-
-.search-box input,
-.search-box select,
-.search-box .search-btn {
+.search-boxs input,
+.search-boxs select,
+.search-boxs .search-btn {
   padding: 10px 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
-  height: 40px;
+  height: 40px; 
   box-sizing: border-box;
 }
 
-.search-btn {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+
+button {
+  color: white;              /* White text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 55px;
+  cursor: pointer;
+font-size: 18px;
+  font-weight: bolder;
 }
 
+
 .search-btn {
-  background-color: #0D6856;
+  background-color: #0D6856; /* Green */
   color: white;
 }
 
@@ -145,6 +128,13 @@ button:hover {
 
 .search-btn i {
   margin-right: 5px;
+}
+.search-btn {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .location-input {
@@ -163,8 +153,7 @@ button:hover {
 
 .location-input input {
   height: 40px;
-  padding-left: 35px;
-  /* space for icon */
+  padding-left: 35px; /* space for icon */
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
@@ -176,7 +165,7 @@ button:hover {
 /* Featured Hostels */
 .featured {
   text-align: center;
-  padding: 60px 20px;
+  padding: 20px 10px;
   background-color: #ffffff;
 }
 

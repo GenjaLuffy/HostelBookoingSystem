@@ -1,7 +1,5 @@
 <?php
-
 include './includes/connect.php';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $username = $_POST["username"];
@@ -143,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">REGISTER</button>
         </div>
     </form>
-    <p class="login-link">Already have an account? <a href="login.html">Log In</a></p>
+    <p class="login-link">Already have an account? <a href="login.php">Log In</a></p>
 </div>
 
 </body>

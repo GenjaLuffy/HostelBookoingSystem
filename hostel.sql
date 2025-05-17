@@ -22,34 +22,109 @@ CREATE TABLE users (
 
 /*Table for hotels*/
 
-CREATE TABLE `hostels` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `image2` varchar(255) DEFAULT NULL,
-  `image3` varchar(255) DEFAULT NULL,
-  `image4` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `amenities` text DEFAULT NULL,
-  `rules` text DEFAULT NULL,
-  `fee` decimal(10,2) NOT NULL,
-  `gender` enum('Boys Hostel','Girls Hostel','Other') NOT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_by_role` enum('admin','superadmin') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+CREATE TABLE hostels (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR(255),
+    image2 VARCHAR(255),
+    image3 VARCHAR(255),
+    image4 VARCHAR(255),
+    description TEXT,
+    amenities TEXT,
+    rules TEXT,
+    fee DECIMAL(10,2) NOT NULL,
+    gender ENUM('Boys Hostel', 'Girls Hostel', 'Other') NOT NULL,
+    location VARCHAR(255),
+    created_by INT NOT NULL,
+    created_by_role ENUM('admin', 'superadmin') NOT NULL,
+    status ENUM('Pending', 'Approved') NOT NULL DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_hostel_creator FOREIGN KEY (created_by) REFERENCES admins(id) ON DELETE CASCADE
+);
+
 
 /*Table for admin and super admin*/
 
 CREATE TABLE admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
     username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'superadmin') NOT NULL
+    dob DATE,
+    phone VARCHAR(15),
+    address TEXT,
+    gender ENUM('male', 'female', 'other'),
+    profile_picture VARCHAR(255),
+    type ENUM('admin', 'superadmin') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admins (name, username, email, password, dob, phone, address, gender, profile_picture, type) VALUES 
+('Sudichchha Shretha','sudichha12','sudichchha12@gmail.com','sudichha','2002-08-12','9876543210','Kathmandu','Female','','superadmin'),
+('Binita Magar','binita12','binita12@gmail.com','binita','2002-12-26','9876542587','Kathmandu','Female','','superadmin');
+
+/*admin login email and password
+
+username = sudichha12
+email = sudichchha12@gmail.com
+password = sudichha
+
+username = binita12
+email = binita12@gmail.com
+password = binita
+
+*/
+
+
+
+
+/*table for booking*/
+
+
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    seater INT,
+    room_no VARCHAR(10),
+    food_status ENUM('With Food', 'Without Food'),
+    stay_from DATE,
+    stay_duration INT,
+    fee_per_month DECIMAL(10, 2),
+    first_name VARCHAR(100),
+    middle_name VARCHAR(100),
+    last_name VARCHAR(100),
+    gender ENUM('Male', 'Female', 'Other'),
+    contact_no VARCHAR(15),
+    guardian_name VARCHAR(100),
+    guardian_contact_no VARCHAR(15),
+    image VARCHAR(255),
+    corr_address TEXT,
+    corr_city VARCHAR(100),
+    corr_district VARCHAR(100),
+    perm_address TEXT,
+    perm_city VARCHAR(100),
+    perm_district VARCHAR(100),
+    user_id INT,
+    hostel_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign key constraints (optional but recommended)
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_hostel FOREIGN KEY (hostel_id) REFERENCES hostels(id)
 );
 
 
-INSERT INTO admins (username, password, role) VALUES
-('admin1', 'admin', 'admin'),
-('superadmin', 'superadmin', 'superadmin');
+/*Table for add rooms*/
+CREATE TABLE rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    room_no VARCHAR(20) NOT NULL,
+    seater INT NOT NULL,
+    fee_per_student DECIMAL(10, 2) NOT NULL,
+    user_id INT NOT NULL,
+    hostel_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_user_room FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_hostel_room FOREIGN KEY (hostel_id) REFERENCES hostels(id)
+);

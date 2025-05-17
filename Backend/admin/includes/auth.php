@@ -4,13 +4,14 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Check if user is logged in
-if (!isset($_SESSION['role'])) {
+if (empty($_SESSION['role'])) {
     echo "<script>alert('Please log in first.'); window.location.href = '../user/login.php';</script>";
     exit;
 }
 
-// Optional: If restricting to admin/superadmin only
-if ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'superadmin') {
+// Restrict access to admin or superadmin
+$allowed_roles = ['admin', 'superadmin'];
+if (!in_array($_SESSION['role'], $allowed_roles)) {
     echo "<script>alert('Access Denied'); window.location.href = '../user/login.php';</script>";
     exit;
 }

@@ -18,6 +18,7 @@ header {
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
+  /* color: inherit; */
   font-family: Irish Grover;
   cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
@@ -36,7 +37,6 @@ header {
 .logo:hover span {
   color: #a05ce0;
 }
-
 
 nav a {
   margin: 0 10px;
@@ -77,9 +77,10 @@ nav a.active {
 .about-container p {
   font-size: 18px;
   color: #555;
+  line-height: 1.6;
 }
 
-/* About Image and Text Side by Side */
+/* Highlight Section */
 .about-highlight {
   background: #f2e6ff;
   padding: 40px 20px;
@@ -94,16 +95,22 @@ nav a.active {
   gap: 30px;
 }
 
+.about-split-image {
+  flex: 1;
+  min-width: 280px;
+}
+
 .about-split-image img {
-  max-width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 450px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .about-split-text {
   flex: 1;
+  min-width: 280px;
 }
 
 .about-split-text p {
@@ -112,7 +119,7 @@ nav a.active {
   line-height: 1.6;
 }
 
-/* What We Offer Section */
+/* What We Offer */
 .what-we-offer {
   background: #fff;
   max-width: 1000px;
@@ -124,10 +131,8 @@ nav a.active {
   font-size: 28px;
   margin-bottom: 30px;
   color: #8667F2;
-  
 }
 
-/* Clean and simple list style */
 .what-we-offer ul {
   list-style: none;
   padding: 0;
@@ -141,7 +146,6 @@ nav a.active {
   position: relative;
 }
 
-/* Arrow icon style */
 .what-we-offer li i {
   position: absolute;
   left: 0;
@@ -151,6 +155,31 @@ nav a.active {
   font-size: 16px;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
 
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
 
+  .logo {
+    font-size: 24px;
+  }
 
+  .about-split {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-split-text,
+  .about-split-image {
+    width: 100%;
+  }
+}

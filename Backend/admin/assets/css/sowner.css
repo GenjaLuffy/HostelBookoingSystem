@@ -111,84 +111,66 @@ nav a.active {
   background-color: #a05ce0;
   transform: scale(1.05);
 }
-
-/* Main Content */
+/* main content */
 .main-content {
-  flex: 1;
-  padding: 30px;
-  background-color: #faf9f9;
+    
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #efefef;
+    transition: margin-left 0.3s ease;
 }
 
-.main-content h1 {
-  font-size: 24px;
+ h1 {
+    font-size: 24px;
     margin-bottom: 20px;
     font-weight: bold;
     color: #3f3e3e;
 }
 
-/* Dashboard Cards */
-.dashboard-cards {
-  display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
+.table-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 900px;
 }
 
-.dashboard-card {
-  width: 240px;
-  height: 130px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+.table-container h2 {
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    color: #626262;
+    font-weight: bold;
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.dashboard-card h2 {
-  margin: 0;
-  font-size: 34px;
-  color: #333;
+table th,
+table td {
+    border: 1px solid #939191;
+    padding: 10px;
+    text-align: center;
 }
 
-.dashboard-card p {
-  margin: 5px 0 0;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #777;
+table tbody tr {
+    background-color: #e6dfdf;
+    color: black;
 }
 
-/* Footer Link in Card */
-.dashboard-card .card-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: #dfdede;
-  font-size: 11px;
-  padding: 6px 12px;
-  text-align: left;
-  color: #555;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+table thead tr {
+    background-color: #d9d9d9;
+    color: black;
 }
 
-.dashboard-card .card-footer:hover {
-  background-color: #d3d1d1;
+table td i {
+    margin: 0 5px;
+    cursor: pointer;
+    color: fff;
 }
 
-.dashboard-card .card-footer i {
-  font-size: 10px;
+table td i:hover {
+    color: #ffd700;
 }

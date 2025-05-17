@@ -1,9 +1,11 @@
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -12,13 +14,13 @@ header {
   padding: 10px 30px;
 }
 
+/* Logo */
 .logo {
   font-size: 22px;
-  max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  font-family: Irish Grover;
+  font-family: 'Irish Grover', cursive;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -37,18 +39,18 @@ header {
   color: #a05ce0;
 }
 
+/* Navigation Links (if used in header) */
 nav a {
   margin: 0 10px;
   text-decoration: none;
   color: #333;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
   padding-bottom: 4px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
 nav a:hover {
   color: #8667F2;
   border-bottom: 2px solid #8667F2;
-
 }
 
 nav a.active {
@@ -56,6 +58,7 @@ nav a.active {
   font-weight: bold;
 }
 
+/* Layout Container */
 .container {
   display: flex;
   min-height: 100vh;
@@ -66,8 +69,8 @@ nav a.active {
   width: 60px;
   background-color: #e8d6fb;
   padding-top: 20px;
-  overflow-x: hidden;
   transition: width 0.3s ease;
+  overflow-x: hidden;
 }
 
 .sidebar:hover {
@@ -114,81 +117,95 @@ nav a.active {
 
 /* Main Content */
 .main-content {
-  flex: 1;
+
+  margin-left: 100px;
+  flex-grow: 1;
   padding: 30px;
-  background-color: #faf9f9;
-}
-
-.main-content h1 {
-  font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #3f3e3e;
-}
-
-/* Dashboard Cards */
-.dashboard-cards {
-  display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
-}
-
-.dashboard-card {
-  width: 240px;
-  height: 130px;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transition: margin-left 0.3s ease;
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #3f3e3e;
+}
+
+/* Form Card */
+.form-card {
+  background-color: #faf8fb;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px 4px rgba(88, 88, 88, 0.1);
+  max-width: 600px;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+/* Form Header */
+.form-header {
+  font-weight: bold;
+  font-size: 16px;
+  color: #626262;
+  margin-bottom: 10px;
+}
+
+/* Form Layout */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-group {
+  flex: 1 1 45%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
-.dashboard-card h2 {
-  margin: 0;
-  font-size: 34px;
-  color: #333;
+input,
+select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #eaeaea;
+  border-radius: 3px;
 }
 
-.dashboard-card p {
-  margin: 5px 0 0;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #777;
-}
-
-/* Footer Link in Card */
-.dashboard-card .card-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: #dfdede;
-  font-size: 11px;
-  padding: 6px 12px;
-  text-align: left;
-  color: #555;
+/* Full Width Button Container */
+.full-width {
+  flex: 1 1 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  font-weight: bold;
+  justify-content: center;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Button Styling */
+button {
+  width: 150px;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #a05ce0;
+  border: none;
   cursor: pointer;
+  border-radius: 3px;
+  color: white;
   transition: background-color 0.3s ease;
 }
 
-.dashboard-card .card-footer:hover {
-  background-color: #d3d1d1;
+button:hover {
+  background-color: #7c3bd8;
 }
 
-.dashboard-card .card-footer i {
-  font-size: 10px;
+/* Responsive Form Layout */
+@media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+  }
 }

@@ -14,11 +14,13 @@ header {
 
 .logo {
   font-size: 22px;
+  max-height: fit-content;
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
-  font-family: Irish Grover, sans-serif;
-  cursor: pointer;
+  /* color: inherit; */
+  font-family: Irish Grover;
+  cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -28,8 +30,8 @@ header {
 }
 
 .logo:hover {
-  color: #654ac6;
-  transform: scale(1.05);
+  color: #654ac6; /* Slightly darker or playful color */
+  transform: scale(1.05); /* Slight grow effect */
 }
 
 .logo:hover span {
@@ -40,97 +42,97 @@ nav a {
   margin: 0 10px;
   text-decoration: none;
   color: #333;
-  padding-bottom: 4px;
   transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
 }
 
-h2 {
-  margin-top: 20px;
-  font-size: 25px;
-  margin-left: 40px;
-  color: #a05ce0;
+nav a:hover {
+  color: #8667F2; /* Change to your theme color */
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
-.banner {
-  background-color: #c56cf0;
-  padding: 10px;
+nav a.active {
+  color: #8667F2; /* Highlighted color */
   font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 20px;
+}
+h2 {
+    color: #654ac6;
+    margin-top: 20px;
+    margin-left: 40px;
 }
 
-form {
-  padding: 20px;
+/* Form container box */
+.form-banner-box {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 2px solid #ccc;
+    border-radius: 10px;
 }
 
+/* Box title */
+.banner-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Flex layout for form */
 .form-wrapper {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.flex-row {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
+/* Each column */
+.form-left, .form-right {
+    flex: 1;
+    min-width: 300px;
 }
 
-
-.form-left,
-.form-right {
-  flex: 1;
-  min-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* Grouping */
 fieldset {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
 }
 
 legend {
-  font-weight: bold;
-  color: #333;
-  padding: 0 10px;
+    font-weight: bold;
 }
 
-.flex-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
+/* Inputs layout */
 .form-group {
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
+    margin-bottom: 10px;
 }
 
-.form-group input,
-.form-group select {
-  padding: 8px;
-  margin-top: 5px;
-  border-radius: 4px;
-  border: 1px solid #aaa;
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .submit-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  margin: 20px auto;
-  display: block;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
+    display: block;
+    width: 200px;
+    margin: 10px auto 0;
+    padding: 10px;
+    background-color: #8667F2;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
 }

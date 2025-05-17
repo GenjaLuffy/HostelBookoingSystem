@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include './includes/header.php';
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us - Book Mate</title>
-  <link rel="stylesheet" href="./assets/css/about.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</head>
-
-<body>
-
-  <!-- Header Section -->
-  <header>
-    <a href="index.html" class="logo">Book<br><span>Mate</span></a>
-    <nav>
-      <a href="index.php">Home</a>
-      <a href="about.php" class="active">About Us</a>
-      <a href="#">Hostel</a>
-      <a href="#">Student</a>
-      <a href="#">Business</a>
-    </nav>
-  </header>
-
+?>
   <!-- About Page Section -->
   <section class="about-page">
     <div class="about-container">

@@ -1,17 +1,13 @@
 <?php
-session_start();
-include './includes/header.php';
-include './includes/connect.php';
-include 'includes/auth.php'; 
+include './includes/sheader.php';
 ?>
-
     <main class="main-content">
       <h1>Dashboard</h1>
 
       <div class="dashboard-cards">
         <div class="dashboard-card">
           <h2>7</h2>
-          <p>STUDENTS</p>
+          <p>TOTAL OWNER</p>
           <div class="card-footer">
             FULL DETAIL <i class="fas fa-arrow-right"></i>
           </div>
@@ -19,7 +15,7 @@ include 'includes/auth.php';
 
         <div class="dashboard-card">
           <h2>5</h2>
-          <p>HOSTELS</p>
+          <p>TOTAL HOSTELS</p>
           <div class="card-footer">
             SEE ALL <i class="fas fa-arrow-right"></i>
           </div>

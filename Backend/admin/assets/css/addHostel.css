@@ -1,42 +1,59 @@
-
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Header */
-.header {
-    height: 60px;
-    background-color: #f2e6ff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2e6ff;
+  padding: 10px 30px;
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #8667F2;
-    text-decoration: none;
-    font-family: Irish Grover, cursive;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
+  font-size: 22px;
+  max-height: fit-content;
+  font-weight: bold;
+  color: #8667F2;
+  text-decoration: none;
+  /* color: inherit; */
+  font-family: Irish Grover;
+  cursor: pointer; /* Makes it clear it's interactive */
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .logo span {
-    color: #c56cf0;
-    transition: color 0.3s ease;
+  color: #c56cf0;
+  transition: color 0.3s ease;
 }
 
 .logo:hover {
-    color: #654ac6;
-    transform: scale(1.05);
+  color: #654ac6; /* Slightly darker or playful color */
+  transform: scale(1.05); /* Slight grow effect */
 }
 
 .logo:hover span {
-    color: #a05ce0;
+  color: #a05ce0;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+nav a:hover {
+  color: #8667F2; /* Change to your theme color */
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
+}
+
+nav a.active {
+  color: #8667F2; /* Highlighted color */
+  font-weight: bold;
 }
 
 .container {
@@ -103,11 +120,14 @@ body {
     padding: 30px;
     background-color: #fff;
     transition: margin-left 0.3s ease;
+
 }
 
 h1 {
+    font-size: 24px;
     margin-bottom: 20px;
-    font-size: 20px;
+    font-weight: bold;
+    color: #3f3e3e;
 }
 
 /* Form */
@@ -133,10 +153,16 @@ form {
     gap: 15px;
 }
 
+
 label {
-    font-size: 14px;
-    font-weight: 500;
-    
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.checkbox-group label,
+.rules label {
+  font-size: 16px;
+  font-weight: 400;
 }
 
 input[type="text"],
@@ -188,21 +214,4 @@ button {
 /* Add button hover effect */
 button:hover {
   background-color: #7c3bd8;
-}
-
-/* For image selection*/
-.custom-file-upload {
-  display: inline-block;
-  cursor: pointer;
-  color: #007bff;
-  font-size: 16px;
-  padding: 8px 12px;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.custom-file-upload:hover {
-  background-color: #007bff;
-  color: white;
 }

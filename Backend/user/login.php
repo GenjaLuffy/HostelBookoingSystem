@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_or_username = trim($_POST["email_or_username"]);
     $password = $_POST["password"];
 
-    // Check users table (hashed password)
+    // Check in users table
     $stmt = $con->prepare("SELECT id, username, password, 'user' as role FROM users WHERE email = ? OR username = ?");
     $stmt->bind_param("ss", $email_or_username, $email_or_username);
     $stmt->execute();
@@ -22,46 +22,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["role"] = $role;
             echo "<script>alert('Login successful as user!'); window.location.href = 'index.php';</script>";
             exit;
-        } else {
-            echo "<script>alert('Invalid password.'); window.history.back();</script>";
-            exit;
         }
     }
     $stmt->close();
 
-    // Check admins table (plain text password)
-    $stmt = $con->prepare("SELECT id, username, password, role FROM admins WHERE username = ?");
-    $stmt->bind_param("s", $email_or_username);
+    // Check in admins table
+    $stmt = $con->prepare("SELECT id, username, password, type as role FROM admins WHERE email = ? OR username = ?");
+    $stmt->bind_param("ss", $email_or_username, $email_or_username);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows === 1) {
-        $stmt->bind_result($id, $username, $storedPassword, $role);
+        $stmt->bind_result($id, $username, $hashedPassword, $role);
         $stmt->fetch();
 
-        if ($password === $storedPassword) {
+        if (password_verify($password, $hashedPassword)) {
             $_SESSION["user_id"] = $id;
             $_SESSION["username"] = $username;
             $_SESSION["role"] = $role;
 
             if ($role === 'superadmin') {
-                echo "<script>alert('Login successful as superadmin!'); window.location.href = '../admin/addRoom.php';</script>";
+                echo "<script>alert('Login successful as Superadmin!'); window.location.href = '../admin/super.php';</script>";
             } else {
-                echo "<script>alert('Login successful as admin!'); window.location.href = '../admin/index.php';</script>";
+                echo "<script>alert('Login successful as Admin!'); window.location.href = '../admin/index.php';</script>";
             }
-            exit;
-        } else {
-            echo "<script>alert('Invalid password.'); window.history.back();</script>";
             exit;
         }
     }
-    $stmt->close();
 
-    echo "<script>alert('No user found with that email or username.'); window.history.back();</script>";
+    $stmt->close();
     $con->close();
+
+    echo "<script>alert('Invalid credentials or user not found.'); window.history.back();</script>";
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <div class="signup-link">
-        Don’t have an account? <a href="register.html">Sign Up</a>
+        Don’t have an account? <a href="register.php">Sign Up</a>
     </div>
 </div>
 
