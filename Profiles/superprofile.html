@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="superprofile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+</head>
+
+<body>
+   <header class="header">
+    <a href="index.html" class="logo">Book<br><span>Mate</span></a>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a href="addRoom.html"><i class="fas fa-door-open"></i><span>Rooms</span></a>
+        <a href="manageR.html"><i class="fas fa-cogs"></i><span>Managed Rooms</span></a>
+        <a href="addHostel.html"><i class="fas fa-bed"></i><span>Add Hostel</span></a>
+        <a href="manageS.html"><i class="fas fa-users"></i><span>Manage Students</span></a>
+      </nav>
+    </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="edit-profile-container">
+                <div class="profile-top">
+                    <div class="profile-pic">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h3>Admin Name</h3>
+                        <p>Address</p>
+                        <p>Owner</p>
+                    </div>
+                </div>
+
+                <form class="edit-form">
+                    <div>
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" placeholder="Enter full name">
+                    </div>
+                    <div>
+                        <label for="userName">User Name</label>
+                        <input type="text" id="userName" placeholder="Enter user name">
+                    </div>
+                    <div>
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob">
+                    </div>
+                    <div>
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" placeholder="Enter phone number">
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        <input type="text" id="address" placeholder="Enter address">
+                    </div>
+                    <div>
+                        <label for="gender">Gender</label>
+                        <input type="text" id="gender" placeholder="Enter gender">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit">Edit Profile</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
