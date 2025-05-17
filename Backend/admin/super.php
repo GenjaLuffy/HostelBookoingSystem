@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'includes/auth.php';
 include './includes/sheader.php';
 ?>
     <main class="main-content">

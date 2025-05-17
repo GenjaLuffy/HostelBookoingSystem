@@ -8,6 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Check if admin is logged in and is superadmin
 if (!isset($_SESSION['user_id'])) {
+  
     header("Location: login.php");
     exit();
 }
@@ -27,7 +28,7 @@ if ($result->num_rows === 1) {
 }
 
 // Profile picture path
-$profilePicPath = './uploads' . $admin['profile_picture'];
+$profilePicPath = 'uploads/profile_pictures/' . $admin['profile_picture'];
 ?>
 
 <!-- Main Content -->
@@ -44,6 +45,7 @@ $profilePicPath = './uploads' . $admin['profile_picture'];
       <div class="profile-details" style="margin-left:20px;">
         <h3><?= htmlspecialchars($admin['name']) ?></h3>
         <p><?= htmlspecialchars($admin['address']) ?></p>
+        <p>Hostel Owner</p>
       </div>
     </div>
 
@@ -58,7 +60,7 @@ $profilePicPath = './uploads' . $admin['profile_picture'];
     </div>
 
     <div style="margin-top: 30px; text-align: right;">
-      <a href="./editProfile.php" class="edit-link-button" style="text-decoration:none; background:#4CAF50; color:#fff; padding:10px 18px; border-radius:6px;">Edit Profile</a>
+      <a href="./superEditProfile.php" class="edit-link-button" style="text-decoration:none; background:#4CAF50; color:#fff; padding:10px 18px; border-radius:6px;">Edit Profile</a>
     </div>
   </div>
 </div>

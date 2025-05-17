@@ -62,8 +62,8 @@ CREATE TABLE admins (
 );
 
 INSERT INTO admins (name, username, email, password, dob, phone, address, gender, profile_picture, type) VALUES 
-('Sudichchha Shretha','sudichha12','sudichchha12@gmail.com','sudichha','2002-08-12','9876543210','Kathmandu','Female','','superadmin'),
-('Binita Magar','binita12','binita12@gmail.com','binita','2002-12-26','9876542587','Kathmandu','Female','','superadmin');
+('Sudichchha Shretha','sudichha12','sudichchha12@gmail.com','$2y$10$HX9CsMyOKJoLlvlz/w5LnOR5I217tze.1iCmT1fWZdmkn507.av.G','2002-08-12','9876543210','Kathmandu','Female','','superadmin'),
+('Binita Magar','binita12','binita12@gmail.com','$2y$10$z0sNZD.rwxqKne7ZH16JAeupl4w0EwSb3c1x6Yrm7dQ.ZfBzPZDvK','2002-12-26','9876542587','Kathmandu','Female','','superadmin');
 
 /*admin login email and password
 
@@ -91,9 +91,7 @@ CREATE TABLE bookings (
     stay_from DATE,
     stay_duration INT,
     fee_per_month DECIMAL(10, 2),
-    first_name VARCHAR(100),
-    middle_name VARCHAR(100),
-    last_name VARCHAR(100),
+    full_name VARCHAR(100),
     gender ENUM('Male', 'Female', 'Other'),
     contact_no VARCHAR(15),
     guardian_name VARCHAR(100),

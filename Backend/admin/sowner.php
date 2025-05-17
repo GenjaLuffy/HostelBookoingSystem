@@ -1,10 +1,10 @@
 <?php
-
-include './includes/sheader.php'; 
-include './includes/connect.php'; // adjust this path to your DB connection file
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+include 'includes/auth.php';
+include './includes/sheader.php'; 
+include './includes/connect.php'; // adjust this path to your DB connection file
 
 // Query to get owners and their hostels
 $sql = "SELECT

@@ -1,8 +1,8 @@
 <?php
-include './includes/header.php';
-include './includes/connect.php';
 session_start();
 include 'includes/auth.php'; 
+include './includes/header.php';
+include './includes/connect.php';
 
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {

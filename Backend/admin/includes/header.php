@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/manageS.css" />
     <link rel="stylesheet" href="assets/css/profile.css" />
     <link rel="stylesheet" href="assets/css/manageR.css" />
+    <link rel="stylesheet" href="assets/css/editProfile.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 

@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'includes/auth.php';
 include './includes/sheader.php';
 include './includes/connect.php'; 
 // Handle status update from form submission

@@ -1,8 +1,8 @@
 <?php
-include './includes/header.php';
-include './includes/connect.php';
 session_start();
 include 'includes/auth.php'; 
+include './includes/header.php';
+include './includes/connect.php';
 
 $user_id = $_SESSION['user_id'];  // Assuming you store logged-in user's ID here
 
@@ -27,14 +27,14 @@ $user_id = $_SESSION['user_id'];  // Assuming you store logged-in user's ID here
             <tbody>
                 <?php
                 // Prepare statement to fetch bookings for logged-in user
-                $stmt = $con->prepare("SELECT id, first_name, middle_name, last_name, contact_no, room_no, seater, stay_from FROM bookings WHERE user_id = ?");
+                $stmt = $con->prepare("SELECT id, full_name, contact_no, room_no, seater, stay_from FROM bookings WHERE user_id = ?");
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
                 $sno = 1;
                 while ($row = $result->fetch_assoc()) {
-                    $full_name = htmlspecialchars($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']);
+                    $full_name = htmlspecialchars($row['full_name']);
                     $contact_no = htmlspecialchars($row['contact_no']);
                     $room_no = htmlspecialchars($row['room_no']);
                     $seater = htmlspecialchars($row['seater']);

@@ -1,8 +1,8 @@
 <?php
-include './includes/connect.php';
-include './includes/header.php';
 session_start();
 include 'includes/auth.php';
+include './includes/connect.php';
+include './includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $hostelName = trim($_POST['hostelName']);

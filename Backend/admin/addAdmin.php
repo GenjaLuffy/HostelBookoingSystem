@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'includes/auth.php';
 include './includes/connect.php';
 include './includes/sheader.php';
 
