@@ -1,25 +1,25 @@
 <?php
-include './includes/connect.php';
 session_start();
+include './includes/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_or_username = trim($_POST["email_or_username"]);
     $password = $_POST["password"];
 
     // Check in users table
-    $stmt = $con->prepare("SELECT id, username, password, 'user' as role FROM users WHERE email = ? OR username = ?");
+    $stmt = $con->prepare("SELECT id, username, password FROM users WHERE email = ? OR username = ?");
     $stmt->bind_param("ss", $email_or_username, $email_or_username);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows === 1) {
-        $stmt->bind_result($id, $username, $hashedPassword, $role);
+        $stmt->bind_result($id, $username, $hashedPassword);
         $stmt->fetch();
 
         if (password_verify($password, $hashedPassword)) {
             $_SESSION["user_id"] = $id;
             $_SESSION["username"] = $username;
-            $_SESSION["role"] = $role;
+            $_SESSION["role"] = 'user'; // manually assign role for users
             echo "<script>alert('Login successful as user!'); window.location.href = 'index.php';</script>";
             exit;
         }
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 
     // Check in admins table
-    $stmt = $con->prepare("SELECT id, username, password, type as role FROM admins WHERE email = ? OR username = ?");
+    $stmt = $con->prepare("SELECT id, username, password, type FROM admins WHERE email = ? OR username = ?");
     $stmt->bind_param("ss", $email_or_username, $email_or_username);
     $stmt->execute();
     $stmt->store_result();
@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<script>alert('Invalid credentials or user not found.'); window.history.back();</script>";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

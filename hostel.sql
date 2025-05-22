@@ -1,128 +1,73 @@
-/*To create DATABASE*/
+<?php
+session_start();
+include 'includes/auth.php';
+include './includes/sheader.php';
+include './includes/connect.php'; 
 
-CREATE DATABASE IF NOT EXISTS hostel;
+// Handle status update from form submission
+if (isset($_POST['update_status'])) {
+    $hostel_id = intval($_POST['hostel_id']);
+    // Use the button value to determine new status
+    $new_status = $_POST['update_status'] === 'Approved' ? 'Approved' : 'Pending';
 
+    $stmt = $con->prepare("UPDATE hostels SET status = ? WHERE id = ?");
+    $stmt->bind_param("si", $new_status, $hostel_id);
+    $stmt->execute();
+    $stmt->close();
 
-/*Table for users*/
+    // Redirect to avoid resubmission on page refresh
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    username VARCHAR(100) UNIQUE,
-    email VARCHAR(100) UNIQUE,
-    password VARCHAR(255),
-    dob DATE,
-    phone VARCHAR(15),
-    address TEXT,
-    gender ENUM('male', 'female', 'other'),
-    type ENUM('student', 'business'),
-    profile_picture VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+// Fetch hostels with creator info from admins
+$sql = "SELECT h.id, h.name as hostel_name, h.status, a.name as creator_name 
+        FROM hostels h
+        JOIN admins a ON h.created_by = a.id";
+$result = $con->query($sql);
+?>
 
-/*Table for hotels*/
-
-CREATE TABLE hostels (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    image VARCHAR(255),
-    image2 VARCHAR(255),
-    image3 VARCHAR(255),
-    image4 VARCHAR(255),
-    description TEXT,
-    amenities TEXT,
-    rules TEXT,
-    fee DECIMAL(10,2) NOT NULL,
-    gender ENUM('Boys Hostel', 'Girls Hostel', 'Other') NOT NULL,
-    location VARCHAR(255),
-    created_by INT NOT NULL,
-    created_by_role ENUM('admin', 'superadmin') NOT NULL,
-    status ENUM('Pending', 'Approved') NOT NULL DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_hostel_creator FOREIGN KEY (created_by) REFERENCES admins(id) ON DELETE CASCADE
-);
-
-
-/*Table for admin and super admin*/
-
-CREATE TABLE admins (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    username VARCHAR(100) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    dob DATE,
-    phone VARCHAR(15),
-    address TEXT,
-    gender ENUM('male', 'female', 'other'),
-    profile_picture VARCHAR(255),
-    type ENUM('admin', 'superadmin') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-INSERT INTO admins (name, username, email, password, dob, phone, address, gender, profile_picture, type) VALUES 
-('Sudichchha Shretha','sudichha12','sudichchha12@gmail.com','$2y$10$HX9CsMyOKJoLlvlz/w5LnOR5I217tze.1iCmT1fWZdmkn507.av.G','2002-08-12','9876543210','Kathmandu','Female','','superadmin'),
-('Binita Magar','binita12','binita12@gmail.com','$2y$10$z0sNZD.rwxqKne7ZH16JAeupl4w0EwSb3c1x6Yrm7dQ.ZfBzPZDvK','2002-12-26','9876542587','Kathmandu','Female','','superadmin');
-
-/*admin login email and password
-
-username = sudichha12
-email = sudichchha12@gmail.com
-password = sudichha
-
-username = binita12
-email = binita12@gmail.com
-password = binita
-
-*/
-
-
-
-
-/*table for booking*/
-
-
-CREATE TABLE bookings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    seater INT,
-    room_no VARCHAR(10),
-    food_status ENUM('With Food', 'Without Food'),
-    stay_from DATE,
-    stay_duration INT,
-    fee_per_month DECIMAL(10, 2),
-    full_name VARCHAR(100),
-    gender ENUM('Male', 'Female', 'Other'),
-    contact_no VARCHAR(15),
-    guardian_name VARCHAR(100),
-    guardian_contact_no VARCHAR(15),
-    image VARCHAR(255),
-    corr_address TEXT,
-    corr_city VARCHAR(100),
-    corr_district VARCHAR(100),
-    perm_address TEXT,
-    perm_city VARCHAR(100),
-    perm_district VARCHAR(100),
-    user_id INT,
-    hostel_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    -- Foreign key constraints (optional but recommended)
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_hostel FOREIGN KEY (hostel_id) REFERENCES hostels(id)
-);
-
-
-/*Table for add rooms*/
-CREATE TABLE rooms (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    room_no VARCHAR(20) NOT NULL,
-    seater INT NOT NULL,
-    fee_per_student DECIMAL(10, 2) NOT NULL,
-    user_id INT NOT NULL,
-    hostel_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_user_room FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_hostel_room FOREIGN KEY (hostel_id) REFERENCES hostels(id)
-);
+<main class="main-content">
+  <h1>Manage Hostels</h1>
+  <div class="table-container">
+    <h2>All Hostel Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Sno.</th>
+          <th>Hostel Name</th>
+          <th>Created By</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if ($result->num_rows > 0) {
+            $sno = 1;
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $sno++ . "</td>";
+                echo "<td>" . htmlspecialchars($row['hostel_name']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['creator_name']) . "</td>";
+                echo "<td><span class='status " . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
+                echo "<td>";
+                echo "<form method='POST' style='display:inline'>";
+                echo "<input type='hidden' name='hostel_id' value='" . $row['id'] . "'>";
+                if ($row['status'] === 'Approved') {
+                    echo "<button type='submit' name='update_status' value='Pending'>Set Pending</button>";
+                } else {
+                    echo "<button type='submit' name='update_status' value='Approved'>Approve</button>";
+                }
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No hostels found.</td></tr>";
+        }
+        ?>
+      </tbody>
+    </table>
+  </div>
+</main>

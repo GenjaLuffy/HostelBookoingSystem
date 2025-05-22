@@ -16,7 +16,8 @@ $success_message = "";
 $error_message = "";
 
 // Fetch current admin data
-function fetchAdminData($con, $user_id) {
+function fetchAdminData($con, $user_id)
+{
     $sql = "SELECT * FROM admins WHERE id = ?";
     $stmt = $con->prepare($sql);
     if (!$stmt) {
@@ -68,15 +69,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $allowedfileExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             if (in_array($fileExtension, $allowedfileExtensions)) {
                 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                $uploadFileDir = __DIR__ . '/../uploads/';
+
+                // Corrected upload directory path with DIRECTORY_SEPARATOR and proper check
+                $uploadFileDir = __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
                 if (!is_dir($uploadFileDir)) {
-                    mkdir($uploadFileDir, 0755, true);
+                    if (!mkdir($uploadFileDir, 0755, true)) {
+                        $error_message = 'Failed to create upload directory. Please check folder permissions.';
+                    }
                 }
-                $dest_path = $uploadFileDir . $newFileName;
-                if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                    $imageName = $newFileName;
-                } else {
-                    $error_message = 'Error moving the uploaded file.';
+
+                if (!$error_message) {
+                    $dest_path = $uploadFileDir . $newFileName;
+                    if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                        $imageName = $newFileName;
+                    } else {
+                        $error_message = 'Error moving the uploaded file.';
+                    }
                 }
             } else {
                 $error_message = 'Upload failed. Allowed file types: ' . implode(', ', $allowedfileExtensions);
@@ -111,12 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $types = str_repeat('s', count($params) - 1) . 'i';
                 $stmt->bind_param($types, ...$params);
                 if ($stmt->execute()) {
-                    $success_message = "Profile updated successfully.";
-                    // Refresh admin data to show updated info
-                    $admin = fetchAdminData($con, $user_id);
+                    header("Location: superprofile.php");
+                    exit();
                 } else {
                     $error_message = "Update failed: " . $stmt->error;
                 }
+
                 $stmt->close();
             }
         }
@@ -125,7 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <main class="main-content">
-    <h1>Edit Profile</h1>
 
     <?php if ($success_message): ?>
         <div style="color:green; margin-bottom:15px;"><?= htmlspecialchars($success_message) ?></div>
@@ -136,16 +143,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <div class="form-card">
-        <div class="form-header">Edit Profile</div>
 
         <form action="" method="post" enctype="multipart/form-data">
 
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label for="profile-picture-input">Profile Picture</label>
-                <div class="profile-pic" id="profile-pic-preview" tabindex="0" style="cursor:pointer;">
+                <div class="profile-pic" id="profile-pic-preview" tabindex="0" style="cursor:pointer; position: relative; display: inline-block;">
                     <?php
-                    $profilePicPath = !empty($admin['image']) && file_exists(__DIR__ . '/../uploads/' . $admin['image'])
-                        ? '../uploads/' . $admin['image']
+                    $profilePicPath = !empty($admin['profile_picture']) && file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $admin['profile_picture'])
+                        ? 'uploads/' . $admin['profile_picture']
                         : null;
                     ?>
                     <?php if ($profilePicPath): ?>
@@ -190,42 +196,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </main>
 
 <script>
-  const profilePicDiv = document.getElementById('profile-pic-preview');
-  const fileInput = document.getElementById('profile-picture-input');
+    const profilePicDiv = document.getElementById('profile-pic-preview');
+    const fileInput = document.getElementById('profile-picture-input');
 
-  profilePicDiv.addEventListener('click', () => {
-    fileInput.click();
-  });
+    profilePicDiv.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-  // Optional: allow keyboard accessibility (Enter or Space)
-  profilePicDiv.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      fileInput.click();
-    }
-  });
-
-  fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        let img = profilePicDiv.querySelector('img');
-        if (!img) {
-          img = document.createElement('img');
-          profilePicDiv.innerHTML = '';
-          profilePicDiv.appendChild(img);
-          const overlay = document.createElement('div');
-          overlay.className = 'edit-overlay';
-          overlay.textContent = 'Edit';
-          profilePicDiv.appendChild(overlay);
+    // Optional: allow keyboard accessibility (Enter or Space)
+    profilePicDiv.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileInput.click();
         }
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+    });
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                let img = profilePicDiv.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    profilePicDiv.innerHTML = '';
+                    profilePicDiv.appendChild(img);
+                    const overlay = document.createElement('div');
+                    overlay.className = 'edit-overlay';
+                    overlay.textContent = 'Edit';
+                    profilePicDiv.appendChild(overlay);
+                }
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
 
 </body>
+
 </html>

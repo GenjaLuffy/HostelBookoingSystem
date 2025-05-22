@@ -1,12 +1,12 @@
 <?php
-include './includes/sheader.php';
+include './includes/header.php';
 include './includes/connect.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if admin is logged in and is superadmin
+// Check if admin is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -26,8 +26,8 @@ if ($result->num_rows === 1) {
     exit();
 }
 
-// Profile picture path
-$profilePicPath = './uploads' . $admin['profile_picture'];
+// Correct image path
+$profilePicPath = './uploads/' . $admin['profile_picture'];
 ?>
 
 <!-- Main Content -->
@@ -44,6 +44,7 @@ $profilePicPath = './uploads' . $admin['profile_picture'];
       <div class="profile-details" style="margin-left:20px;">
         <h3><?= htmlspecialchars($admin['name']) ?></h3>
         <p><?= htmlspecialchars($admin['address']) ?></p>
+        <p><?= htmlspecialchars($admin['type']) ?></p>
       </div>
     </div>
 

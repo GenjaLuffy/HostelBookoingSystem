@@ -16,7 +16,8 @@ $success_message = "";
 $error_message = "";
 
 // Fetch current admin data
-function fetchAdminData($con, $user_id) {
+function fetchAdminData($con, $user_id)
+{
     $sql = "SELECT * FROM admins WHERE id = ?";
     $stmt = $con->prepare($sql);
     if (!$stmt) {
@@ -68,10 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $allowedfileExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             if (in_array($fileExtension, $allowedfileExtensions)) {
                 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                $uploadFileDir = __DIR__ . '/../uploads/';
-                if (!is_dir($uploadFileDir)) {
-                    mkdir($uploadFileDir, 0755, true);
-                }
+                $uploadFileDir = __DIR__ . './uploads/';
+
                 $dest_path = $uploadFileDir . $newFileName;
                 if (move_uploaded_file($fileTmpPath, $dest_path)) {
                     $imageName = $newFileName;
@@ -95,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($imageName) {
-                $setParts[] = "profile_picture  = ?";
+                $setParts[] = "profile_picture = ?";
                 $params[] = $imageName;
             }
 
@@ -111,9 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $types = str_repeat('s', count($params) - 1) . 'i';
                 $stmt->bind_param($types, ...$params);
                 if ($stmt->execute()) {
-                    $success_message = "Profile updated successfully.";
-                    // Refresh admin data to show updated info
-                    $admin = fetchAdminData($con, $user_id);
+                    header("Location: profile.php");
+                    exit();
                 } else {
                     $error_message = "Update failed: " . $stmt->error;
                 }
@@ -125,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <main class="main-content">
-    <h1>Edit Profile</h1>
 
     <?php if ($success_message): ?>
         <div style="color:green; margin-bottom:15px;"><?= htmlspecialchars($success_message) ?></div>
@@ -139,13 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-header">Edit Profile</div>
 
         <form action="" method="post" enctype="multipart/form-data">
-
             <div class="form-group">
                 <label for="profile-picture-input">Profile Picture</label>
-                <div class="profile-pic" id="profile-pic-preview" tabindex="0" style="cursor:pointer;">
+                <div class="profile-pic" id="profile-pic-preview" tabindex="0" style="cursor:pointer; position: relative;">
                     <?php
-                    $profilePicPath = !empty($admin['image']) && file_exists(__DIR__ . '/../uploads/' . $admin['image'])
-                        ? '../uploads/' . $admin['image']
+                    $profilePicPath = !empty($admin['profile_picture']) && file_exists(__DIR__ . '/uploads/' . $admin['profile_picture'])
+                        ? 'uploads/' . $admin['profile_picture']
                         : null;
                     ?>
                     <?php if ($profilePicPath): ?>
@@ -160,11 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" value="<?php echo htmlspecialchars($admin['name']); ?>"  />
+                <input type="text" name="name" value="<?= htmlspecialchars($admin['name']); ?>" required />
             </div>
             <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" name="email" value="<?php echo htmlspecialchars($admin['email']); ?>" />
+                <input type="email" name="email" value="<?= htmlspecialchars($admin['email']); ?>" required />
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -172,15 +168,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label>Date of Birth</label>
-                <input type="date" name="dob" value="<?php echo htmlspecialchars($admin['dob']); ?>"  />
+                <input type="date" name="dob" value="<?= htmlspecialchars($admin['dob']); ?>" required />
             </div>
             <div class="form-group">
                 <label>Phone</label>
-                <input type="tel" name="phone" value="<?php echo htmlspecialchars($admin['phone']); ?>" pattern="[0-9]{10}" maxlength="10"/>
+                <input type="tel" name="phone" value="<?= htmlspecialchars($admin['phone']); ?>" pattern="[0-9]{10}" maxlength="10" required />
             </div>
             <div class="form-group">
                 <label>Address</label>
-                <input type="text" name="address" value="<?php echo htmlspecialchars($admin['address']); ?>" />
+                <input type="text" name="address" value="<?= htmlspecialchars($admin['address']); ?>" required />
             </div>
             <div class="full-width">
                 <button type="submit">Save Changes</button>
@@ -190,42 +186,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </main>
 
 <script>
-  const profilePicDiv = document.getElementById('profile-pic-preview');
-  const fileInput = document.getElementById('profile-picture-input');
+    const profilePicDiv = document.getElementById('profile-pic-preview');
+    const fileInput = document.getElementById('profile-picture-input');
 
-  profilePicDiv.addEventListener('click', () => {
-    fileInput.click();
-  });
+    profilePicDiv.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-  // Optional: allow keyboard accessibility (Enter or Space)
-  profilePicDiv.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      fileInput.click();
-    }
-  });
-
-  fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        let img = profilePicDiv.querySelector('img');
-        if (!img) {
-          img = document.createElement('img');
-          profilePicDiv.innerHTML = '';
-          profilePicDiv.appendChild(img);
-          const overlay = document.createElement('div');
-          overlay.className = 'edit-overlay';
-          overlay.textContent = 'Edit';
-          profilePicDiv.appendChild(overlay);
+    profilePicDiv.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileInput.click();
         }
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+    });
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                let img = profilePicDiv.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    profilePicDiv.innerHTML = '';
+                    profilePicDiv.appendChild(img);
+                    const overlay = document.createElement('div');
+                    overlay.className = 'edit-overlay';
+                    overlay.textContent = 'Edit';
+                    profilePicDiv.appendChild(overlay);
+                }
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
 
 </body>
+
 </html>

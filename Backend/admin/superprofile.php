@@ -28,7 +28,7 @@ if ($result->num_rows === 1) {
 }
 
 // Profile picture path
-$profilePicPath = 'uploads/profile_pictures/' . $admin['profile_picture'];
+$profilePicPath = './uploads/' . $admin['profile_picture'];
 ?>
 
 <!-- Main Content -->
@@ -45,7 +45,7 @@ $profilePicPath = 'uploads/profile_pictures/' . $admin['profile_picture'];
       <div class="profile-details" style="margin-left:20px;">
         <h3><?= htmlspecialchars($admin['name']) ?></h3>
         <p><?= htmlspecialchars($admin['address']) ?></p>
-        <p>Hostel Owner</p>
+        <p><?= htmlspecialchars($admin['type']) ?></p>
       </div>
     </div>
 
