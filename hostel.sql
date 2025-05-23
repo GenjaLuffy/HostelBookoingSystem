@@ -1,73 +1,45 @@
-<?php
-session_start();
-include 'includes/auth.php';
-include './includes/sheader.php';
-include './includes/connect.php'; 
 
-// Handle status update from form submission
-if (isset($_POST['update_status'])) {
-    $hostel_id = intval($_POST['hostel_id']);
-    // Use the button value to determine new status
-    $new_status = $_POST['update_status'] === 'Approved' ? 'Approved' : 'Pending';
 
-    $stmt = $con->prepare("UPDATE hostels SET status = ? WHERE id = ?");
-    $stmt->bind_param("si", $new_status, $hostel_id);
-    $stmt->execute();
-    $stmt->close();
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    seater INT,
+    room_no VARCHAR(10),
+    food_status ENUM('With Food', 'Without Food'),
+    stay_from DATE,
+    stay_duration INT,
+    fee_per_month DECIMAL(10, 2),
+    full_name VARCHAR(100),
+    gender ENUM('Male', 'Female', 'Other'),
+    contact_no VARCHAR(15),
+    guardian_name VARCHAR(100),
+    guardian_contact_no VARCHAR(15),
+    image VARCHAR(255),
+    corr_address TEXT,
+    corr_city VARCHAR(100),
+    corr_district VARCHAR(100),
+    perm_address TEXT,
+    perm_city VARCHAR(100),
+    perm_district VARCHAR(100),
+    user_id INT,
+    hostel_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign key constraints (optional but recommended)
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_hostel FOREIGN KEY (hostel_id) REFERENCES hostels(id)
+);
 
-    // Redirect to avoid resubmission on page refresh
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-}
 
-// Fetch hostels with creator info from admins
-$sql = "SELECT h.id, h.name as hostel_name, h.status, a.name as creator_name 
-        FROM hostels h
-        JOIN admins a ON h.created_by = a.id";
-$result = $con->query($sql);
-?>
+/*Table for add rooms*/
+CREATE TABLE rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    room_no VARCHAR(20) NOT NULL,
+    seater INT NOT NULL,
+    fee_per_student DECIMAL(10, 2) NOT NULL,
+    user_id INT NOT NULL,
+    hostel_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-<main class="main-content">
-  <h1>Manage Hostels</h1>
-  <div class="table-container">
-    <h2>All Hostel Details</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Sno.</th>
-          <th>Hostel Name</th>
-          <th>Created By</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        if ($result->num_rows > 0) {
-            $sno = 1;
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $sno++ . "</td>";
-                echo "<td>" . htmlspecialchars($row['hostel_name']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['creator_name']) . "</td>";
-                echo "<td><span class='status " . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
-                echo "<td>";
-                echo "<form method='POST' style='display:inline'>";
-                echo "<input type='hidden' name='hostel_id' value='" . $row['id'] . "'>";
-                if ($row['status'] === 'Approved') {
-                    echo "<button type='submit' name='update_status' value='Pending'>Set Pending</button>";
-                } else {
-                    echo "<button type='submit' name='update_status' value='Approved'>Approve</button>";
-                }
-                echo "</form>";
-                echo "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='5'>No hostels found.</td></tr>";
-        }
-        ?>
-      </tbody>
-    </table>
-  </div>
-</main>
+    CONSTRAINT fk_user_room FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_hostel_room FOREIGN KEY (hostel_id) REFERENCES hostels(id)
+);
