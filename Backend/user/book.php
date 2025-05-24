@@ -38,29 +38,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stay_duration = $_POST['stay_duration'];
     $fee_per_month = $_POST['fee_per_month'];
 
-    // Since you don't have separate first/middle/last name, just use full name from form or $userData['name']
     $full_name = $_POST['full_name'] ?? $userData['name'];
     $gender = $_POST['gender'] ?? $userData['gender'];
     $contact_no = $_POST['contact_no'] ?? $userData['phone'];
     $guardian_name = $_POST['guardian_name'] ?? '';
     $guardian_contact_no = $_POST['guardian_contact_no'] ?? '';
     $corr_address = $_POST['corr_address'] ?? '';
-    $corr_city = $_POST['corr_city'] ?? '';
-    $corr_district = $_POST['corr_district'] ?? '';
     $perm_address = $_POST['perm_address'] ?? '';
-    $perm_city = $_POST['perm_city'] ?? '';
-    $perm_district = $_POST['perm_district'] ?? '';
 
-    $user_id = $_SESSION['user_id'];
+    // NOTE: city and district fields are ignored and not processed here intentionally
 
     $sql = "INSERT INTO bookings (
         seater, room_no, food_status, stay_from, stay_duration, fee_per_month,
         full_name, gender, contact_no,
         guardian_name, guardian_contact_no, image,
-        corr_address, corr_city, corr_district,
-        perm_address, perm_city, perm_district,
+        corr_address,
+        perm_address,
         user_id, hostel_id
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $con->prepare($sql);
     if ($stmt === false) {
@@ -68,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $stmt->bind_param(
-        "isssidsissssssssssii",
+        "isssidsissssssii",
         $seater,
         $room_no,
         $food_status,
@@ -82,11 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $guardian_contact_no,
         $imagePath,
         $corr_address,
-        $corr_city,
-        $corr_district,
         $perm_address,
-        $perm_city,
-        $perm_district,
         $user_id,
         $hostel_id
     );
@@ -103,18 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<style>
-    .form-banner-box {
-        width: 90%;
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fdfdfd;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-    }
-</style>
-
 <h2>Book Now</h2>
 
 <div class="form-banner-box">
@@ -127,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend>Room Related Info</legend>
                     <div class="flex-row">
                         <div class="form-group">
-                            <label>Seater</label>
-                            <select name="seater" required>
+                            <label for="seater">Seater</label>
+                            <select name="seater" id="seater" required>
                                 <option value="">Select Seater</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -137,41 +116,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Hostel</label>
-                            <select name="hostel_id" required>
+                            <label for="hostel_id">Hostel</label>
+                            <select name="hostel_id" id="hostel_id" required>
                                 <option value="">Select Hostel</option>
                                 <?php
                                 $hostels = mysqli_query($con, "SELECT id, name FROM hostels");
                                 while ($row = mysqli_fetch_assoc($hostels)) {
-                                    echo "<option value='{$row['id']}'>" . htmlspecialchars($row['name']) . "</option>";
+                                    echo "<option value='" . htmlspecialchars($row['id']) . "'>" . htmlspecialchars($row['name']) . "</option>";
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Room no.</label>
-                            <input type="text" name="room_no" required>
+                            <label for="room_no">Room no.</label>
+                            <input type="text" name="room_no" id="room_no" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Food Status</label><br>
+                        <label><input type="radio" name="food_status" value="Without Food" checked> Without Food</label>
+                        <label><input type="radio" name="food_status" value="With Food"> With Food (Rs 2000/Month)</label>
+                    </div>
+                    <div class="flex-row">
+                        <div class="form-group">
+                            <label for="stay_from">Stay From</label>
+                            <input type="date" name="stay_from" id="stay_from" required>
                         </div>
                         <div class="form-group">
-                            <label>Food Status</label><br>
-                            <label><input type="radio" name="food_status" value="Without Food" checked> Without Food</label>
-                            <label><input type="radio" name="food_status" value="With Food"> With Food (Rs 2000/Month)</label>
-                        </div>
-                        <div class="form-group">
-                            <label>Stay From</label>
-                            <input type="date" name="stay_from" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Stay Duration</label>
-                            <select name="stay_duration" required>
+                            <label for="stay_duration">Stay Duration</label>
+                            <select name="stay_duration" id="stay_duration" required>
                                 <option value="">Select Duration in Month</option>
-                                <option value="3">3</option>
-                                <option value="6">6</option>
+                                <option value="3">3 Months</option>
+                                <option value="6">6 Months</option>
+                                <option value="9">9 Months</option>
+                                <option value="12">12 Months</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Fees Per Month</label>
-                            <input type="text" name="fee_per_month" required>
+                            <label for="fee_per_month">Fees Per Month</label>
+                            <input type="text" name="fee_per_month" id="fee_per_month" required pattern="[0-9]+(\.[0-9]{1,2})?" title="Enter a valid amount (e.g., 5000 or 5000.00)">
                         </div>
                     </div>
                 </fieldset>
@@ -179,29 +162,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <fieldset>
                     <legend>Personal Info</legend>
                     <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="full_name" value="<?php echo htmlspecialchars($userData['name']); ?>" required>
+                        <label for="full_name">Full Name</label>
+                        <input type="text" name="full_name" id="full_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Gender</label>
-                        <select name="gender" required>
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender" required>
                             <option value="">Select Gender</option>
-                            <option value="male" <?php if ($userData['gender'] == 'male') echo 'selected'; ?>>Male</option>
-                            <option value="female" <?php if ($userData['gender'] == 'female') echo 'selected'; ?>>Female</option>
-                            <option value="other" <?php if ($userData['gender'] == 'other') echo 'selected'; ?>>Other</option>
+                            <option value="male" <?php if (($userData['gender'] ?? '') == 'male') echo 'selected'; ?>>Male</option>
+                            <option value="female" <?php if (($userData['gender'] ?? '') == 'female') echo 'selected'; ?>>Female</option>
+                            <option value="other" <?php if (($userData['gender'] ?? '') == 'other') echo 'selected'; ?>>Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Contact No</label>
-                        <input type="text" name="contact_no" value="<?php echo htmlspecialchars($userData['phone']); ?>" required>
+                        <label for="contact_no">Contact No</label>
+                        <input type="text" name="contact_no" id="contact_no" value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>" required pattern="[0-9]{7,15}" title="Enter a valid phone number (7-15 digits)">
                     </div>
                     <div class="form-group">
-                        <label>Guardian Name</label>
-                        <input type="text" name="guardian_name">
+                        <label for="guardian_name">Guardian Name</label>
+                        <input type="text" name="guardian_name" id="guardian_name">
                     </div>
                     <div class="form-group">
-                        <label>Guardian Contact No</label>
-                        <input type="text" name="guardian_contact_no">
+                        <label for="guardian_contact_no">Guardian Contact No</label>
+                        <input type="text" name="guardian_contact_no" id="guardian_contact_no" pattern="[0-9]{7,15}" title="Enter a valid phone number (7-15 digits)">
                     </div>
                 </fieldset>
             </div>
@@ -209,37 +192,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-right">
                 <fieldset>
                     <legend>Correspondence Address</legend>
-                    <div class="flex-row">
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" name="corr_address" value="<?php echo htmlspecialchars($userData['corr_address'] ?? ''); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" name="corr_city" value="<?php echo htmlspecialchars($userData['corr_city'] ?? ''); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>District</label>
-                            <input type="text" name="corr_district" value="<?php echo htmlspecialchars($userData['corr_district'] ?? ''); ?>">
-                        </div>
+                    <div class="form-group">
+                        <label for="corr_address">Address</label>
+                        <input type="text" name="corr_address" id="corr_address" value="<?php echo htmlspecialchars($userData['address'] ?? ''); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="corr_city">City</label>
+                        <input type="text" name="city" id="corr_city" placeholder="Enter your city">
+                    </div>
+                    <div class="form-group">
+                        <label for="corr_district">District</label>
+                        <input type="text" name="district" id="corr_district" placeholder="Enter your district">
                     </div>
                 </fieldset>
 
                 <fieldset>
                     <legend>Permanent Address</legend>
-                    <div class="flex-row">
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" name="perm_address" value="<?php echo htmlspecialchars($userData['perm_address'] ?? ''); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" name="perm_city" value="<?php echo htmlspecialchars($userData['perm_city'] ?? ''); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>District</label>
-                            <input type="text" name="perm_district" value="<?php echo htmlspecialchars($userData['perm_district'] ?? ''); ?>">
-                        </div>
+                    <div class="form-group">
+                        <label for="perm_address">Address</label>
+                        <input type="text" name="city_perm" id="perm_city" placeholder="Enter your Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="perm_city">City</label>
+                        <input type="text" name="city_perm" id="perm_city" placeholder="Enter your city">
+                    </div>
+                    <div class="form-group">
+                        <label for="perm_district">District</label>
+                        <input type="text" name="district_perm" id="perm_district" placeholder="Enter your district">
                     </div>
                 </fieldset>
             </div>

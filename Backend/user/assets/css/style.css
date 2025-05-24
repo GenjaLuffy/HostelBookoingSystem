@@ -48,7 +48,6 @@ nav a {
 nav a:hover {
   color: #8667F2;
   border-bottom: 2px solid #8667F2;
-
 }
 
 nav a.active {
@@ -85,7 +84,6 @@ nav a.active {
   font-style: italic;
 }
 
-
 button {
   background-color: #8667F2;
   color: white;
@@ -95,83 +93,116 @@ button {
   cursor: pointer;
   font-size: 18px;
   font-weight: bolder;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #654ac6;
 }
 
+/* ===== Updated Search Box CSS ===== */
 .search-box {
   position: absolute;
   bottom: 20px;
-  /* width: 100%; */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
+  gap: 15px;
+  background: transparent;  /* transparent background */
+  padding: 0;              /* remove padding for cleaner line */
+  border-radius: 0;        /* no rounding */
+  max-width: 720px;
   align-items: center;
-  margin-left: calc(100% - 70%);
-  margin-right: calc(100% - 70%);
-  /* Ensures all elements align vertically */
-  gap: 10px;
-}
-
-
-.search-box input,
-.search-box select,
-.search-box .search-btn {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  height: 40px;
-  box-sizing: border-box;
-}
-
-.search-btn {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.search-btn {
-  background-color: #0D6856;
-  color: white;
-}
-
-.search-btn:hover {
-  background-color: #063e33;
-}
-
-.search-btn i {
-  margin-right: 5px;
+  z-index: 10;
+  flex-wrap: nowrap;       /* prevent wrapping, keep in one line */
 }
 
 .location-input {
   position: relative;
-  display: flex;
-  align-items: center;
+  flex: 1 1 auto;
+  max-width: 320px;
+}
+
+.location-input input {
+  width: 100%;
+  padding: 12px 40px 12px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  box-sizing: border-box;
+  font-weight: 500;
+  color: #333;
+  background: rgb(255, 255, 255); /* slight transparent white bg */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.location-input input::placeholder {
+  color: #ccc;
+}
+
+.location-input input:focus {
+  outline: none;
+  border-color: #8667F2;
+  box-shadow: 0 0 8px rgba(134, 103, 242, 0.4);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .location-input i {
   position: absolute;
+  top: 50%;
   right: 12px;
+  transform: translateY(-50%);
+  color: #8667F2;
   font-size: 16px;
-  color: #6c6262;
   pointer-events: none;
+  user-select: none;
 }
 
-.location-input input {
-  height: 40px;
-  padding-left: 35px;
-  /* space for icon */
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.search-box select {
+  flex: 0 0 140px;
+  padding: 12px 15px;
   font-size: 14px;
-  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  cursor: pointer;
+  font-weight: 500;
+  background: rgb(255, 255, 255); /* transparent */
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
+.search-box select:focus {
+  outline: none;
+  border-color: #8667F2;
+  box-shadow: 0 0 8px rgba(134, 103, 242, 0.4);
+  background: rgba(255, 255, 255, 0.2);
+}
 
+.search-btn {
+  flex: 0 0 140px;
+  background-color: #8667F2;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 55px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #654ac6;
+}
+
+.search-btn i {
+  font-size: 18px;
+  margin-left: 5px;
+}
 
 /* Featured Hostels */
 .featured {
@@ -289,5 +320,21 @@ button:hover {
   .hostel-card {
     width: 80%;
     margin-bottom: 20px;
+  }
+}
+
+/* Responsive for Search Box */
+@media (max-width: 480px) {
+  .search-box {
+    flex-direction: column;
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .location-input,
+  .search-box select,
+  .search-btn {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }

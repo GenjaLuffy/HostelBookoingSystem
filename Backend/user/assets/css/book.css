@@ -1,59 +1,59 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f2e6ff;
-  padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2e6ff;
+    padding: 10px 30px;
 }
 
 .logo {
-  font-size: 22px;
-  max-height: fit-content;
-  font-weight: bold;
-  color: #8667F2;
-  text-decoration: none;
-  /* color: inherit; */
-  font-family: Irish Grover;
-  cursor: pointer; /* Makes it clear it's interactive */
-  transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 22px;
+    max-height: fit-content;
+    font-weight: bold;
+    color: #8667F2;
+    text-decoration: none;
+    /* color: inherit; */
+    font-family: Irish Grover;
+    cursor: pointer; /* Makes it clear it's interactive */
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .logo span {
-  color: #c56cf0;
-  transition: color 0.3s ease;
+    color: #c56cf0;
+    transition: color 0.3s ease;
 }
 
 .logo:hover {
-  color: #654ac6; /* Slightly darker or playful color */
-  transform: scale(1.05); /* Slight grow effect */
+    color: #654ac6; /* Slightly darker or playful color */
+    transform: scale(1.05); /* Slight grow effect */
 }
 
 .logo:hover span {
-  color: #a05ce0;
+    color: #a05ce0;
 }
 
 nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-  padding-bottom: 4px;
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding-bottom: 4px;
 }
 
 nav a:hover {
-  color: #8667F2; /* Change to your theme color */
-  border-bottom: 2px solid #8667F2; /* Optional underline effect */
+    color: #8667F2; /* Change to your theme color */
+    border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
 nav a.active {
-  color: #8667F2; /* Highlighted color */
-  font-weight: bold;
+    color: #8667F2; /* Highlighted color */
+    font-weight: bold;
 }
 h2 {
     color: #654ac6;
@@ -135,4 +135,52 @@ select {
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.form-banner-box {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+/* General form group spacing */
+.form-group {
+    margin-bottom: 15px; /* Increased for better spacing */
+}
+
+/* Flex row for side-by-side elements */
+.flex-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: 20px; /* Space between elements */
+}
+
+.flex-row .form-group {
+    flex: 1; /* Distribute space equally */
+    min-width: 200px; /* Minimum width before wrapping */
+}
+
+/* Adjusting input/select styles for better appearance */
+input[type="text"],
+input[type="date"],
+select {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Button styling */
+.submit-btn {
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #654ac6; /* Darken on hover */
 }

@@ -2,35 +2,34 @@
 include_once './includes/header.php';
 include_once './includes/connect.php';
 
-$sql = "SELECT * FROM hostels ORDER BY id DESC";
+// Fetch only approved hostels
+$sql = "SELECT * FROM hostels WHERE status = 'Approved' ORDER BY id DESC";
 $result = $con->query($sql);
 ?>
 
-    <section class="heros">
-        <h1>Hostel</h1>
-        <div class="search-boxs">
-            <div class="location-input">
-                <input type="text" placeholder="Search by Near Me, City" />
-                <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <select>
-                <option>Price: Rs 5000</option>
-                <option>Price: Rs 10000</option>
-                <option>Price: Rs 15000</option>
-            </select>
-
-
-            <select>
-                <option>Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
-            <button class="search-btn">Search <i class="fas fa-search"></i> </button>
+<section class="heros">
+    <h1>Hostel</h1>
+    <div class="search-boxs">
+        <div class="location-input">
+            <input type="text" placeholder="Search by Near Me, City" />
+            <i class="fas fa-map-marker-alt"></i>
         </div>
-    </section>
+        <select>
+            <option>Price: Rs 5000</option>
+            <option>Price: Rs 10000</option>
+            <option>Price: Rs 15000</option>
+        </select>
 
-    
+        <select>
+            <option>Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+        <button class="search-btn">Search <i class="fas fa-search"></i> </button>
+    </div>
+</section>
+
 <section class="featured">
     <div class="hostels">
         <?php if ($result && $result->num_rows > 0): ?>
@@ -65,5 +64,4 @@ $result = $con->query($sql);
 </section>
 
 </body>
-
 </html>

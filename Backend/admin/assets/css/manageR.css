@@ -1,9 +1,11 @@
+/* General layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -14,11 +16,10 @@ header {
 
 .logo {
     font-size: 22px;
-    max-height: fit-content;
     font-weight: bold;
     color: #8667F2;
     text-decoration: none;
-    font-family: Irish Grover;
+    font-family: 'Irish Grover', cursive;
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -48,7 +49,6 @@ nav a {
 nav a:hover {
     color: #8667F2;
     border-bottom: 2px solid #8667F2;
-
 }
 
 nav a.active {
@@ -115,22 +115,22 @@ nav a.active {
     transform: scale(1.05);
 }
 
-/* main content */
+/* Main content */
 .main-content {
-    
     flex-grow: 1;
     padding: 40px;
     background-color: #efefef;
     transition: margin-left 0.3s ease;
 }
 
- h1 {
+h1 {
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: bold;
     color: #3f3e3e;
 }
 
+/* Table container */
 .table-container {
     background-color: #ffffff;
     padding: 20px;
@@ -154,14 +154,14 @@ table {
 
 table th,
 table td {
-    border: 1px solid #939191;
+    border: 1px solid #939192;
     padding: 10px;
     text-align: center;
 }
 
 table tbody tr {
     background-color: #e6dfdf;
-    color: black;
+    color: rgb(0, 0, 0);
 }
 
 table thead tr {
@@ -169,12 +169,80 @@ table thead tr {
     color: black;
 }
 
+/* Action icons */
 table td i {
     margin: 0 5px;
     cursor: pointer;
-    color: fff;
+    color: #4a4a4a;
+    transition: color 0.3s ease;
 }
 
 table td i:hover {
     color: #ffd700;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #4a4a4a;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #c4c4c4;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.modal-content button {
+    margin-top: 15px;
+    background-color: #8667F2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #654ac6;
+}
+
+.close {
+    float: right;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+}
+
+.close:hover {
+    color: #333;
 }

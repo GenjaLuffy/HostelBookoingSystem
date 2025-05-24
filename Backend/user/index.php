@@ -2,9 +2,11 @@
 include_once './includes/header.php';
 include_once './includes/connect.php';
 
-$sql = "SELECT * FROM hostels ORDER BY id DESC";
+// Only fetch hostels with status 'Approved'
+$sql = "SELECT * FROM hostels WHERE status = 'Approved' ORDER BY id DESC";
 $result = $con->query($sql);
 ?>
+
 <section class="hero">
     <div class="hero-text">
       <h1>Welcome To <br>Book Mate</h1>
@@ -38,7 +40,7 @@ $result = $con->query($sql);
   <div class="hostels">
     <?php
     if ($result && $result->num_rows > 0) {
-      $count = 0; // Counter to limit to 4 cards
+      $count = 0; // Limit to 4 cards
       while ($hostel = $result->fetch_assoc()) {
         if ($count >= 4) break;
 
@@ -65,7 +67,7 @@ $result = $con->query($sql);
           <p>Rs <?php echo $price; ?> ★★★★☆<br><?php echo $location; ?></p>
         </div>
     <?php
-        $count++; // Increase counter after rendering one card
+        $count++;
       }
     } else {
       echo "<p>No hostels found.</p>";
@@ -73,7 +75,6 @@ $result = $con->query($sql);
     ?>
   </div>
 </section>
-
 
 <section class="about">
   <div class="about-content">
@@ -93,5 +94,4 @@ $result = $con->query($sql);
 </section>
 
 </body>
-
 </html>

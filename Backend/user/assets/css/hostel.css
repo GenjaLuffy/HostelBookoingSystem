@@ -1,282 +1,155 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f2e6ff;
-  padding: 10px 30px;
-}
-
-.logo {
-  font-size: 22px;
-  max-height: fit-content;
-  font-weight: bold;
-  color: #8667F2;
-  text-decoration: none;
-  font-family: Irish Grover;
-  cursor: pointer; 
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.logo span {
-  color: #c56cf0;
-  transition: color 0.3s ease;
-}
-
-.logo:hover {
-  color: #654ac6;
-  transform: scale(1.05); 
-}
-
-.logo:hover span {
-  color: #a05ce0;
-}
-
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-  padding-bottom: 4px;
-}
-
-nav a:hover {
-  color: #8667F2; 
-  border-bottom: 2px solid #8667F2; /* Optional underline effect */
-}
-
-nav a.active {
-  color: #8667F2; /* Highlighted color */
-  font-weight: bold;
-}
-
-
 .heros {
-  height: 140px;
-  color: black;
+  height: 160px; /* a bit taller */
+  color: #ffffff;
   position: relative;
   margin-left: 50px;
+  padding-top: 20px;
 }
 
-.heros h1{
-    font-size: 34px;
-    color: #777;
-    margin-left: 40px;
+.heros h1 {
+  font-size: 38px;
+  color: #000000;
+  margin-left: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-button {
-  background-color: #8667F2; 
-  color: white;        
-  border: none;
-  padding: 10px 20px;
-  border-radius: 55px;
-  cursor: pointer;
-font-size: 18px;
-  font-weight: bolder;
-}
-
-button:hover {
-  background-color: #654ac6; 
-}
-
+/* Search box container */
 .search-boxs {
   position: absolute;
-  bottom: 20px;
-  width: 100%;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
   display: flex;
   justify-content: center;
-  align-items: center; /* Ensures all elements align vertically */
-  gap: 10px;
-}
-
-.search-boxs input,
-.search-boxs select,
-.search-boxs .search-btn {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  height: 40px; 
-  box-sizing: border-box;
-}
-
-
-button {
-  color: white;              /* White text */
-  border: none;
-  padding: 10px 20px;
-  border-radius: 55px;
-  cursor: pointer;
-font-size: 18px;
-  font-weight: bolder;
-}
-
-
-.search-btn {
-  background-color: #0D6856; /* Green */
-  color: white;
-}
-
-.search-btn:hover {
-  background-color: #063e33;
-}
-
-.search-btn i {
-  margin-right: 5px;
-}
-.search-btn {
-  height: 40px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 15px;
+  background-color: rgba(134, 103, 242, 0.1); /* light purple transparent bg */
+  padding: 12px 25px;
+  border-radius: 55px;
+  box-shadow: 0 8px 20px rgba(134, 103, 242, 0.15);
+  transition: box-shadow 0.3s ease;
 }
 
+.search-boxs:hover {
+  box-shadow: 0 12px 30px rgba(134, 103, 242, 0.3);
+}
+
+/* Inputs & selects */
+.search-boxs input,
+.search-boxs select {
+  padding: 12px 18px;
+  border-radius: 40px;
+  border: 1.8px solid #ccc;
+  font-size: 15px;
+  height: 45px;
+  box-sizing: border-box;
+  font-weight: 600;
+  color: #444;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 180px;
+  background-color: white;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-boxs input:focus,
+.search-boxs select:focus {
+  outline: none;
+  border-color: #8667F2;
+  box-shadow: 0 0 12px rgba(134, 103, 242, 0.6);
+  background-color: #fff;
+}
+
+/* Location input icon */
 .location-input {
   position: relative;
+  flex: 1 1 320px; /* flexible with max */
   display: flex;
   align-items: center;
 }
 
 .location-input i {
   position: absolute;
-  right: 12px;
-  font-size: 16px;
-  color: #6c6262;
+  right: 18px;
+  font-size: 18px;
+  color: #8667F2;
   pointer-events: none;
 }
 
+/* input padding for icon */
 .location-input input {
-  height: 40px;
-  padding-left: 35px; /* space for icon */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  box-sizing: border-box;
+  padding-left: 40px;
 }
 
-
-
-/* Featured Hostels */
-.featured {
-  text-align: center;
-  padding: 20px 10px;
-  background-color: #ffffff;
-}
-
-.featured h2 {
-  font-size: 32px;
-  color: #0d0d0e;
-  margin-bottom: 30px;
-}
-
-.hostels {
+/* Search button */
+.search-btn {
+  background-color: #8667F2;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 55px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
   display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.hostel-card {
-  border: 1px solid #ccc;
-  padding: 20px;
-  width: 240px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hostel-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.hostel-card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.hostel-card h3 {
-  font-size: 20px;
-  color: #303031;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.hostel-card p {
-  font-size: 14px;
-  color: #777;
-  line-height: 1.6;
-}
-
-/* About Section */
-.about {
-  padding: 40px 20px;
-  background: #f2e6ff;
-}
-
-.about-content {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
+  height: 45px;
+  box-shadow: 0 5px 15px rgba(134, 103, 242, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 150px;
 }
 
-.about-image {
-  flex: 1;
-  max-width: 400px;
-  margin-right: 100px;
+.search-btn:hover {
+  background-color: #654ac6;
+  box-shadow: 0 8px 25px rgba(101, 74, 198, 0.6);
 }
 
-.about-image img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.search-btn i {
+  font-size: 20px;
+  margin-left: 5px;
 }
 
-.about-text {
-  flex: 1;
-  max-width: 500px;
-}
-
-.about-text h3 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-.about-text p {
-  font-size: 1.1em;
-  line-height: 1.6;
-}
-
-/* Responsive Design */
+/* Responsive tweaks */
 @media (max-width: 768px) {
-  .hero-text {
-    font-size: 26px;
+  .heros {
+    margin-left: 20px;
+    height: auto;
+    padding-bottom: 60px;
   }
 
-  .hostels {
-    flex-direction: column;
-    align-items: center;
+  .heros h1 {
+    font-size: 28px;
+    margin-left: 20px;
   }
 
-  .hostel-card {
-    width: 80%;
-    margin-bottom: 20px;
+  .search-boxs {
+    flex-wrap: wrap;
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 15px 20px;
+    border-radius: 30px;
+  }
+
+  .search-boxs input,
+  .search-boxs select,
+  .search-btn {
+    min-width: 100%;
+    height: 45px;
+    border-radius: 30px;
+  }
+
+  .location-input {
+    flex: 1 1 100%;
+  }
+
+  .search-btn {
+    min-width: 100%;
   }
 }

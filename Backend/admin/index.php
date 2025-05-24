@@ -55,7 +55,7 @@ if ($user_id) {
       <h2><?= $total_hostels ?></h2>
       <p>HOSTELS</p>
       <div class="card-footer">
-         <a href="manageS.php" class="no-underline">SEE All <i class="fas fa-arrow-right"></i></a>
+         <a href="Hostel.php" class="no-underline">SEE All <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   </div>

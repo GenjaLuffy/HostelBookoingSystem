@@ -4,7 +4,6 @@ include 'includes/auth.php';
 include './includes/header.php';
 include './includes/connect.php';
 
-
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     echo "<script>alert('Unauthorized access!'); window.location.href = '../login.php';</script>";
     exit;
@@ -12,7 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $admin_id = $_SESSION['user_id'];
 
-$sql = "SELECT r.id, r.room_no, r.seater, r.fee_per_student 
+$sql = "SELECT r.id, r.room_no, r.seater, r.fee_per_student, h.name AS hostel_name
         FROM rooms r
         INNER JOIN hostels h ON r.hostel_id = h.id
         WHERE h.created_by = ?";
@@ -23,6 +22,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
+
 <main class="main-content">
     <h1>Manage Rooms</h1>
     <div class="table-container">
@@ -31,6 +31,7 @@ $result = $stmt->get_result();
             <thead>
                 <tr>
                     <th>Sno.</th>
+                    <th>Hostel Name</th>
                     <th>Seater</th>
                     <th>Room No.</th>
                     <th>Fee (Per Student)</th>
@@ -42,20 +43,21 @@ $result = $stmt->get_result();
                 $sno = 1;
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
+                        echo "<tr data-room-id='{$row['id']}'>
                             <td>{$sno}</td>
-                            <td>{$row['seater']}</td>
-                            <td>{$row['room_no']}</td>
-                            <td>{$row['fee_per_student']}</td>
-                            <td>
-                                <a href='editRoom.php?id={$row['id']}'><i class='fas fa-edit'></i></a>
-                                <a href='deleteRoom.php?id={$row['id']}' onclick='return confirm(\"Are you sure you want to delete this room?\")'><i class='fas fa-times'></i></a>
+                            <td>{$row['hostel_name']}</td>
+                            <td class='seater'>{$row['seater']}</td>
+                            <td class='room_no'>{$row['room_no']}</td>
+                            <td class='fee_per_student'>{$row['fee_per_student']}</td>
+                            <td class='action-icons'>
+                                <i class='fas fa-edit' onclick='openEditModal(this)'></i>
+                                <i class='fas fa-times' onclick='deleteRoom(this)'></i>
                             </td>
                         </tr>";
                         $sno++;
                     }
                 } else {
-                    echo "<tr><td colspan='5'>No rooms found.</td></tr>";
+                    echo "<tr><td colspan='6'>No rooms found.</td></tr>";
                 }
                 ?>
             </tbody>
@@ -63,6 +65,5 @@ $result = $stmt->get_result();
     </div>
 </main>
 
-</div>
 </body>
 </html>
