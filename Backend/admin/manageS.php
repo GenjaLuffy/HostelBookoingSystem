@@ -1,10 +1,84 @@
 <?php
 session_start();
 include 'includes/auth.php'; 
-include './includes/header.php';
 include './includes/connect.php';
+include './includes/header.php';
 
-$user_id = $_SESSION['user_id'];  // Assuming you store logged-in user's ID here
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    echo "Unauthorized access.";
+    exit;
+}
+
+$admin_id = $_SESSION['user_id'];
+
+// Handle Approve action (POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_id'])) {
+    $approve_id = intval($_POST['approve_id']);
+
+    // Verify booking belongs to admin's hostel
+    $checkStmt = $con->prepare("
+        SELECT b.id FROM bookings b 
+        INNER JOIN hostels h ON b.hostel_id = h.id 
+        WHERE b.id = ? AND h.created_by = ?
+    ");
+    $checkStmt->bind_param("ii", $approve_id, $admin_id);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+
+    if ($checkResult->num_rows === 1) {
+        $updateStmt = $con->prepare("UPDATE bookings SET status = 'Approved' WHERE id = ?");
+        $updateStmt->bind_param("i", $approve_id);
+        $updateStmt->execute();
+        $updateStmt->close();
+    }
+    $checkStmt->close();
+
+    header("Location: manageS.php");
+    exit;
+}
+
+// Handle Delete action (GET)
+if (isset($_GET['delete_id'])) {
+    $delete_id = intval($_GET['delete_id']);
+
+    // Verify booking belongs to admin's hostel
+    $checkStmt = $con->prepare("
+        SELECT b.id FROM bookings b 
+        INNER JOIN hostels h ON b.hostel_id = h.id 
+        WHERE b.id = ? AND h.created_by = ?
+    ");
+    $checkStmt->bind_param("ii", $delete_id, $admin_id);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+
+    if ($checkResult->num_rows === 1) {
+        $deleteStmt = $con->prepare("DELETE FROM bookings WHERE id = ?");
+        $deleteStmt->bind_param("i", $delete_id);
+        $deleteStmt->execute();
+        $deleteStmt->close();
+    }
+    $checkStmt->close();
+
+    header("Location: manageS.php");
+    exit;
+}
+
+// Fetch bookings for display
+$query = "
+    SELECT 
+        b.id, b.full_name, b.contact_no, b.room_no, b.seater, b.stay_from, b.status
+    FROM 
+        bookings b
+    INNER JOIN 
+        hostels h ON b.hostel_id = h.id
+    WHERE 
+        h.created_by = ?
+";
+
+$stmt = $con->prepare($query);
+$stmt->bind_param("i", $admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 ?>
 
@@ -12,50 +86,63 @@ $user_id = $_SESSION['user_id'];  // Assuming you store logged-in user's ID here
     <h1>Manage Student</h1>
     <div class="table-container">
         <h2>All Student Details</h2>
-        <table>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse; width:100%;">
             <thead>
                 <tr>
                     <th>Sno.</th>
                     <th>Student Name</th>
-                    <th>Contact no.</th>
-                    <th>Room no.</th>
+                    <th>Contact No.</th>
+                    <th>Room No.</th>
                     <th>Seater</th>
                     <th>Staying From</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                // Prepare statement to fetch bookings for logged-in user
-                $stmt = $con->prepare("SELECT id, full_name, contact_no, room_no, seater, stay_from FROM bookings WHERE user_id = ?");
-                $stmt->bind_param("i", $user_id);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                if ($result->num_rows === 0) {
+                    echo "<tr><td colspan='8' style='text-align:center;'>No bookings found for your hostels.</td></tr>";
+                } else {
+                    $sno = 1;
+                    while ($row = $result->fetch_assoc()) {
+                        $full_name = htmlspecialchars($row['full_name']);
+                        $contact_no = htmlspecialchars($row['contact_no']);
+                        $room_no = htmlspecialchars($row['room_no']);
+                        $seater = htmlspecialchars($row['seater']);
+                        $stay_from = htmlspecialchars($row['stay_from']);
+                        $status = htmlspecialchars($row['status']);
+                        $booking_id = $row['id'];
 
-                $sno = 1;
-                while ($row = $result->fetch_assoc()) {
-                    $full_name = htmlspecialchars($row['full_name']);
-                    $contact_no = htmlspecialchars($row['contact_no']);
-                    $room_no = htmlspecialchars($row['room_no']);
-                    $seater = htmlspecialchars($row['seater']);
-                    $stay_from = htmlspecialchars($row['stay_from']);
-                    $booking_id = $row['id'];
-
-                    echo "<tr>
+                        echo "<tr>
                             <td>{$sno}</td>
                             <td>{$full_name}</td>
                             <td>{$contact_no}</td>
                             <td>{$room_no}</td>
                             <td>{$seater}</td>
                             <td>{$stay_from}</td>
-                            <td>
-                                <a href='edit_booking.php?id={$booking_id}'><i class='fas fa-edit'></i></a>
-                                <a href='delete_booking.php?id={$booking_id}' onclick=\"return confirm('Are you sure you want to delete this booking?');\"><i class='fas fa-times'></i></a>
-                            </td>
-                          </tr>";
-                    $sno++;
-                }
+                            <td>{$status}</td>
+                            <td>";
 
+                        // Approve button if not approved yet
+                        if ($status !== 'Approved') {
+                            echo "<form method='POST' action='' style='display:inline; margin-right:5px;'>
+                                    <input type='hidden' name='approve_id' value='{$booking_id}' />
+                                    <button type='submit' onclick='return confirm(\"Approve this booking?\");'>Approve</button>
+                                  </form>";
+                        }
+
+                        // Delete button
+                        echo "<form method='GET' action='' style='display:inline;' onsubmit='return confirm(\"Are you sure you want to delete this booking?\");'>
+                                <input type='hidden' name='delete_id' value='{$booking_id}' />
+                                <button type='submit'>Delete</button>
+                              </form>";
+
+                        echo "</td></tr>";
+
+                        $sno++;
+                    }
+                }
                 $stmt->close();
                 ?>
             </tbody>

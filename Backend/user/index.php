@@ -2,37 +2,70 @@
 include_once './includes/header.php';
 include_once './includes/connect.php';
 
-// Only fetch hostels with status 'Approved'
-$sql = "SELECT * FROM hostels WHERE status = 'Approved' ORDER BY id DESC";
+// Get search filters from GET parameters
+$location = isset($_GET['location']) ? trim($_GET['location']) : '';
+$price = isset($_GET['price']) ? trim($_GET['price']) : '';
+$gender = isset($_GET['gender']) ? trim($_GET['gender']) : '';
+
+$conditions = [];
+$conditions[] = "status = 'Approved'"; // Only approved hostels
+
+if (!empty($location)) {
+    $loc_safe = $con->real_escape_string($location);
+    $conditions[] = "location LIKE '%$loc_safe%'";
+}
+
+if (!empty($price) && is_numeric($price)) {
+    $price_val = (float)$price;
+    $conditions[] = "fee <= $price_val";
+}
+
+if (!empty($gender) && in_array($gender, ['Boys Hostel', 'Girls Hostel', 'Other'])) {
+    $gen_safe = $con->real_escape_string($gender);
+    $conditions[] = "gender = '$gen_safe'";
+}
+
+$whereClause = '';
+if (count($conditions) > 0) {
+    $whereClause = "WHERE " . implode(' AND ', $conditions);
+}
+
+$sql = "SELECT * FROM hostels $whereClause ORDER BY id DESC";
 $result = $con->query($sql);
 ?>
 
 <section class="hero">
-    <div class="hero-text">
-      <h1>Welcome To <br>Book Mate</h1>
-      <p>"Find Your Stay, Fuel Your Adventure"</p>
-      <a href="hostel.php">
-        <button>See Hostel</button>
-      </a>
+  <div class="hero-text">
+    <h1>Welcome To <br>Book Mate</h1>
+    <p>"Find Your Stay, Fuel Your Adventure"</p>
+    <a href="hostel.php">
+      <button>See Hostel</button>
+    </a>
   </div>
-  <div class="search-box">
+  <form method="GET" action="" class="search-box">
     <div class="location-input">
-      <input type="text" placeholder="Search by Near Me, City" />
+      <input type="text" name="location" placeholder="Search by Near Me, City" value="<?php echo htmlspecialchars($location); ?>" />
       <i class="fas fa-map-marker-alt"></i>
     </div>
-    <select>
-      <option>Price: Rs 5000</option>
-      <option>Price: Rs 10000</option>
-      <option>Price: Rs 15000</option>
+    <select name="price">
+      <option value="">Select Price</option>
+      <option value="1000" <?php if($price == '1000') echo 'selected'; ?>>Price: Rs 1000</option>
+      <option value="1500" <?php if($price == '1500') echo 'selected'; ?>>Price: Rs 1500</option>
+      <option value="2000" <?php if($price == '2000') echo 'selected'; ?>>Price: Rs 2000</option>
+      <option value="2500" <?php if($price == '2500') echo 'selected'; ?>>Price: Rs 2500</option>
+      <option value="3000" <?php if($price == '3000') echo 'selected'; ?>>Price: Rs 3000</option>
+      <option value="5000" <?php if($price == '5000') echo 'selected'; ?>>Price: Rs 5000</option>
+      <option value="6000" <?php if($price == '6000') echo 'selected'; ?>>Price: Rs 6000</option>
+      <option value="7000" <?php if($price == '7000') echo 'selected'; ?>>Price: Rs 7000</option>
     </select>
-    <select>
-      <option>Gender</option>
-      <option>Male</option>
-      <option>Female</option>
-      <option>Other</option>
+    <select name="gender">
+      <option value="">Gender</option>
+      <option value="Boys Hostel" <?php if($gender == 'Boys Hostel') echo 'selected'; ?>>Boys Hostel</option>
+      <option value="Girls Hostel" <?php if($gender == 'Girls Hostel') echo 'selected'; ?>>Girls Hostel</option>
+      <option value="Other" <?php if($gender == 'Other') echo 'selected'; ?>>Other</option>
     </select>
-    <button class="search-btn">Search <i class="fas fa-search"></i> </button>
-  </div>
+    <button type="submit" class="search-btn">Search <i class="fas fa-search"></i></button>
+  </form>
 </section>
 
 <section class="featured">
@@ -40,7 +73,7 @@ $result = $con->query($sql);
   <div class="hostels">
     <?php
     if ($result && $result->num_rows > 0) {
-      $count = 0; // Limit to 4 cards
+      $count = 0; // limit to 4 hostels
       while ($hostel = $result->fetch_assoc()) {
         if ($count >= 4) break;
 
@@ -49,7 +82,7 @@ $result = $con->query($sql);
         $name = htmlspecialchars($hostel['name']);
         $price = htmlspecialchars($hostel['fee']);
         $location = htmlspecialchars($hostel['location']);
-        $type = htmlspecialchars($hostel['type'] ?? 'Not specified');
+        $type = htmlspecialchars($hostel['gender'] ?? 'Not specified');  // Using gender as type here
         $desc = htmlspecialchars($hostel['description'] ?? '');
     ?>
         <div class="hostel-card"

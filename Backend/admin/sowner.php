@@ -3,13 +3,35 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 include 'includes/auth.php';
-include './includes/sheader.php'; 
+include './includes/sheader.php';
 include './includes/connect.php'; // adjust this path to your DB connection file
+
+// Handle delete request for hostel only
+if (isset($_GET['delete_hostel']) && is_numeric($_GET['delete_hostel'])) {
+    $hostelId = $_GET['delete_hostel'];
+
+    // Step 1: Delete bookings linked to that hostel
+    $stmtBookings = $con->prepare("DELETE FROM bookings WHERE hostel_id = ?");
+    $stmtBookings->bind_param("i", $hostelId);
+    $stmtBookings->execute();
+    $stmtBookings->close();
+
+    // Step 2: Delete hostel
+    $stmtHostel = $con->prepare("DELETE FROM hostels WHERE id = ?");
+    $stmtHostel->bind_param("i", $hostelId);
+    $stmtHostel->execute();
+    $stmtHostel->close();
+
+    // Redirect to avoid resubmission
+    header("Location: sowner.php?deleted=1");
+    exit();
+}
 
 // Query to get owners and their hostels
 $sql = "SELECT
             admins.id AS admin_id,
             admins.name AS admin_name,
+            hostels.id AS hostel_id,
             hostels.name AS hostel_name,
             admins.phone AS admin_phone
         FROM admins
@@ -21,6 +43,11 @@ $result = $con->query($sql);
 
 <main class="main-content">
     <h1>Manage Owner</h1>
+
+    <?php if (isset($_GET['deleted'])): ?>
+        <div class="success-message" style="color: green; margin-bottom: 10px;">Hostel deleted successfully.</div>
+    <?php endif; ?>
+
     <div class="table-container">
         <h2>All Owner Details</h2>
         <table>
@@ -36,7 +63,7 @@ $result = $con->query($sql);
             <tbody>
                 <?php if ($result && $result->num_rows > 0): ?>
                     <?php $count = 1; ?>
-                    <?php while($row = $result->fetch_assoc()): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= $count++; ?></td>
                             <td><?= htmlspecialchars($row['admin_name']); ?></td>
@@ -44,14 +71,18 @@ $result = $con->query($sql);
                             <td><?= htmlspecialchars($row['admin_phone']); ?></td>
                             <td>
                                 <a href="edit_owner.php?id=<?= $row['admin_id']; ?>"><i class="fas fa-edit"></i></a>
-                                <a href="delete_owner.php?id=<?= $row['admin_id']; ?>" onclick="return confirm('Are you sure to delete this owner?');"><i class="fas fa-times"></i></a>
+                                <a href="sowner.php?delete_hostel=<?= $row['hostel_id']; ?>" onclick="return confirm('Are you sure you want to delete this hostel?');"><i class="fas fa-times"></i></a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr><td colspan="5">No owners found.</td></tr>
+                    <tr>
+                        <td colspan="5">No owners or hostels found.</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
 </main>
+</body>
+</html>

@@ -116,10 +116,6 @@ $con->close();
           <option value="superadmin">Superadmin</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Profile Picture (optional)</label>
-        <input type="file" name="profile_picture" accept="image/*" />
-      </div>
       <div class="full-width">
         <button type="submit" name="submit">Add Admin</button>
       </div>

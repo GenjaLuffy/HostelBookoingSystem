@@ -70,7 +70,7 @@ $con->close();
                 <option value="4">4 Seater</option>
             </select>
 
-            <label for="fee">Fee (Per Student)</label>
+            <label for="fee">Fee Per Months</label>
             <input type="number" id="fee" name="fee" required min="1000" step="0.01">
 
             <button type="submit">Create Room</button>
