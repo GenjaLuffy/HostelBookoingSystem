@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $stmt->bind_param("ssssssssss", $name, $username, $email, $password, $dob, $phone, $address, $gender, $profile_picture, $type);
 
     if ($stmt->execute()) {
-        echo "<script> alert('Admin added successfully!'); window.location.href = '../admin/index.php';</script>";
+        echo "<script> alert('Admin added successfully!'); </script>";
     } else {
         echo "Error: " . $stmt->error;
     }
