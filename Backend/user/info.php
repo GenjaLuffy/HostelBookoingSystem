@@ -146,6 +146,7 @@ if (!$hostel) {
                 }
                 ?>
             </ul>
+
         </section>
 
         <!-- Right Booking Panel -->
@@ -168,10 +169,17 @@ if (!$hostel) {
                 </div><br>
             </div>
 
-            <div class="button-wrapper">
-                <a href="book.php?hostel_id=<?php echo $hostel['id']; ?>" class="book-btn">Book Now</a>
-            </div>
+            <div class="book-contact-row">
+    <a href="book.php?hostel_id=<?php echo $hostel['id']; ?>" class="book-btn">Book Now</a>
+    
+    <div class="contact-info-box-inline">
+        <i class="fa fa-phone"></i>
+        9879679878
+       
+    </div>
+</div>
 
+            
             <div class="contact-box">
                 <p>“Check in as a guest, leave as family.”</p>
             </div>

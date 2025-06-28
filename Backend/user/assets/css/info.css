@@ -207,24 +207,55 @@ nav a.active {
 }
 
 /* Book Button */
-.book-btn {
-  margin-top: auto;
-  background-color: #28a745;
-  color: #fff;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 18px;
-  align-self: center;
-  width: 90%;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+.book-contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-.book-btn:hover {
-  background-color: #218838;
+.book-contact-row .book-btn {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    max-width: 40%;
 }
+
+.book-contact-row .book-btn:hover {
+    background-color: #218838;
+}
+
+.contact-info-box-inline {
+    font-size: 16px;
+    color: #171717;
+    background-color: #f9f5ff;
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 40%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.contact-info-box-inline i {
+    color: #171717;
+    font-size: 18px;
+}
+
 
 /* Contact Box */
 .contact-box {
@@ -244,6 +275,10 @@ nav a.active {
   font-size: 20px;
   color: #222;
 }
+
+
+
+
 
 /* Reviews Section */
 .reviews-section {
