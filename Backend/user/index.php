@@ -1,37 +1,14 @@
 <?php
 include_once './includes/header.php';
 include_once './includes/connect.php';
+include_once './includes/algorithm.php';
 
-// Get search filters from GET parameters
-$location = isset($_GET['location']) ? trim($_GET['location']) : '';
-$price = isset($_GET['price']) ? trim($_GET['price']) : '';
-$gender = isset($_GET['gender']) ? trim($_GET['gender']) : '';
+$result = getFilteredHostels($con);
 
-$conditions = [];
-$conditions[] = "status = 'Approved'"; // Only approved hostels
-
-if (!empty($location)) {
-    $loc_safe = $con->real_escape_string($location);
-    $conditions[] = "location LIKE '%$loc_safe%'";
-}
-
-if (!empty($price) && is_numeric($price)) {
-    $price_val = (float)$price;
-    $conditions[] = "fee <= $price_val";
-}
-
-if (!empty($gender) && in_array($gender, ['Boys Hostel', 'Girls Hostel', 'Other'])) {
-    $gen_safe = $con->real_escape_string($gender);
-    $conditions[] = "gender = '$gen_safe'";
-}
-
-$whereClause = '';
-if (count($conditions) > 0) {
-    $whereClause = "WHERE " . implode(' AND ', $conditions);
-}
-
-$sql = "SELECT * FROM hostels $whereClause ORDER BY id DESC";
-$result = $con->query($sql);
+// Retain search values in form
+$location = isset($_GET['location']) ? $_GET['location'] : '';
+$price = isset($_GET['price']) ? $_GET['price'] : '';
+$gender = isset($_GET['gender']) ? $_GET['gender'] : '';
 ?>
 
 <section class="hero">
@@ -45,24 +22,23 @@ $result = $con->query($sql);
   <form method="GET" action="" class="search-box">
     <div class="location-input">
       <input type="text" name="location" placeholder="Search by Near Me, City" value="<?php echo htmlspecialchars($location); ?>" />
-      <i class="fas fa-map-marker-alt"></i>
+      <!-- <i class="fas fa-map-marker-alt"></i> -->
     </div>
     <select name="price">
       <option value="">Select Price</option>
-      <option value="1000" <?php if($price == '1000') echo 'selected'; ?>>Price: Rs 1000</option>
-      <option value="1500" <?php if($price == '1500') echo 'selected'; ?>>Price: Rs 1500</option>
-      <option value="2000" <?php if($price == '2000') echo 'selected'; ?>>Price: Rs 2000</option>
-      <option value="2500" <?php if($price == '2500') echo 'selected'; ?>>Price: Rs 2500</option>
-      <option value="3000" <?php if($price == '3000') echo 'selected'; ?>>Price: Rs 3000</option>
-      <option value="5000" <?php if($price == '5000') echo 'selected'; ?>>Price: Rs 5000</option>
-      <option value="6000" <?php if($price == '6000') echo 'selected'; ?>>Price: Rs 6000</option>
-      <option value="7000" <?php if($price == '7000') echo 'selected'; ?>>Price: Rs 7000</option>
+      <?php
+      $prices = [1000, 1500, 2000, 2500, 3000, 5000, 6000, 7000];
+      foreach ($prices as $p) {
+        $selected = ($price == $p) ? 'selected' : '';
+        echo "<option value='$p' $selected>Price: Rs $p</option>";
+      }
+      ?>
     </select>
     <select name="gender">
       <option value="">Gender</option>
-      <option value="Boys Hostel" <?php if($gender == 'Boys Hostel') echo 'selected'; ?>>Boys Hostel</option>
-      <option value="Girls Hostel" <?php if($gender == 'Girls Hostel') echo 'selected'; ?>>Girls Hostel</option>
-      <option value="Other" <?php if($gender == 'Other') echo 'selected'; ?>>Other</option>
+      <option value="Boys Hostel" <?php if ($gender == 'Boys Hostel') echo 'selected'; ?>>Boys Hostel</option>
+      <option value="Girls Hostel" <?php if ($gender == 'Girls Hostel') echo 'selected'; ?>>Girls Hostel</option>
+      <option value="Other" <?php if ($gender == 'Other') echo 'selected'; ?>>Other</option>
     </select>
     <button type="submit" class="search-btn">Search <i class="fas fa-search"></i></button>
   </form>
@@ -73,7 +49,7 @@ $result = $con->query($sql);
   <div class="hostels">
     <?php
     if ($result && $result->num_rows > 0) {
-      $count = 0; // limit to 4 hostels
+      $count = 0;
       while ($hostel = $result->fetch_assoc()) {
         if ($count >= 4) break;
 
@@ -82,7 +58,7 @@ $result = $con->query($sql);
         $name = htmlspecialchars($hostel['name']);
         $price = htmlspecialchars($hostel['fee']);
         $location = htmlspecialchars($hostel['location']);
-        $type = htmlspecialchars($hostel['gender'] ?? 'Not specified');  // Using gender as type here
+        $type = htmlspecialchars($hostel['gender'] ?? 'Not specified');
         $desc = htmlspecialchars($hostel['description'] ?? '');
     ?>
         <div class="hostel-card"
@@ -119,8 +95,7 @@ $result = $con->query($sql);
       <p>
         A True Hostel Finder in Nepal is a convenient solution for those seeking accommodation near their college,
         schools, or workplace. Book Mate offers an easy and hassle-free way to discover hostels in Kathmandu,
-        Lalitpur,
-        Bhaktapur, and many more in Nepal...
+        Lalitpur, Bhaktapur, and many more in Nepal...
       </p>
     </div>
   </div>

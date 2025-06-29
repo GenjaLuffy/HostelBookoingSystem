@@ -51,28 +51,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fee_per_month = $_POST['fee_per_month'];
     $total_fee = $_POST['total_fee'];
 
-    $full_name = $_POST['full_name'] ?? $userData['name'];
-    $gender = $_POST['gender'] ?? $userData['gender'];
-    $contact_no = $_POST['contact_no'] ?? $userData['phone'];
+    $full_name = $_POST['full_name'];
+    $gender = $_POST['gender'];
+    $contact_no = $_POST['contact_no'];
     $guardian_name = $_POST['guardian_name'] ?? '';
     $guardian_contact_no = $_POST['guardian_contact_no'] ?? '';
     $corr_address = $_POST['corr_address'] ?? '';
+    $corr_city = $_POST['city_corr'] ?? '';
+    $corr_district = $_POST['district_corr'] ?? '';
     $perm_address = $_POST['perm_address'] ?? '';
+    $perm_city = $_POST['city_perm'] ?? '';
+    $perm_district = $_POST['district_perm'] ?? '';
 
     $sql = "INSERT INTO bookings (
         seater, room_no, food_status, stay_from, stay_duration, fee_per_month, total_fee,
-        full_name, gender, contact_no,
-        guardian_name, guardian_contact_no, image,
-        corr_address, perm_address, user_id, hostel_id
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        full_name, gender, contact_no, guardian_name, guardian_contact_no, image,
+        corr_address, corr_city, corr_district,
+        perm_address, perm_city, perm_district,
+        user_id, hostel_id
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $con->prepare($sql);
     $stmt->bind_param(
-        "isssiddissssssiii",
+        "isssiddissssssssssssii",
         $seater, $room_no, $food_status, $stay_from, $stay_duration, $fee_per_month, $total_fee,
-        $full_name, $gender, $contact_no,
-        $guardian_name, $guardian_contact_no, $imagePath,
-        $corr_address, $perm_address, $user_id, $hostel_id
+        $full_name, $gender, $contact_no, $guardian_name, $guardian_contact_no, $imagePath,
+        $corr_address, $corr_city, $corr_district,
+        $perm_address, $perm_city, $perm_district,
+        $user_id, $hostel_id
     );
 
     if ($stmt->execute()) {
@@ -82,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $stmt->error;
     }
     $stmt->close();
-    $con->close();
 }
 ?>
 
@@ -108,8 +113,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="form-group">
                             <label>Hostel</label>
-                            <input type="text" value="<?php echo htmlspecialchars($hostelName); ?>" readonly class="form-control" />
-                            <input type="hidden" name="hostel_id" value="<?php echo htmlspecialchars($selectedHostelId); ?>" />
+                            <input type="text" value="<?php echo htmlspecialchars($hostelName); ?>" readonly required />
+                            <input type="hidden" name="hostel_id" value="<?php echo htmlspecialchars($selectedHostelId); ?>" required />
                         </div>
 
                         <div class="form-group">
@@ -122,8 +127,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label>Food Status</label><br>
-                        <label><input type="radio" name="food_status" value="Without Food" checked> Without Food</label>
-                        <label><input type="radio" name="food_status" value="With Food"> With Food (Rs 2000/Month)</label>
+                        <label><input type="radio" name="food_status" value="Without Food" checked required> Without Food</label>
+                        <label><input type="radio" name="food_status" value="With Food" required> With Food (Rs 2000/Month)</label>
                     </div>
 
                     <div class="flex-row">
@@ -143,11 +148,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label for="fee_per_month">Fees Per Month</label>
-                            <input type="text" name="fee_per_month" id="fee_per_month" required readonly>
+                            <input type="text" name="fee_per_month" id="fee_per_month" readonly required>
                         </div>
                         <div class="form-group">
                             <label for="total_fee">Total Fee</label>
-                            <input type="text" name="total_fee" id="total_fee" readonly>
+                            <input type="text" name="total_fee" id="total_fee" readonly required>
                         </div>
                     </div>
                 </fieldset>
@@ -173,11 +178,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label for="guardian_name">Guardian Name</label>
-                        <input type="text" name="guardian_name" id="guardian_name">
+                        <input type="text" name="guardian_name" id="guardian_name" required>
                     </div>
                     <div class="form-group">
                         <label for="guardian_contact_no">Guardian Contact No</label>
-                        <input type="text" name="guardian_contact_no" id="guardian_contact_no">
+                        <input type="text" name="guardian_contact_no" id="guardian_contact_no" required>
                     </div>
                 </fieldset>
             </div>
@@ -187,15 +192,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend>Correspondence Address</legend>
                     <div class="form-group">
                         <label for="corr_address">Address</label>
-                        <input type="text" name="corr_address" id="corr_address" value="<?php echo htmlspecialchars($userData['address'] ?? ''); ?>">
+                        <input type="text" name="corr_address" id="corr_address" value="<?php echo htmlspecialchars($userData['address'] ?? ''); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="corr_city">City</label>
-                        <input type="text" name="city_corr" id="corr_city" placeholder="Enter your city">
+                        <input type="text" name="city_corr" id="corr_city" placeholder="Enter your city" required>
                     </div>
                     <div class="form-group">
                         <label for="corr_district">District</label>
-                        <input type="text" name="district_corr" id="corr_district" placeholder="Enter your district">
+                        <input type="text" name="district_corr" id="corr_district" placeholder="Enter your district" required>
                     </div>
                 </fieldset>
 
@@ -203,15 +208,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend>Permanent Address</legend>
                     <div class="form-group">
                         <label for="perm_address">Address</label>
-                        <input type="text" name="perm_address" id="perm_address">
+                        <input type="text" name="perm_address" id="perm_address" required>
                     </div>
                     <div class="form-group">
                         <label for="perm_city">City</label>
-                        <input type="text" name="city_perm" id="perm_city" placeholder="Enter your city">
+                        <input type="text" name="city_perm" id="perm_city" placeholder="Enter your city" required>
                     </div>
                     <div class="form-group">
                         <label for="perm_district">District</label>
-                        <input type="text" name="district_perm" id="perm_district" placeholder="Enter your district">
+                        <input type="text" name="district_perm" id="perm_district" placeholder="Enter your district" required>
                     </div>
                 </fieldset>
             </div>
@@ -251,9 +256,7 @@ $(document).ready(function () {
         $("#total_fee").val(totalFee > 0 ? totalFee.toFixed(2) : '');
     }
 
-    $("#seater").change(function () {
-        loadRooms();
-    });
+    $("#seater").change(loadRooms);
 
     $("#room_no").change(function () {
         var room_no = $(this).val();
@@ -270,9 +273,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#stay_duration, input[name='food_status']").change(function () {
-        calculateTotal();
-    });
+    $("#stay_duration, input[name='food_status']").change(calculateTotal);
 });
 </script>
 
