@@ -1,136 +1,178 @@
-
-
-
-
-
-
-
-
-
-
-.edit-profile-container {
-    background-color: #ffffff; /* White background for the card */
-    border-radius: 12px; /* Rounded corners for the card */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding: 30px;
-    max-width: 800px; /* Max width for the card */
-    width: 100%; /* Make it responsive */
-    box-sizing: border-box;
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 80px;
 }
 
-.profile-top {
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee; /* Separator line */
-    margin-bottom: 20px;
+.form-container, .profile-container {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile-pic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #e0e0e0; /* Lighter grey for placeholder background */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 72px;
-    color: #999;
-    border: 3px solid #f0f0f0; /* Light border around the profile pic */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Small shadow for the pic */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.profile-pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.form-group {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-details {
-    margin-left: 25px;
-    color: #333;
+label {
+  margin-bottom: 5px;
+  font-weight: 200;
 }
 
-.profile-details h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: #222;
+input, select, textarea {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
 }
 
-.profile-details p {
-    margin: 0;
-    font-size: 1.0em;
-    color: #666;
-    line-height: 1.4;
+textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-.profile-info-display {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
-    gap: 15px; /* Space between grid items */
-    margin-top: 20px;
+.full-width {
+  flex: 1 1 100%;
+  text-align: center;
 }
 
-.info-row {
-    background-color: #f9f9f9; /* Light background for each info row */
-    padding: 15px 20px;
-    border-radius: 8px; /* Rounded corners for info rows */
-    display: flex;
-    justify-content: space-between; /* Pushes strong to left, value to right */
-    align-items: center;
-    font-size: 1.0em;
-    color: #444;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Very subtle shadow */
+button {
+  padding: 10px 30px;
+  background-color: #a05ce0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.info-row strong {
-    color: #222;
-    font-weight: 500;
-    margin-right: 10px; /* Space between label and value */
+button:hover {
+  background-color: #8667F2;
 }
 
-.edit-link-button {
-    display: inline-block; /* Allows padding and margin */
-    text-decoration: none;
-    background-color: #4CAF50; /* Green background */
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 8px; /* Slightly more rounded */
-    font-size: 1.0em;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3); /* Green shadow */
-    margin-top: 30px;
-    float: right; /* Align to the right */
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
 }
 
-.edit-link-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 5px 10px rgba(76, 175, 80, 0.4);
+.login-link a {
+  color: #a05ce0;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .profile-info-display {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
-    }
+.login-link a:hover {
+  color: #8667F2;
+}
 
-    .profile-top {
-        flex-direction: column; /* Stack profile pic and details */
-        text-align: center;
-    }
+/* Profile-specific styles */
+.profile-picture {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #a05ce0;
+  margin: 0 auto 20px auto;
+  display: block;
+}
 
-    .profile-details {
-        margin-left: 0;
-        margin-top: 15px;
-    }
+.profile-container dl {
+  margin: 0;
+}
 
-    .edit-link-button {
-        width: 100%; /* Full width button on mobile */
-        text-align: center;
-        float: none; /* Remove float */
-    }
+.profile-container dt {
+  font-weight: 600;
+  margin-top: 15px;
+  color: #444;
+}
+
+.profile-container dd {
+  margin: 4px 0 0 0;
+  color: #666;
+  white-space: pre-wrap;
+}
+
+.profile-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.edit-link {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.edit-link a {
+  display: inline-block;
+  background-color: #a05ce0;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+.two-column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 40px; /* row-gap column-gap */
+}
+
+.two-column dt {
+  font-weight: 600;
+  color: #444;
+  margin-top: 0;
+}
+
+.two-column dd {
+  margin: 4px 0 15px 0;
+  color: #666;
+  white-space: pre-wrap;
+}
+
+.edit-link a:hover {
+  background-color: #8667F2;
+}
+
+/* Error & success messages */
+.error, .success {
+  text-align: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.error {
+  background-color: #ffd6d6;
+  color: #a00;
+}
+
+.success {
+  background-color: #d6ffd6;
+  color: #080;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  body {
+    padding: 30px 15px;
+  }
+  .form-group {
+    flex: 1 1 100%;
+  }
 }

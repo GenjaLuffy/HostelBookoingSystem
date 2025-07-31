@@ -1,6 +1,6 @@
 <?php
-include './includes/header.php';
-include './includes/connect.php';
+include 'includes/header.php';
+include 'includes/connect.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -8,223 +8,188 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$error_message = "";
+$error = "";
+$success = "";
 
-// Fetch user data function
-function fetchUserData($con, $user_id)
-{
-    $sql = "SELECT * FROM users WHERE id = ?";
-    $stmt = $con->prepare($sql);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
+// Fetch current user data
+$sql = "SELECT * FROM users WHERE id = ?";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if (!$user) {
+    die("User not found.");
 }
 
-$user = fetchUserData($con, $user_id);
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Collect and sanitize inputs
     $name = trim($_POST['name']);
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
-    $password = $_POST['password'];
     $dob = $_POST['dob'];
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
     $gender = $_POST['gender'];
     $type = $_POST['type'];
 
-    // Username check
-    $stmt = $con->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
-    $stmt->bind_param("si", $username, $user_id);
-    $stmt->execute();
-    if ($stmt->get_result()->num_rows > 0) {
-        $error_message = "This username is already taken.";
-    }
-    $stmt->close();
+    if (empty($name) || empty($username) || empty($email)) {
+        $error = "Name, Username, and Email are required.";
+    } else {
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
+            $fileName = $_FILES['profile_picture']['name'];
+            $fileSize = $_FILES['profile_picture']['size'];
+            $fileType = $_FILES['profile_picture']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
 
-    // Email check
-    if (!$error_message) {
-        $stmt = $con->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-        $stmt->bind_param("si", $email, $user_id);
-        $stmt->execute();
-        if ($stmt->get_result()->num_rows > 0) {
-            $error_message = "This email is already registered.";
-        }
-        $stmt->close();
-    }
+            $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
 
-    // Image upload
-    $imageName = null;
-    if (!$error_message && isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-            $newFileName = md5(time() . $_FILES['profile_picture']['name']) . '.' . $ext;
-            $uploadDir = __DIR__ . '/uploads/';
-            if (!is_dir($uploadDir)) {
-                if (!mkdir($uploadDir, 0755, true)) {
-                    $error_message = "Failed to create upload directory.";
+            if (in_array($fileExtension, $allowedExtensions)) {
+                $uploadFileDir = './uploads/';
+                if (!is_dir($uploadFileDir)) {
+                    mkdir($uploadFileDir, 0755, true);
                 }
-            }
-            $dest = $uploadDir . $newFileName;
-            if (!$error_message && move_uploaded_file($_FILES['profile_picture']['tmp_name'], $dest)) {
-                $imageName = $newFileName;
-            } else if (!$error_message) {
-                $error_message = "Failed to move uploaded file.";
+                $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+                $dest_path = $uploadFileDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    if (!empty($user['profile_picture']) && file_exists($uploadFileDir . $user['profile_picture'])) {
+                        unlink($uploadFileDir . $user['profile_picture']);
+                    }
+                    $profile_picture = $newFileName;
+                } else {
+                    $error = "There was an error uploading the profile picture.";
+                }
+            } else {
+                $error = "Upload failed. Allowed file types: " . implode(", ", $allowedExtensions);
             }
         } else {
-            $error_message = "Invalid file type.";
+            $profile_picture = $user['profile_picture'];
         }
     }
 
-    // Update
-    if (!$error_message) {
-        $params = [$name, $username, $email, $dob, $phone, $address, $gender, $type];
-        $setParts = ["name = ?", "username = ?", "email = ?", "dob = ?", "phone = ?", "address = ?", "gender = ?", "type = ?"];
-        if (!empty($password)) {
-            $setParts[] = "password = ?";
-            $params[] = password_hash($password, PASSWORD_DEFAULT);
-        }
-        if ($imageName) {
-            $setParts[] = "profile_picture = ?";
-            $params[] = $imageName;
-        }
-        $params[] = $user_id;
+    if (!$error) {
+        $update_sql = "UPDATE users SET name = ?, username = ?, email = ?, dob = ?, phone = ?, address = ?, gender = ?, type = ?, profile_picture = ? WHERE id = ?";
+        $stmt_update = $con->prepare($update_sql);
+        $stmt_update->bind_param("sssssssssi", $name, $username, $email, $dob, $phone, $address, $gender, $type, $profile_picture, $user_id);
 
-        $sql = "UPDATE users SET " . implode(", ", $setParts) . " WHERE id = ?";
-        $stmt = $con->prepare($sql);
-        $types = str_repeat("s", count($params) - 1) . "i";
-        $stmt->bind_param($types, ...$params);
-        if ($stmt->execute()) {
-            // Redirect after successful update
-            header("Location: userProfile.php");
-            exit();
+        if ($stmt_update->execute()) {
+            $success = "Profile updated successfully!";
+            $user['name'] = $name;
+            $user['username'] = $username;
+            $user['email'] = $email;
+            $user['dob'] = $dob;
+            $user['phone'] = $phone;
+            $user['address'] = $address;
+            $user['gender'] = $gender;
+            $user['type'] = $type;
+            $user['profile_picture'] = $profile_picture;
         } else {
-            $error_message = "Failed to update: " . $stmt->error;
+            $error = "Error updating profile: " . $stmt_update->error;
         }
-        $stmt->close();
     }
 }
 ?>
 
-<main class="main-content">
-    <h1>Edit Profile</h1>
+<div class="form-container">
+    <h2>Edit Profile</h2>
+    <!-- Profile picture at the top -->
+    <div style="text-align: center; margin-bottom: 25px;">
+        <?php if (!empty($user['profile_picture']) && file_exists('./uploads/' . $user['profile_picture'])): ?>
+            <img id="profilePreview" src="uploads/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="profile-picture" />
+        <?php else: ?>
+            <div id="profilePreview" class="profile-picture" style="background:#ddd; line-height:120px; color:#aaa; font-size:36px; text-align:center; user-select:none;">N/A</div>
+        <?php endif; ?>
+    </div>
 
-    <?php if ($error_message): ?>
-        <p style="color:red;"><?= htmlspecialchars($error_message) ?></p>
+    <?php if ($error): ?>
+        <p class="error"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
 
-    <div class="form-card">
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="profile-picture-input">Profile Picture</label>
-                <div class="profile-pic" id="profile-pic-preview" tabindex="0">
-                    <?php
-                    $profilePic = !empty($user['profile_picture']) && file_exists(__DIR__ . '/uploads/' . $user['profile_picture'])
-                        ? 'uploads/' . $user['profile_picture']
-                        : null;
-                    ?>
-                    <?php if ($profilePic): ?>
-                        <img src="<?= htmlspecialchars($profilePic) ?>" alt="Profile Picture" />
-                    <?php else: ?>
-                        <i class="fas fa-user"></i>
-                    <?php endif; ?>
-                    <div class="edit-overlay">Edit</div>
-                    <input type="file" name="profile_picture" id="profile-picture-input" accept="image/*" style="display:none;" />
-                </div>
-            </div>
+    <?php if ($success): ?>
+        <p class="success"><?php echo htmlspecialchars($success); ?></p>
+    <?php endif; ?>
 
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required />
-            </div>
+    <form method="POST" enctype="multipart/form-data" novalidate>
+        <div class="form-group">
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" required value="<?php echo htmlspecialchars($user['name']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required />
-            </div>
+        <div class="form-group">
+            <label for="username">Username *</label>
+            <input type="text" id="username" name="username" required value="<?php echo htmlspecialchars($user['username']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required />
-            </div>
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required value="<?php echo htmlspecialchars($user['email']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Leave blank to keep current password" />
-            </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Date of Birth</label>
-                <input type="date" name="dob" value="<?= htmlspecialchars($user['dob']) ?>" required />
-            </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Phone</label>
-                <input type="tel" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" />
-            </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($user['address']); ?>">
+        </div>
 
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" name="address" value="<?= htmlspecialchars($user['address']) ?>" />
-            </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+                <option value="">Select Gender</option>
+                <option value="male" <?php if ($user['gender'] === 'male') echo 'selected'; ?>>Male</option>
+                <option value="female" <?php if ($user['gender'] === 'female') echo 'selected'; ?>>Female</option>
+                <option value="other" <?php if ($user['gender'] === 'other') echo 'selected'; ?>>Other</option>
+            </select>
+        </div>
 
-            <div class="form-group">
-                <label>Gender</label>
-                <select name="gender" required>
-                    <option value="male" <?= $user['gender'] === 'male' ? 'selected' : '' ?>>Male</option>
-                    <option value="female" <?= $user['gender'] === 'female' ? 'selected' : '' ?>>Female</option>
-                    <option value="other" <?= $user['gender'] === 'other' ? 'selected' : '' ?>>Other</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type" name="type">
+                <option value="">Select Type</option>
+                <option value="student" <?php if ($user['type'] === 'student') echo 'selected'; ?>>Student</option>
+                <option value="business" <?php if ($user['type'] === 'business') echo 'selected'; ?>>Business</option>
+            </select>
+        </div>
 
-            <div class="form-group">
-                <label>Type</label>
-                <select name="type" required>
-                    <option value="student" <?= $user['type'] === 'student' ? 'selected' : '' ?>>Student</option>
-                </select>
-            </div>
-
-            <div class="full-width">
-                <button type="submit">Save Changes</button>
-            </div>
-        </form>
-    </div>
-</main>
+        <!-- Hidden file input -->
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+        <div class="form-group full-width">
+            <button type="submit">Update Profile</button>
+        </div>
+    </form>
+</div>
 
 <script>
-    const profilePicDiv = document.getElementById('profile-pic-preview');
-    const fileInput = document.getElementById('profile-picture-input');
-
-    profilePicDiv.addEventListener('click', () => fileInput.click());
-
-    profilePicDiv.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            fileInput.click();
-        }
+    // Trigger file input click when profile picture clicked
+    document.getElementById('profilePreview').addEventListener('click', function() {
+        document.getElementById('profile_picture').click();
     });
 
-    fileInput.addEventListener('change', event => {
-        const file = event.target.files[0];
+    // Preview uploaded profile picture before submit
+    document.getElementById('profile_picture').addEventListener('change', function(event) {
+        const [file] = event.target.files;
         if (file) {
+            const preview = document.getElementById('profilePreview');
             const reader = new FileReader();
-            reader.onload = e => {
-                let img = profilePicDiv.querySelector('img');
-                if (!img) {
-                    profilePicDiv.innerHTML = '';
-                    img = document.createElement('img');
-                    profilePicDiv.appendChild(img);
-                    const overlay = document.createElement('div');
-                    overlay.className = 'edit-overlay';
-                    overlay.textContent = 'Edit';
-                    profilePicDiv.appendChild(overlay);
-                }
-                img.src = e.target.result;
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.background = 'none'; // remove fallback bg if any
+                preview.style.display = 'inline-block';
+                preview.textContent = ''; // clear N/A text if any
             };
             reader.readAsDataURL(file);
         }
     });
 </script>
-</body>
-</html>

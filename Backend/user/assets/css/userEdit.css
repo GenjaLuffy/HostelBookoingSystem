@@ -1,109 +1,125 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 80px;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-group {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 200;
+  color: #444;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #a05ce0;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.full-width {
+  flex: 1 1 100%;
+}
+
+button {
+  padding: 12px 30px;
+  background-color: #a05ce0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #8667F2;
+}
+
+.error, .success {
+  text-align: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.error {
+  background-color: #ffd6d6;
+  color: #a00;
+}
+
+.success {
+  background-color: #d6ffd6;
+  color: #080;
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #a05ce0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* Hide the actual file input */
+#profile_picture {
+  display: none;
+}
+
+/* Responsive for small screens */
+@media (max-width: 480px) {
   body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7f7f7;
-        }
-
-        .main-content {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-card {
-            background-color: #faf8fb;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 6px;
-        }
-
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .form-group {
-            flex: 1 1 45%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-
-        input, select {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-        }
-
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: #f2e6ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 50px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .edit-overlay {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            font-size: 12px;
-            padding: 3px 6px;
-            border-radius: 4px;
-        }
-
-        .full-width {
-            flex: 1 1 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #a05ce0;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #7c3bd8;
-        }
-
-        @media (max-width: 768px) {
-            .form-group {
-                flex: 1 1 100%;
-            }
-        }
+    padding: 30px 15px;
+  }
+  .form-group {
+    flex: 1 1 100%;
+  }
+}
