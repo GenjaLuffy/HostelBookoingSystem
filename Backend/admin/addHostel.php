@@ -93,6 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label for="image4" class="custom-file-upload">Upload Additional Image 4</label>
       <input type="file" id="image4" name="image4" accept="image/*" style="display:none;" />
 
+      <label for="locationSearch">Search Location:</label>
+      <input type="text" id="locationSearch" placeholder="Search location..." autocomplete="off" />
+      <div id="suggestions" style="background: white; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; margin-bottom: 1rem;"></div>
+
       <label for="location">Location (Address):</label>
       <input type="text" id="location" name="location" required />
 
@@ -144,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-  const map = L.map('map').setView([27.7172, 85.3240], 13); // Default center: Kathmandu
+  const map = L.map('map').setView([27.7172, 85.3240], 13); // Default: Kathmandu
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
@@ -157,14 +161,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.getElementById('longitude').value = lng;
   }
 
-  updateLatLng(27.7172, 85.3240); // Set initial
+  function updateLocationInput(address) {
+    document.getElementById('location').value = address;
+  }
+
+  updateLatLng(27.7172, 85.3240); // initial values
 
   marker.on('dragend', function (e) {
     const latLng = e.target.getLatLng();
     updateLatLng(latLng.lat, latLng.lng);
   });
-</script>
 
+  // SEARCH + AUTOCOMPLETE FUNCTIONALITY
+  const searchInput = document.getElementById('locationSearch');
+  const suggestionsBox = document.getElementById('suggestions');
+
+  let searchMarker; // marker for searched location
+
+  searchInput.addEventListener('input', async function () {
+    const query = this.value.trim();
+    if (query.length < 3) {
+      suggestionsBox.innerHTML = '';
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=np`);
+      const results = await response.json();
+
+      suggestionsBox.innerHTML = '';
+      results.forEach(place => {
+        const div = document.createElement('div');
+        div.textContent = place.display_name;
+        div.style.padding = '8px';
+        div.style.cursor = 'pointer';
+        div.style.borderBottom = '1px solid #eee';
+
+        div.addEventListener('click', () => {
+          const lat = parseFloat(place.lat);
+          const lon = parseFloat(place.lon);
+
+          // Move main marker & update hidden inputs
+          marker.setLatLng([lat, lon]);
+          updateLatLng(lat, lon);
+
+          // Update location text inputs (search & form)
+          searchInput.value = place.display_name;
+          updateLocationInput(place.display_name);
+
+          map.setView([lat, lon], 15);
+
+          suggestionsBox.innerHTML = '';
+        });
+
+        suggestionsBox.appendChild(div);
+      });
+
+    } catch (error) {
+      console.error('Error fetching location:', error);
+      suggestionsBox.innerHTML = '<div style="padding:8px;">No results found</div>';
+    }
+  });
+</script>
 
 </body>
 </html>
