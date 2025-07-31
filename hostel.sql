@@ -43,6 +43,8 @@ CREATE TABLE hostels (
     image3 VARCHAR(255),
     image4 VARCHAR(255),
     description TEXT,
+    longitude  DOUBLE,
+    latitude DOUBLE,
     amenities TEXT,
     rules TEXT,
     fee DECIMAL(10,2) NOT NULL,

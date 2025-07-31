@@ -24,6 +24,7 @@ if (!$hostel) {
     <title><?php echo htmlspecialchars($hostel['name']); ?> | Book Mate</title>
     <link rel="stylesheet" href="./assets/css/info.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 
@@ -157,29 +158,16 @@ if (!$hostel) {
                 <span><?php echo ($hostel['gender'] === 'Male') ? 'Boys Hostel' : 'Girls Hostel'; ?></span>
             </div>
 
-            <div class="checkin-out">
-                <h4>Check-in</h4>
-                <div class="date-container">
-                    <input type="date" name="checkin" id="checkin">
-                </div>
-
-                <h4>Check-out</h4>
-                <div class="date-container">
-                    <input type="date" name="checkout" id="checkout">
-                </div><br>
-            </div>
+            <div id="map" style="height: 400px; margin-bottom: 20px;"></div>
 
             <div class="book-contact-row">
-    <a href="book.php?hostel_id=<?php echo $hostel['id']; ?>" class="book-btn">Book Now</a>
-    
-    <div class="contact-info-box-inline">
-        <i class="fa fa-phone"></i>
-        9879679878
-       
-    </div>
-</div>
+                <a href="book.php?hostel_id=<?php echo $hostel['id']; ?>" class="book-btn">Book Now</a>
+                <div class="contact-info-box-inline">
+                    <i class="fa fa-phone"></i>
+                    9879679878
+                </div>
+            </div>
 
-            
             <div class="contact-box">
                 <p>“Check in as a guest, leave as family.”</p>
             </div>
@@ -198,6 +186,25 @@ if (!$hostel) {
     </div>
 
 </main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const hostelLat = <?php echo !empty($hostel['latitude']) ? (float)$hostel['latitude'] : 27.7172; ?>;
+    const hostelLng = <?php echo !empty($hostel['longitude']) ? (float)$hostel['longitude'] : 85.3240; ?>;
+    const hostelName = <?php echo json_encode($hostel['name']); ?>;
+    const hostelFee = <?php echo (int)$hostel['fee']; ?>;
+
+    const map = L.map('map').setView([hostelLat, hostelLng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([hostelLat, hostelLng])
+        .addTo(map)
+        .bindPopup(`<strong>${hostelName}</strong><br>Rs ${hostelFee}`)
+        .openPopup();
+</script>
 
 <script>
     const hostelId = <?php echo json_encode($hostel['id']); ?>;
