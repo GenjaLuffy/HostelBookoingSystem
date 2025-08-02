@@ -73,13 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $con->prepare($sql);
     $stmt->bind_param(
-        "isssiddissssssssssssii",
-        $seater, $room_no, $food_status, $stay_from, $stay_duration, $fee_per_month, $total_fee,
-        $full_name, $gender, $contact_no, $guardian_name, $guardian_contact_no, $imagePath,
-        $corr_address, $corr_city, $corr_district,
-        $perm_address, $perm_city, $perm_district,
-        $user_id, $hostel_id
-    );
+    "isssiddisssssssssssii",
+    $seater, $room_no, $food_status, $stay_from, $stay_duration, $fee_per_month, $total_fee,
+    $full_name, $gender, $contact_no, $guardian_name, $guardian_contact_no, $imagePath,
+    $corr_address, $corr_city, $corr_district,
+    $perm_address, $perm_city, $perm_district,
+    $user_id, $hostel_id
+);
+
 
     if ($stmt->execute()) {
         echo "<script>alert('Booking submitted successfully!'); window.location='book.php';</script>";
@@ -161,20 +162,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend>Personal Info</legend>
                     <div class="form-group">
                         <label for="full_name">Full Name</label>
-                        <input type="text" name="full_name" id="full_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>" required>
+                        <input type="text" name="full_name" id="full_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>"  readonly >
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="gender">Gender</label>
-                        <select name="gender" id="gender" required>
+                        <select name="gender" id="gender" readonly>
                             <option value="">Select Gender</option>
                             <option value="male" <?php if (($userData['gender'] ?? '') == 'male') echo 'selected'; ?>>Male</option>
                             <option value="female" <?php if (($userData['gender'] ?? '') == 'female') echo 'selected'; ?>>Female</option>
                             <option value="other" <?php if (($userData['gender'] ?? '') == 'other') echo 'selected'; ?>>Other</option>
                         </select>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender" disabled>
+                            <?php
+                            $gender = $userData['gender'] ?? '';
+                            if ($gender == 'male') {
+                                echo '<option value="male" selected>Male</option>';
+                            } elseif ($gender == 'female') {
+                                echo '<option value="female" selected>Female</option>';
+                            } elseif ($gender == 'other') {
+                                echo '<option value="other" selected>Other</option>';
+                            } else {
+                                echo '<option value="">Not specified</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
+
                     <div class="form-group">
                         <label for="contact_no">Contact No</label>
-                        <input type="text" name="contact_no" id="contact_no" value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>" required>
+                        <input type="text" name="contact_no" id="contact_no" value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="guardian_name">Guardian Name</label>

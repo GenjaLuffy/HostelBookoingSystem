@@ -64,5 +64,7 @@ $profilePicPath = './uploads/' . $admin['profile_picture'];
   </div>
 </div>
 
+
+
 </body>
 </html>

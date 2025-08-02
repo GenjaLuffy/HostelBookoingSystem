@@ -70,12 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="login-container">
-    <button class="google-login">
-        <img src="./assets/images/google.png" alt="Google Logo" class="google-icon" />
-        LOGIN USING GOOGLE
-    </button>
 
-    <div class="divider">OR</div>
+    <div class="divider">Login</div>
 
     <form action="login.php" method="post">
         <input type="text" name="email_or_username" placeholder="Email or Username" required />

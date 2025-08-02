@@ -55,11 +55,17 @@ nav a.active {
   font-weight: bold;
 }
 
+
 .hostels a {
   text-decoration: none;
   color: inherit;
   display: block;
 }
+
+.hero-text h1 {
+  color: #0d1b2a;
+}
+
 
 .hero {
   background: url('../images/HM2.png') no-repeat center center/cover;

@@ -22,6 +22,7 @@ if (!$user) {
     exit();
 }
 ?>
+
 <div class="profile-container">
     <?php if (!empty($user['profile_picture'])): ?>
         <img src="uploads/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="profile-picture" />

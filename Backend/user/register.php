@@ -108,10 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Confirm Password</label>
             <input type="password" name="confirm_password" required />
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Address</label>
             <input type="text" name="address" required />
-        </div>
+        </div> -->
         <div class="form-group">
             <label>Date of Birth</label>
             <input type="date" name="dob" required />

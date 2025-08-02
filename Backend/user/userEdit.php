@@ -94,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+
 <div class="form-container">
     <h2>Edit Profile</h2>
     <!-- Profile picture at the top -->
