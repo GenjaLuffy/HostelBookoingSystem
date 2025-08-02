@@ -34,23 +34,12 @@ form input {
   border-radius: 5px;
 }
 
-.forgot-password {
-  text-align: right;
-  margin-bottom: 15px;
-}
-
-.forgot-password a {
-  color: #555;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.forgot-password a:hover {
-  text-decoration: underline;
+input[name="password"] {
+  margin-bottom: 30px;  /* ✅ Adds space below password input only */
 }
 
 .login-btn {
-  width: 100%;
+  width: 370px;
   background-color: #a05ce0;
   color: white;
   padding: 10px;

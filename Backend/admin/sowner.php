@@ -71,7 +71,7 @@ $result = $con->query($sql);
                             <td><?= htmlspecialchars($row['admin_phone']); ?></td>
                             <td>
                                 <a href="edit_owner.php?id=<?= $row['admin_id']; ?>"><i class="fas fa-edit"></i></a>
-                                <a href="sowner.php?delete_hostel=<?= $row['hostel_id']; ?>" onclick="return confirm('Are you sure you want to delete this hostel?');"><i class="fas fa-times"></i></a>
+                                <a href="sowner.php?delete_hostel=<?= $row['hostel_id']; ?>" onclick="return confirm('Are you sure you want to delete this owner?');"><i class="fas fa-times"></i></a>
                             </td>
                         </tr>
                     <?php endwhile; ?>

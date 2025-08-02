@@ -159,8 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="type">Type</label>
             <select id="type" name="type">
                 <option value="">Select Type</option>
-                <option value="student" <?php if ($user['type'] === 'student') echo 'selected'; ?>>Student</option>
-                <option value="business" <?php if ($user['type'] === 'business') echo 'selected'; ?>>Business</option>
+                <option value="student" <?php if ($user['type'] === 'student') echo 'selected'; ?>>Student </option>
             </select>
         </div>
 

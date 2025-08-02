@@ -125,14 +125,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="other">Other</option>
             </select>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Type</label>
             <select name="type" required>
                 <option value="">Select</option>
                 <option value="student">Student</option>
                 <option value="Business">Business</option>
             </select>
-        </div>
+        </div> -->
         <div class="form-group">
             <label>Profile Picture</label>
             <input type="file" name="profile_picture" accept="image/*" />

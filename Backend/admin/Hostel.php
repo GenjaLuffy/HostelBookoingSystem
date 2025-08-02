@@ -19,9 +19,19 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-<section class="featured">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/myhostel.css">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="main-content">
     <div class="hostels">
-        <?php
+       <?php
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $id = (int)$row['id'];
@@ -42,6 +52,12 @@ $result = $stmt->get_result();
         }
         ?>
     </div>
-</section>
+</div>
+
+<!-- <section class="featured">
+    <div class="hostels">
+       
+    </div>
+</section> -->
 </body>
 </html>

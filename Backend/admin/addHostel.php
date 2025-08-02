@@ -142,6 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label><input type="checkbox" name="amenities[]" value="Free high speed WiFi" /> Free high speed WiFi</label>
         <label><input type="checkbox" name="amenities[]" value="Parking" /> Parking</label>
         <label><input type="checkbox" name="amenities[]" value="Air conditioning/24/7 support" /> Air conditioning 24/7 support</label>
+        <label><input type="checkbox" name="amenities[]" value="cc-tv " /> CCTV</label>
+        <label><input type="checkbox" name="amenities[]" value="water supply " /> Water Supply 24/7</label>
+
       </div>
 
       <label>Hostel Rules</label>
@@ -149,6 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label><input type="checkbox" name="rules[]" value="Arrival after 14:00, departure by 12:00" /> Enter Hostel by 9:00 pm</label>
         <label><input type="checkbox" name="rules[]" value="No moving or damaging furniture" /> Do not damage furniture</label>
         <label><input type="checkbox" name="rules[]" value="No guests inside rooms" /> No guests allowed inside rooms</label>
+        <label><input type="checkbox" name="rules[]" value="Strictly no alcohol, drugs, cigarettes, or illegal substances." /> Strictly no alcohol, drugs, cigarettes, or illegal substances.</label>
+        <label><input type="checkbox" name="rules[]" value="Avoid loud noise; maintain silence during study and rest hours." /> Avoid loud noise; maintain silence during study and rest hours.</label>
+        <label><input type="checkbox" name="rules[]" value="Visitors are allowed only during fixed hours with prior registration." /> Visitors are allowed only during fixed hours with prior registration.</label>
+        <label><input type="checkbox" name="rules[]" value="Hostel is not responsible for personal items; lock your room when leaving." /> Hostel is not responsible for personal items; lock your room when leaving.</label>
+        <label><input type="checkbox" name="rules[]" value="Any misbehavior or rule violation may lead to disciplinary action." /> Any misbehavior or rule violation may lead to disciplinary action.</label>
       </div>
 
       <label for="fee">Amount (Per Month):</label>

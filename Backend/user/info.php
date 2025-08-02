@@ -70,7 +70,9 @@ if (!$hostel) {
                     'dry cleaning' => 'fa-soap',
                     'cleaning' => 'fa-soap',
                     'ac' => 'fa-wind',
+                    // 'cc-tv' => 'fa-camera-cctv'
                     'air conditioning' => 'fa-wind',
+                    // 'water supply' => 'fa-water',
                     'kitchen' => 'fa-utensils',
                     'shared kitchen' => 'fa-utensils'
                 ];
@@ -174,16 +176,6 @@ if (!$hostel) {
         </section>
     </div>
 
-    <div class="reviews-section">
-        <h3>Reviews</h3>
-        <div class="reviews" id="reviewList"></div>
-
-        <div class="comment-box">
-            <label>Leave a Comment</label>
-            <input type="text" id="reviewInput" placeholder="Message..." />
-            <button onclick="submitReview()">Submit</button>
-        </div>
-    </div>
 
 </main>
 
@@ -206,59 +198,59 @@ if (!$hostel) {
         .openPopup();
 </script>
 
-<script>
-    const hostelId = <?php echo json_encode($hostel['id']); ?>;
-    const reviewKey = `reviews_${hostelId}`;
-    const reviewList = document.getElementById('reviewList');
 
-    function loadReviews() {
-        reviewList.innerHTML = '';
-        const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-        reviews.forEach((r, index) => {
-            const div = document.createElement('div');
-            div.className = 'review-card';
-            div.innerHTML = `
-                👤 <strong>${r.name}</strong> &nbsp; ${r.stars}<br>
-                <span>${r.message}</span>
-                <button onclick="deleteReview(${index})" style="margin-left:10px; color:red; border:none; background:none; cursor:pointer;">🗑️ Delete</button>
-            `;
-            reviewList.appendChild(div);
-        });
-    }
+<!-- Footer -->
+<footer style="background-color: #0d1b2a; color: #fff; padding: 40px 0; font-size: 14px;">
+  <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding: 0 20px;">
 
-    function submitReview() {
-        const message = document.getElementById('reviewInput').value.trim();
-        const name = prompt("Enter your name:");
-        const stars = parseInt(prompt("Rate out of 5 (e.g., 4):"));
-        if (message && name && stars >= 1 && stars <= 5) {
-            const newReview = {
-                name: name,
-                stars: "★".repeat(stars) + "☆".repeat(5 - stars),
-                message: message
-            };
-            const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-            reviews.push(newReview);
-            localStorage.setItem(reviewKey, JSON.stringify(reviews));
-            document.getElementById("reviewInput").value = "";
-            loadReviews();
-        } else {
-            alert("Please enter valid name, rating (1-5), and message.");
-        }
-    }
+   <!-- Logo and Description -->
+<div style="flex: 1; min-width: 200px;">
+  <h3 style="color: #fff;">Bootmate</h3>
+  <p style="line-height: 1.8;">
+    Your trusted platform for hostel booking. <br>
+    We make finding the right room simple, reliable, <br>
+    and accessible for students.
+  </p>
+  <div style="margin-top: 10px;">
+    <a href="#"><i class="fab fa-facebook-f" style="color:#fff; margin-right:10px;"></i></a>
+    <a href="#"><i class="fab fa-instagram" style="color:#fff; margin-right:10px;"></i></a>
+    <a href="#"><i class="fab fa-twitter" style="color:#fff;"></i></a>
+  </div>
+</div>
 
-    function deleteReview(index) {
-        const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-        if (index >= 0 && index < reviews.length) {
-            if (confirm("Are you sure you want to delete this review?")) {
-                reviews.splice(index, 1);
-                localStorage.setItem(reviewKey, JSON.stringify(reviews));
-                loadReviews();
-            }
-        }
-    }
 
-    loadReviews();
-</script>
+    <!-- Quick Links -->
+    <div style="flex: 1; min-width: 150px;">
+      <h4 style="color: #fff;">Quick Links</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="hostel.php" style="color: #fff; text-decoration: none;">Hostel</a></li><br>
+        <li><a href="about.php" style="color: #fff; text-decoration: none;">About Us</a></li><br>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div style="flex: 1; min-width: 200px;">
+      <h4 style="color: #fff;">Contact Info</h4>
+      <p><i class="fas fa-map-marker-alt"></i> New Baneshwor, Kathmandu</p>
+      <p><i class="fas fa-phone-alt"></i> +977 9800000000</p>
+      <p><i class="fas fa-envelope"></i> support@bootmate.com</p>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div style="text-align: center; padding-top: 20px; border-top: 1px solid #444;">
+    <p style="margin: 0;">&copy; <?= date("Y") ?> Bootmate. All rights reserved.</p>
+    <p style="margin: 0;">
+      <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a> |
+      <a href="#" style="color: #aaa; text-decoration: none;">Terms of Service</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Font Awesome CDN (for icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 
 </body>
 </html>

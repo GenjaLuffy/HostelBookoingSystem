@@ -8,7 +8,7 @@
 
 .heros h1 {
   font-size: 38px;
-  color: #000000;
+  color: #131f2d;
   margin-left: 40px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -63,25 +63,46 @@
   background-color: #fff;
 }
 
-/* Location input icon */
 .location-input {
   position: relative;
-  flex: 1 1 320px; /* flexible with max */
-  display: flex;
-  align-items: center;
+  flex: 1 1 auto;
+  max-width: 220px;
+  
+}
+
+.location-input input {
+  width: 100%;
+  padding: 12px 40px 12px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  box-sizing: border-box;
+  font-weight: 500;
+  color: #333;
+  background: rgb(255, 255, 255); /* slight transparent white bg */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.location-input input::placeholder {
+  color: #ccc;
+}
+
+.location-input input:focus {
+  outline: none;
+  border-color: #8667F2;
+  box-shadow: 0 0 8px rgba(134, 103, 242, 0.4);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .location-input i {
   position: absolute;
-  right: 18px;
-  font-size: 18px;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
   color: #8667F2;
+  font-size: 16px;
   pointer-events: none;
-}
-
-/* input padding for icon */
-.location-input input {
-  padding-left: 40px;
+  user-select: none;
 }
 
 /* Search button */

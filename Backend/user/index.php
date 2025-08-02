@@ -6,12 +6,23 @@ include_once './includes/algorithm.php';
 $result = getFilteredHostels($con);
 
 // Retain search values in form
-$location = isset($_GET['location']) ? $_GET['location'] : '';
-$price = isset($_GET['price']) ? $_GET['price'] : '';
-$gender = isset($_GET['gender']) ? $_GET['gender'] : '';
+$location = $_GET['location'] ?? '';
+$price = $_GET['price'] ?? '';
+$gender = $_GET['gender'] ?? '';
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Mate | Hostel Finder</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
 
+<!-- Hero Section -->
 <section class="hero">
   <div class="hero-text">
     <h1>Welcome To <br>Book Mate</h1>
@@ -20,11 +31,12 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
       <button>See Hostel</button>
     </a>
   </div>
+
   <form method="GET" action="" class="search-box">
     <div class="location-input">
-      <input type="text" name="location" placeholder="Search by Near Me, City" value="<?php echo htmlspecialchars($location); ?>" />
-      <!-- <i class="fas fa-map-marker-alt"></i> -->
+      <input type="text" name="location" placeholder="Search by Near Me, City" value="<?= htmlspecialchars($location); ?>" />
     </div>
+
     <select name="price">
       <option value="">Select Price</option>
       <?php
@@ -35,16 +47,19 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
       }
       ?>
     </select>
+
     <select name="gender">
       <option value="">Gender</option>
-      <option value="Boys Hostel" <?php if ($gender == 'Boys Hostel') echo 'selected'; ?>>Boys Hostel</option>
-      <option value="Girls Hostel" <?php if ($gender == 'Girls Hostel') echo 'selected'; ?>>Girls Hostel</option>
-      <option value="Other" <?php if ($gender == 'Other') echo 'selected'; ?>>Other</option>
+      <option value="Boys Hostel" <?= $gender == 'Boys Hostel' ? 'selected' : ''; ?>>Boys Hostel</option>
+      <option value="Girls Hostel" <?= $gender == 'Girls Hostel' ? 'selected' : ''; ?>>Girls Hostel</option>
+      <option value="Other" <?= $gender == 'Other' ? 'selected' : ''; ?>>Other</option>
     </select>
+
     <button type="submit" class="search-btn">Search <i class="fas fa-search"></i></button>
   </form>
 </section>
 
+<!-- Featured Hostels -->
 <section class="featured">
   <h2>Featured Hostels</h2>
   <div class="hostels">
@@ -63,18 +78,18 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
         $desc = htmlspecialchars($hostel['description'] ?? '');
     ?>
         <div class="hostel-card"
-          onclick="window.location.href='info.php?id=<?php echo $id; ?>'"
+          onclick="window.location.href='info.php?id=<?= $id; ?>'"
           style="cursor:pointer;"
-          data-name="<?php echo $name; ?>"
-          data-price="Rs <?php echo $price; ?>"
-          data-location="<?php echo $location; ?>"
-          data-image="<?php echo $image1; ?>"
-          data-type="<?php echo $type; ?>"
-          data-desc="<?php echo $desc; ?>">
+          data-name="<?= $name; ?>"
+          data-price="Rs <?= $price; ?>"
+          data-location="<?= $location; ?>"
+          data-image="<?= $image1; ?>"
+          data-type="<?= $type; ?>"
+          data-desc="<?= $desc; ?>">
 
-          <img src="<?php echo $image1; ?>" alt="<?php echo $name; ?>" />
-          <h3><?php echo $name; ?></h3>
-          <p>Rs <?php echo $price; ?> ★★★★☆<br><?php echo $location; ?></p>
+          <img src="<?= $image1; ?>" alt="<?= $name; ?>" />
+          <h3><?= $name; ?></h3>
+          <p>Rs <?= $price; ?><br><?= $location; ?></p>
         </div>
     <?php
         $count++;
@@ -86,32 +101,14 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
   </div>
 </section>
 
-<style>
-  .about-text a {
-    text-decoration: none;
-  }
-
-  .about-text a h3 {
-    color: black;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-
-  .about-text a h3:hover {
-    color: #8667F2;
-  }
-</style>
-
-
+<!-- About Section -->
 <section id="about" class="about">
   <div class="about-content">
     <div class="about-image">
       <img src="./assets/images/2.jpg" alt="About Us Image" />
     </div>
     <div class="about-text">
-      <a href="about.php">
-        <h3>About Us</h3>
-      </a>
+      <a href="about.php"><h3>About Us</h3></a>
       <p>
         A True Hostel Finder in Nepal is a convenient solution for those seeking accommodation near their college,
         schools, or workplace. Book Mate offers an easy and hassle-free way to discover hostels in Kathmandu,
@@ -121,28 +118,24 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
   </div>
 </section>
 
-
-
-
 <!-- Footer -->
 <footer style="background-color: #0d1b2a; color: #fff; padding: 40px 0; font-size: 14px;">
   <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding: 0 20px;">
 
-   <!-- Logo and Description -->
-<div style="flex: 1; min-width: 200px;">
-  <h3 style="color: #fff;">Bootmate</h3>
-  <p style="line-height: 1.8;">
-    Your trusted platform for hostel booking. <br>
-    We make finding the right room simple, reliable, <br>
-    and accessible for students.
-  </p>
-  <div style="margin-top: 10px;">
-    <a href="#"><i class="fab fa-facebook-f" style="color:#fff; margin-right:10px;"></i></a>
-    <a href="#"><i class="fab fa-instagram" style="color:#fff; margin-right:10px;"></i></a>
-    <a href="#"><i class="fab fa-twitter" style="color:#fff;"></i></a>
-  </div>
-</div>
-
+    <!-- Logo and Description -->
+    <div style="flex: 1; min-width: 200px;">
+      <h3 style="color: #fff;">Bootmate</h3>
+      <p style="line-height: 1.8;">
+        Your trusted platform for hostel booking. <br>
+        We make finding the right room simple, reliable, <br>
+        and accessible for students.
+      </p>
+      <div style="margin-top: 10px;">
+        <a href="#"><i class="fab fa-facebook-f" style="color:#fff; margin-right:10px;"></i></a>
+        <a href="#"><i class="fab fa-instagram" style="color:#fff; margin-right:10px;"></i></a>
+        <a href="#"><i class="fab fa-twitter" style="color:#fff;"></i></a>
+      </div>
+    </div>
 
     <!-- Quick Links -->
     <div style="flex: 1; min-width: 150px;">
@@ -171,10 +164,6 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
     </p>
   </div>
 </footer>
-
-<!-- Font Awesome CDN (for icons) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 
 </body>
 </html>
