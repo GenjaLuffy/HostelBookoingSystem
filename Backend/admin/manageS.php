@@ -11,37 +11,59 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $admin_id = $_SESSION['user_id'];
 
-// Handle Approve action (POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_id'])) {
-    $approve_id = intval($_POST['approve_id']);
+// Handle Approve or Not Approve actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['approve_id'])) {
+        $approve_id = intval($_POST['approve_id']);
 
-    // Verify booking belongs to admin's hostel
-    $checkStmt = $con->prepare("
-        SELECT b.id FROM bookings b 
-        INNER JOIN hostels h ON b.hostel_id = h.id 
-        WHERE b.id = ? AND h.created_by = ?
-    ");
-    $checkStmt->bind_param("ii", $approve_id, $admin_id);
-    $checkStmt->execute();
-    $checkResult = $checkStmt->get_result();
+        $checkStmt = $con->prepare("
+            SELECT b.id FROM bookings b 
+            INNER JOIN hostels h ON b.hostel_id = h.id 
+            WHERE b.id = ? AND h.created_by = ?
+        ");
+        $checkStmt->bind_param("ii", $approve_id, $admin_id);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
 
-    if ($checkResult->num_rows === 1) {
-        $updateStmt = $con->prepare("UPDATE bookings SET status = 'Approved' WHERE id = ?");
-        $updateStmt->bind_param("i", $approve_id);
-        $updateStmt->execute();
-        $updateStmt->close();
+        if ($checkResult->num_rows === 1) {
+            $updateStmt = $con->prepare("UPDATE bookings SET status = 'Approved' WHERE id = ?");
+            $updateStmt->bind_param("i", $approve_id);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+        $checkStmt->close();
+
+        header("Location: manageS.php");
+        exit;
+    } elseif (isset($_POST['not_approve_id'])) {
+        $not_approve_id = intval($_POST['not_approve_id']);
+
+        $checkStmt = $con->prepare("
+            SELECT b.id FROM bookings b 
+            INNER JOIN hostels h ON b.hostel_id = h.id 
+            WHERE b.id = ? AND h.created_by = ?
+        ");
+        $checkStmt->bind_param("ii", $not_approve_id, $admin_id);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
+
+        if ($checkResult->num_rows === 1) {
+            $updateStmt = $con->prepare("UPDATE bookings SET status = 'Not Approved' WHERE id = ?");
+            $updateStmt->bind_param("i", $not_approve_id);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+        $checkStmt->close();
+
+        header("Location: manageS.php");
+        exit;
     }
-    $checkStmt->close();
-
-    header("Location: manageS.php");
-    exit;
 }
 
-// Handle Delete action (GET)
+// Handle Delete action
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
 
-    // Verify booking belongs to admin's hostel
     $checkStmt = $con->prepare("
         SELECT b.id FROM bookings b 
         INNER JOIN hostels h ON b.hostel_id = h.id 
@@ -63,7 +85,7 @@ if (isset($_GET['delete_id'])) {
     exit;
 }
 
-// Fetch bookings for display
+// Fetch bookings
 $query = "
     SELECT 
         b.id, b.full_name, b.contact_no, b.room_no, b.seater, b.stay_from, b.status
@@ -79,7 +101,6 @@ $stmt = $con->prepare($query);
 $stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
 
 <main class="main-content">
@@ -124,22 +145,24 @@ $result = $stmt->get_result();
                             <td>{$status}</td>
                             <td>";
 
-                        // Approve button if not approved yet
-                        if ($status !== 'Approved') {
-                            echo "<form method='POST' action='' style='display:inline; margin-right:5px;'>
-                                    <input type='hidden' name='approve_id' value='{$booking_id}' />
-                                    <button type='submit' onclick='return confirm(\"Approve this booking?\");'>Approve</button>
-                                  </form>";
+                        // Only show actions if not Cancelled
+                        if ($status !== 'Cancelled') {
+                            if ($status !== 'Approved') {
+                                echo "<form method='POST' action='' style='display:inline; margin-right:5px;'>
+                                        <input type='hidden' name='approve_id' value='{$booking_id}' />
+                                        <button type='submit' onclick='return confirm(\"Approve this booking?\");'>Approve</button>
+                                      </form>";
+                            } else {
+                                echo "<form method='POST' action='' style='display:inline; margin-right:5px;'>
+                                        <input type='hidden' name='not_approve_id' value='{$booking_id}' />
+                                        <button type='submit' onclick='return confirm(\"Mark this booking as Not Approved?\");'>Not Approved</button>
+                                      </form>";
+                            }
+                        } else {
+                            echo "<span style='color:gray;'>No actions available</span>";
                         }
 
-                        // Delete button
-                        echo "<form method='GET' action='' style='display:inline;' onsubmit='return confirm(\"Are you sure you want to delete this booking?\");'>
-                                <input type='hidden' name='delete_id' value='{$booking_id}' />
-                                <button type='submit'>Delete</button>
-                              </form>";
-
                         echo "</td></tr>";
-
                         $sno++;
                     }
                 }

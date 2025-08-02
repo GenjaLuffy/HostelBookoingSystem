@@ -86,7 +86,6 @@ CREATE TABLE bookings (
     contact_no VARCHAR(15),
     guardian_name VARCHAR(100),
     guardian_contact_no VARCHAR(15),
-    image VARCHAR(255),
     corr_address TEXT,
     corr_city VARCHAR(100),
     corr_district VARCHAR(100),

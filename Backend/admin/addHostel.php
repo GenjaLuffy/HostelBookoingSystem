@@ -84,21 +84,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" id="hostelName" name="hostelName" required />
 
       <label>Select Images:</label>
-      <label for="image" class="custom-file-upload">Upload Main Image</label>
+      <style>
+        .image-upload-wrapper {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 1rem;
+        }
+        .image-upload-wrapper img {
+          width: 120px;
+          height: 90px;
+          object-fit: cover;
+          cursor: pointer;
+          border: 2px solid #ccc;
+          border-radius: 5px;
+          transition: border-color 0.3s ease;
+        }
+        .image-upload-wrapper img:hover {
+          border-color: #007bff;
+        }
+      </style>
+
+      <div class="image-upload-wrapper">
+        <img id="previewImage1" src="placeholder.png" alt="Main Image" title="Click to upload main image" />
+        <img id="previewImage2" src="placeholder.png" alt="Image 2" title="Click to upload additional image 2" />
+        <img id="previewImage3" src="placeholder.png" alt="Image 3" title="Click to upload additional image 3" />
+        <img id="previewImage4" src="placeholder.png" alt="Image 4" title="Click to upload additional image 4" />
+      </div>
+
       <input type="file" id="image" name="image" accept="image/*" style="display:none;" />
-      <label for="image2" class="custom-file-upload">Upload Additional Image 2</label>
       <input type="file" id="image2" name="image2" accept="image/*" style="display:none;" />
-      <label for="image3" class="custom-file-upload">Upload Additional Image 3</label>
       <input type="file" id="image3" name="image3" accept="image/*" style="display:none;" />
-      <label for="image4" class="custom-file-upload">Upload Additional Image 4</label>
       <input type="file" id="image4" name="image4" accept="image/*" style="display:none;" />
 
+      <label for="location">Location (Address):</label>
+      <input type="text" id="location" name="location" required />
+      
       <label for="locationSearch">Search Location:</label>
       <input type="text" id="locationSearch" placeholder="Search location..." autocomplete="off" />
       <div id="suggestions" style="background: white; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; margin-bottom: 1rem;"></div>
 
-      <label for="location">Location (Address):</label>
-      <input type="text" id="location" name="location" required />
 
       <label>Choose Location on Map:</label>
       <div id="map" style="height: 300px; margin-bottom: 1rem;"></div>
@@ -176,8 +200,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   const searchInput = document.getElementById('locationSearch');
   const suggestionsBox = document.getElementById('suggestions');
 
-  let searchMarker; // marker for searched location
-
   searchInput.addEventListener('input', async function () {
     const query = this.value.trim();
     if (query.length < 3) {
@@ -222,6 +244,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       suggestionsBox.innerHTML = '<div style="padding:8px;">No results found</div>';
     }
   });
+
+  // IMAGE UPLOAD PREVIEW & CLICK TO SELECT
+
+  function setupImageUpload(previewId, inputId) {
+    const previewImg = document.getElementById(previewId);
+    const fileInput = document.getElementById(inputId);
+
+    previewImg.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  setupImageUpload('previewImage1', 'image');
+  setupImageUpload('previewImage2', 'image2');
+  setupImageUpload('previewImage3', 'image3');
+  setupImageUpload('previewImage4', 'image4');
 </script>
 
 </body>

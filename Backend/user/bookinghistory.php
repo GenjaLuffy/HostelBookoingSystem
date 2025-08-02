@@ -1,10 +1,19 @@
 <?php
 include_once './includes/header.php';
 include_once './includes/connect.php';
+
+// Redirect to login if not logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
 ?>
 
+
 <div class="main-content">
-  <h1>Booking History</h1>
+  <h1>Your Booking History</h1>
   <div class="card">
     <h3>All Booking Records</h3>
     <table class="table table-bordered">
@@ -18,6 +27,7 @@ include_once './includes/connect.php';
           <th>Duration</th>
           <th>Status</th>
           <th>Total Fee</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -27,9 +37,14 @@ include_once './includes/connect.php';
                   h.name AS hostel_name
                 FROM bookings b
                 LEFT JOIN hostels h ON b.hostel_id = h.id
+                WHERE b.user_id = ?
                 ORDER BY b.created_at DESC";
 
-        $result = $con->query($sql);
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
         if ($result && $result->num_rows > 0) {
           $sno = 1;
           while ($row = $result->fetch_assoc()) {
@@ -42,11 +57,22 @@ include_once './includes/connect.php';
                     <td>{$row['stay_duration']} Months</td>
                     <td><span class='status-{$row['status']}'>{$row['status']}</span></td>
                     <td>Rs. {$row['total_fee']}</td>
-                  </tr>";
+                    <td>";
+
+            if ($row['status'] != 'Cancelled') {
+              echo "<form action='cancel_booking.php' method='POST' onsubmit='return confirm(\"Are you sure you want to cancel this booking?\")'>
+                      <input type='hidden' name='booking_id' value='{$row['id']}'>
+                      <button type='submit' class='btn btn-danger btn-sm'>Cancel</button>
+                    </form>";
+            } else {
+              echo "<span class='text-muted'>Cancelled</span>";
+            }
+
+            echo "</td></tr>";
             $sno++;
           }
         } else {
-          echo "<tr><td colspan='8'>No bookings found.</td></tr>";
+          echo "<tr><td colspan='9'>No bookings found.</td></tr>";
         }
         ?>
       </tbody>

@@ -2,6 +2,8 @@
 include './includes/header.php';
 include './includes/connect.php';
 
+// Remove session_start() here if it's already called in header.php or connect.php
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -30,27 +32,16 @@ if (!empty($selectedHostelId)) {
     $stmtHostel->close();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $imagePath = '';
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $uploadDir = 'uploads/';
-        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-        $imageName = time() . '_' . basename($_FILES['image']['name']);
-        $uploadPath = $uploadDir . $imageName;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
-            $imagePath = $uploadPath;
-        }
-    }
 
-    $seater = $_POST['seater'];
-    $hostel_id = $_POST['hostel_id'];
-    $room_no = $_POST['room_no'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Cast inputs properly
+    $seater = (int) $_POST['seater'];
+    $room_no = (int) $_POST['room_no'];
     $food_status = $_POST['food_status'];
     $stay_from = $_POST['stay_from'];
-    $stay_duration = $_POST['stay_duration'];
-    $fee_per_month = $_POST['fee_per_month'];
-    $total_fee = $_POST['total_fee'];
-
+    $stay_duration = (int) $_POST['stay_duration'];
+    $fee_per_month = (float) $_POST['fee_per_month'];
+    $total_fee = (float) $_POST['total_fee'];
     $full_name = $_POST['full_name'];
     $gender = $_POST['gender'];
     $contact_no = $_POST['contact_no'];
@@ -62,31 +53,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $perm_address = $_POST['perm_address'] ?? '';
     $perm_city = $_POST['city_perm'] ?? '';
     $perm_district = $_POST['district_perm'] ?? '';
+    $user_id = (int) $_SESSION['user_id'];
+    $hostel_id = (int) $_POST['hostel_id'];
 
+    // Debug: Confirm number of parameters
+    $params = [
+        $seater, $room_no, $food_status, $stay_from, $stay_duration,
+        $fee_per_month, $total_fee, $full_name, $gender, $contact_no,
+        $guardian_name, $guardian_contact_no, $corr_address, $corr_city, $corr_district,
+        $perm_address, $perm_city, $perm_district, $user_id, $hostel_id
+    ];
+    echo "Number of parameters: " . count($params) . "<br>";
+
+    // Construct type string programmatically
+    $type_string = implode('', [
+        'i', // seater
+        'i', // room_no
+        's', // food_status
+        's', // stay_from
+        'i', // stay_duration
+        'd', // fee_per_month
+        'd', // total_fee
+        's', // full_name
+        's', // gender
+        's', // contact_no
+        's', // guardian_name
+        's', // guardian_contact_no
+        's', // corr_address
+        's', // corr_city
+        's', // corr_district
+        's', // perm_address
+        's', // perm_city
+        's', // perm_district
+        'i', // user_id
+        'i'  // hostel_id
+    ]);
+    echo "Type string: '$type_string' Length: " . strlen($type_string) . "<br>";
+
+    // Prepare SQL query
     $sql = "INSERT INTO bookings (
         seater, room_no, food_status, stay_from, stay_duration, fee_per_month, total_fee,
-        full_name, gender, contact_no, guardian_name, guardian_contact_no, image,
-        corr_address, corr_city, corr_district,
-        perm_address, perm_city, perm_district,
+        full_name, gender, contact_no, guardian_name, guardian_contact_no,
+        corr_address, corr_city, corr_district, perm_address, perm_city, perm_district,
         user_id, hostel_id
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $con->prepare($sql);
-    $stmt->bind_param(
-    "isssiddisssssssssssii",
-    $seater, $room_no, $food_status, $stay_from, $stay_duration, $fee_per_month, $total_fee,
-    $full_name, $gender, $contact_no, $guardian_name, $guardian_contact_no, $imagePath,
-    $corr_address, $corr_city, $corr_district,
-    $perm_address, $perm_city, $perm_district,
-    $user_id, $hostel_id
-);
+    if (!$stmt) {
+        die("Prepare failed: " . $con->error);
+    }
 
+    // Bind parameters
+    $stmt->bind_param(
+        $type_string,
+        $seater,
+        $room_no,
+        $food_status,
+        $stay_from,
+        $stay_duration,
+        $fee_per_month,
+        $total_fee,
+        $full_name,
+        $gender,
+        $contact_no,
+        $guardian_name,
+        $guardian_contact_no,
+        $corr_address,
+        $corr_city,
+        $corr_district,
+        $perm_address,
+        $perm_city,
+        $perm_district,
+        $user_id,
+        $hostel_id
+    );
 
     if ($stmt->execute()) {
-        echo "<script>alert('Booking submitted successfully!'); window.location='book.php';</script>";
+        echo "<script>alert('Booking submitted successfully!'); window.location='bookinghistory.php';</script>";
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        die("Execute failed: " . $stmt->error);
     }
     $stmt->close();
 }
@@ -95,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h2>Book Now</h2>
 <div class="form-banner-box">
     <div class="banner-title">Fill All Info</div>
-    <form action="book.php?hostel_id=<?php echo htmlspecialchars($selectedHostelId); ?>" method="POST" enctype="multipart/form-data">
+    <form action="book.php?hostel_id=<?php echo htmlspecialchars($selectedHostelId); ?>" method="POST">
         <div class="form-wrapper">
             <div class="form-left">
                 <fieldset>
@@ -162,46 +208,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <legend>Personal Info</legend>
                     <div class="form-group">
                         <label for="full_name">Full Name</label>
-                        <input type="text" name="full_name" id="full_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>"  readonly >
+                        <input type="text" name="full_name" id="full_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>" readonly required>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="gender">Gender</label>
-                        <select name="gender" id="gender" readonly>
-                            <option value="">Select Gender</option>
-                            <option value="male" <?php if (($userData['gender'] ?? '') == 'male') echo 'selected'; ?>>Male</option>
-                            <option value="female" <?php if (($userData['gender'] ?? '') == 'female') echo 'selected'; ?>>Female</option>
-                            <option value="other" <?php if (($userData['gender'] ?? '') == 'other') echo 'selected'; ?>>Other</option>
-                        </select>
-                    </div> -->
+
                     <div class="form-group">
                         <label for="gender">Gender</label>
-                        <select name="gender" id="gender" disabled>
-                            <?php
-                            $gender = $userData['gender'] ?? '';
-                            if ($gender == 'male') {
-                                echo '<option value="male" selected>Male</option>';
-                            } elseif ($gender == 'female') {
-                                echo '<option value="female" selected>Female</option>';
-                            } elseif ($gender == 'other') {
-                                echo '<option value="other" selected>Other</option>';
-                            } else {
-                                echo '<option value="">Not specified</option>';
-                            }
-                            ?>
+                        <select id="gender" disabled>
+                            <option value="">Select Gender</option>
+                            <option value="male" <?php echo (($userData['gender'] ?? '') == 'male') ? 'selected' : ''; ?>>Male</option>
+                            <option value="female" <?php echo (($userData['gender'] ?? '') == 'female') ? 'selected' : ''; ?>>Female</option>
+                            <option value="other" <?php echo (($userData['gender'] ?? '') == 'other') ? 'selected' : ''; ?>>Other</option>
                         </select>
+                        <input type="hidden" name="gender" value="<?php echo htmlspecialchars($userData['gender'] ?? ''); ?>">
                     </div>
 
                     <div class="form-group">
                         <label for="contact_no">Contact No</label>
-                        <input type="text" name="contact_no" id="contact_no" value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>" readonly>
+                        <input type="text" name="contact_no" id="contact_no" value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>" readonly required>
                     </div>
+
                     <div class="form-group">
                         <label for="guardian_name">Guardian Name</label>
-                        <input type="text" name="guardian_name" id="guardian_name" required>
+                        <input type="text" name="guardian_name" id="guardian_name" required
+                            pattern="^[A-Za-z][A-Za-z\s]*$"
+                            title="Name must start with a letter and contain only English letters and spaces">
                     </div>
+
                     <div class="form-group">
                         <label for="guardian_contact_no">Guardian Contact No</label>
-                        <input type="text" name="guardian_contact_no" id="guardian_contact_no" required>
+                        <input type="text" name="guardian_contact_no" id="guardian_contact_no" required
+                            pattern="98[0-9]{8}"
+                            title="Please enter a valid 10-digit mobile number">
                     </div>
                 </fieldset>
             </div>
@@ -215,11 +252,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label for="corr_city">City</label>
-                        <input type="text" name="city_corr" id="corr_city" placeholder="Enter your city" required>
+                        <input type="text" name="city_corr" id="corr_city" required>
                     </div>
                     <div class="form-group">
                         <label for="corr_district">District</label>
-                        <input type="text" name="district_corr" id="corr_district" placeholder="Enter your district" required>
+                        <input type="text" name="district_corr" id="corr_district" required>
                     </div>
                 </fieldset>
 
@@ -231,70 +268,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label for="perm_city">City</label>
-                        <input type="text" name="city_perm" id="perm_city" placeholder="Enter your city" required>
+                        <input type="text" name="city_perm" id="perm_city" required>
                     </div>
                     <div class="form-group">
                         <label for="perm_district">District</label>
-                        <input type="text" name="district_perm" id="perm_district" placeholder="Enter your district" required>
+                        <input type="text" name="district_perm" id="district_perm" required>
                     </div>
                 </fieldset>
             </div>
         </div>
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" class="submit-btn">Book now</button>
     </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function () {
-    function loadRooms() {
-        var seater = $("#seater").val();
-        var hostel_id = $("input[name='hostel_id']").val();
+    $(document).ready(function () {
+        function loadRooms() {
+            var seater = $("#seater").val();
+            var hostel_id = $("input[name='hostel_id']").val();
 
-        if (seater && hostel_id) {
-            $.post("get_rooms.php", { seater: seater, hostel_id: hostel_id }, function (data) {
-                $("#room_no").html(data);
+            if (seater && hostel_id) {
+                $.post("get_rooms.php", {
+                    seater: seater,
+                    hostel_id: hostel_id
+                }, function (data) {
+                    $("#room_no").html(data);
+                    $("#fee_per_month").val('');
+                    $("#total_fee").val('');
+                });
+            } else {
+                $("#room_no").html('<option value="">Select Room</option>');
                 $("#fee_per_month").val('');
                 $("#total_fee").val('');
-            });
-        } else {
-            $("#room_no").html('<option value="">Select Room</option>');
-            $("#fee_per_month").val('');
-            $("#total_fee").val('');
+            }
         }
-    }
 
-    function calculateTotal() {
-        var feePerMonth = parseFloat($("#fee_per_month").val()) || 0;
-        var stayDuration = parseInt($("#stay_duration").val()) || 0;
-        var foodStatus = $("input[name='food_status']:checked").val();
+        function calculateTotal() {
+            var feePerMonth = parseFloat($("#fee_per_month").val()) || 0;
+            var stayDuration = parseInt($("#stay_duration").val()) || 0;
+            var foodStatus = $("input[name='food_status']:checked").val();
+            var foodCost = (foodStatus === "With Food") ? 2000 : 0;
+            var totalFee = (feePerMonth + foodCost) * stayDuration;
 
-        var foodCostPerMonth = (foodStatus === "With Food") ? 2000 : 0;
-        var totalFee = (feePerMonth + foodCostPerMonth) * stayDuration;
-
-        $("#total_fee").val(totalFee > 0 ? totalFee.toFixed(2) : '');
-    }
-
-    $("#seater").change(loadRooms);
-
-    $("#room_no").change(function () {
-        var room_no = $(this).val();
-        var hostel_id = $("input[name='hostel_id']").val();
-
-        if (room_no && hostel_id) {
-            $.post("get_rooms.php", { room_no: room_no, hostel_id: hostel_id }, function (fee) {
-                $("#fee_per_month").val(fee);
-                calculateTotal();
-            });
-        } else {
-            $("#fee_per_month").val('');
-            $("#total_fee").val('');
+            $("#total_fee").val(totalFee > 0 ? totalFee.toFixed(2) : '');
         }
+
+        $("#seater").change(loadRooms);
+
+        $("#room_no").change(function () {
+            var room_no = $(this).val();
+            var hostel_id = $("input[name='hostel_id']").val();
+
+            if (room_no && hostel_id) {
+                $.post("get_rooms.php", {
+                    room_no: room_no,
+                    hostel_id: hostel_id
+                }, function (fee) {
+                    $("#fee_per_month").val(fee);
+                    calculateTotal();
+                });
+            } else {
+                $("#fee_per_month").val('');
+                $("#total_fee").val('');
+            }
+        });
+
+        $("#stay_duration, input[name='food_status']").change(calculateTotal);
     });
-
-    $("#stay_duration, input[name='food_status']").change(calculateTotal);
-});
 </script>
-
-</body>
-</html>

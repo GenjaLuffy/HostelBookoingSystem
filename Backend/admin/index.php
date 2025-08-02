@@ -10,14 +10,20 @@ $total_students = 0;
 $total_hostels = 0;
 
 if ($user_id) {
-    // Example: count total users (if you want to count students from users table)
-    $stmt1 = $con->prepare("SELECT COUNT(*) FROM users");  // or your correct table
+    // Count distinct students who have booked hostels created by this admin
+    $stmt1 = $con->prepare("
+        SELECT COUNT(DISTINCT b.user_id) 
+        FROM bookings b
+        INNER JOIN hostels h ON b.hostel_id = h.id
+        WHERE h.created_by = ?
+    ");
+    $stmt1->bind_param("i", $user_id);
     $stmt1->execute();
     $stmt1->bind_result($total_students);
     $stmt1->fetch();
     $stmt1->close();
 
-    // Count total hostels created by this user
+    // Count total hostels created by this user (admin)
     $stmt2 = $con->prepare("SELECT COUNT(*) FROM hostels WHERE created_by = ?");
     $stmt2->bind_param("i", $user_id);
     $stmt2->execute();
@@ -30,7 +36,6 @@ if ($user_id) {
 }
 ?>
 <style>
-
   .a{
     text-decoration: none;
     color: black;
@@ -38,28 +43,59 @@ if ($user_id) {
   a.no-underline {
       text-decoration: none; 
   }
+  /* Basic styling for cards */
+  .dashboard-cards {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .dashboard-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    text-align: center;
+  }
+  .dashboard-card h2 {
+    font-size: 3rem;
+    margin: 0;
+    color: #333;
+  }
+  .dashboard-card p {
+    margin: 10px 0;
+    font-weight: 600;
+    color: #555;
+  }
+  .card-footer a {
+    font-weight: 600;
+    color: #007bff;
+  }
+  .card-footer a:hover {
+    text-decoration: underline;
+  }
 </style>
 <main class="main-content">
   <h1>Dashboard</h1>
 
   <div class="dashboard-cards">
     <div class="dashboard-card">
-      <h2><?= $total_students ?></h2>
+      <h2><?= htmlspecialchars($total_students) ?></h2>
       <p>STUDENTS</p>
       <div class="card-footer">
-      <a href="manageS.php" class="no-underline">FULL DETAIL <i class="fas fa-arrow-right"></i></a>
+        <a href="manageS.php" class="no-underline">FULL DETAIL <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
 
     <div class="dashboard-card">
-      <h2><?= $total_hostels ?></h2>
+      <h2><?= htmlspecialchars($total_hostels) ?></h2>
       <p>HOSTELS</p>
       <div class="card-footer">
-         <a href="Hostel.php" class="no-underline">SEE All <i class="fas fa-arrow-right"></i></a>
+         <a href="Hostel.php" class="no-underline">SEE ALL <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   </div>
 </main>
-</div>
+
 </body>
 </html>
