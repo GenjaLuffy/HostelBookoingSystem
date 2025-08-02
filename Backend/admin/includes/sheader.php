@@ -1,14 +1,30 @@
+<?php
+include './includes/connect.php';
+
+
+$adminId = $_SESSION['user_id'];
+$query = "SELECT * FROM admins WHERE id = ?";
+$stmt = $con->prepare($query);
+$stmt->bind_param("i", $adminId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 1) {
+    $admin = $result->fetch_assoc();
+} else {
+    echo "Admin not found.";
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="assets/css/dashboard.css" />
     <link rel="stylesheet" href="./assets/css/superprofile.css" />
-    <link rel="stylesheet" href="assets/css/addAdmin.css" />
-    <link rel="stylesheet" href="assets/css/shostel.css" />
     <link rel="stylesheet" href="assets/css/sowner.css" />
     <link rel="stylesheet" href="assets/css/editProfile.css" />
     <link rel="stylesheet" href="assets/css/seeHostel.css" />
@@ -19,6 +35,9 @@
 <body>
     <header class="header">
         <a href="super.php" class="logo">Book<br><span>Mate</span></a>
+           <div class="user-name" style="color: black; margin-left: 20px; font-weight: bold;">
+            Welcome,<?= htmlspecialchars($admin['name']) ?>
+        </div>
     </header>
 
     <div class="container">

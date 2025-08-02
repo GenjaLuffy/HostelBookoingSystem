@@ -61,12 +61,13 @@ $con->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Add Admin | Superadmin Panel</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Owner</title>
+  <link rel="stylesheet" href="assets/css/addAdmin.css" />
 </head>
 <body>
+<h2>Book Now</h2>
 
 <main class="main-content">
   <div class="form-card">

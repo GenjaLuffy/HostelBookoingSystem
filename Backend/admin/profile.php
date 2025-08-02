@@ -29,7 +29,17 @@ if ($result->num_rows === 1) {
 // Correct image path
 $profilePicPath = './uploads/' . $admin['profile_picture'];
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="assets/css/profile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
 <!-- Main Content -->
 <div class="main-content">
   <div class="edit-profile-container">

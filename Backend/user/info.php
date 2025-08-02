@@ -1,10 +1,19 @@
 <?php
-include_once './includes/header.php';
-include_once './includes/connect.php';
+include './includes/connect.php';
+include './includes/header.php';
 
-$hostel_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
+$hostel_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$sql = "SELECT * FROM hostels WHERE id = ?";
+if ($hostel_id <= 0) {
+    echo "<p>Invalid hostel ID.</p>";
+    exit;
+}
+
+// Fetch hostel + admin (owner) details
+$sql = "SELECT h.*, a.phone AS owner_phone
+        FROM hostels h
+        JOIN admins a ON h.created_by = a.id
+        WHERE h.id = ?";
 $stmt = $con->prepare($sql);
 $stmt->bind_param("i", $hostel_id);
 $stmt->execute();
@@ -70,9 +79,9 @@ if (!$hostel) {
                     'dry cleaning' => 'fa-soap',
                     'cleaning' => 'fa-soap',
                     'ac' => 'fa-wind',
-                    // 'cc-tv' => 'fa-camera-cctv'
+                    'cc-tv' => 'fa-video',
                     'air conditioning' => 'fa-wind',
-                    // 'water supply' => 'fa-water',
+                    'water supply' => 'fa-water',
                     'kitchen' => 'fa-utensils',
                     'shared kitchen' => 'fa-utensils'
                 ];
@@ -109,7 +118,7 @@ if (!$hostel) {
                     'alcohol' => 'fa-wine-bottle',
                     'quiet' => 'fa-volume-mute',
                     'noise' => 'fa-volume-mute',
-                    'cleanliness' => 'fa-broom'
+                    'cleanliness' => 'fa-broom',
                 ];
 
                 $arrivalRule = '';
@@ -166,7 +175,8 @@ if (!$hostel) {
                 <a href="book.php?hostel_id=<?php echo $hostel['id']; ?>" class="book-btn">Book Now</a>
                 <div class="contact-info-box-inline">
                     <i class="fa fa-phone"></i>
-                    9879679878
+                   <?php echo htmlspecialchars($hostel['owner_phone']); ?>
+                   
                 </div>
             </div>
 
@@ -175,8 +185,6 @@ if (!$hostel) {
             </div>
         </section>
     </div>
-
-
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -198,28 +206,18 @@ if (!$hostel) {
         .openPopup();
 </script>
 
-
 <!-- Footer -->
 <footer style="background-color: #0d1b2a; color: #fff; padding: 40px 0; font-size: 14px;">
   <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding: 0 20px;">
-
-   <!-- Logo and Description -->
-<div style="flex: 1; min-width: 200px;">
-  <h3 style="color: #fff;">Bootmate</h3>
-  <p style="line-height: 1.8;">
-    Your trusted platform for hostel booking. <br>
-    We make finding the right room simple, reliable, <br>
-    and accessible for students.
-  </p>
-  <div style="margin-top: 10px;">
-    <a href="#"><i class="fab fa-facebook-f" style="color:#fff; margin-right:10px;"></i></a>
-    <a href="#"><i class="fab fa-instagram" style="color:#fff; margin-right:10px;"></i></a>
-    <a href="#"><i class="fab fa-twitter" style="color:#fff;"></i></a>
-  </div>
-</div>
-
-
-    <!-- Quick Links -->
+    <div style="flex: 1; min-width: 200px;">
+      <h3 style="color: #fff;">Bootmate</h3>
+      <p style="line-height: 1.8;">Your trusted platform for hostel booking.<br>We make finding the right room simple, reliable,<br>and accessible for students.</p>
+      <div style="margin-top: 10px;">
+        <a href="#"><i class="fab fa-facebook-f" style="color:#fff; margin-right:10px;"></i></a>
+        <a href="#"><i class="fab fa-instagram" style="color:#fff; margin-right:10px;"></i></a>
+        <a href="#"><i class="fab fa-twitter" style="color:#fff;"></i></a>
+      </div>
+    </div>
     <div style="flex: 1; min-width: 150px;">
       <h4 style="color: #fff;">Quick Links</h4>
       <ul style="list-style: none; padding: 0;">
@@ -227,8 +225,6 @@ if (!$hostel) {
         <li><a href="about.php" style="color: #fff; text-decoration: none;">About Us</a></li><br>
       </ul>
     </div>
-
-    <!-- Contact Info -->
     <div style="flex: 1; min-width: 200px;">
       <h4 style="color: #fff;">Contact Info</h4>
       <p><i class="fas fa-map-marker-alt"></i> New Baneshwor, Kathmandu</p>
@@ -236,8 +232,6 @@ if (!$hostel) {
       <p><i class="fas fa-envelope"></i> support@bootmate.com</p>
     </div>
   </div>
-
-  <!-- Bottom -->
   <div style="text-align: center; padding-top: 20px; border-top: 1px solid #444;">
     <p style="margin: 0;">&copy; <?= date("Y") ?> Bootmate. All rights reserved.</p>
     <p style="margin: 0;">
@@ -246,11 +240,6 @@ if (!$hostel) {
     </p>
   </div>
 </footer>
-
-<!-- Font Awesome CDN (for icons) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
 
 </body>
 </html>
