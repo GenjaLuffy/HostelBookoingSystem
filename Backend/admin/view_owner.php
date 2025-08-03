@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 include 'includes/auth.php';
 include './includes/connect.php'; // adjust path to your DB connection
+include './includes/sheader.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: sowner.php");
