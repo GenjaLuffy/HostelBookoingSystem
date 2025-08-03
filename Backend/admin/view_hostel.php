@@ -30,22 +30,111 @@ $stmt->close();
   <title><?= htmlspecialchars($hostel['name']) ?> - Hostel Details</title>
   <link rel="stylesheet" href="assets/css/shostel.css" />
   <style>
-    .images-section img {
-        max-width: 200px;
-        margin: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-    }
-    .main-content {
-        padding: 20px;
-        font-family: Arial, sans-serif;
-    }
-    .main-content h1 {
-        margin-bottom: 15px;
-    }
-    ul {
-        padding-left: 20px;
-    }
+  body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f6fa;
+}
+
+.main-content {
+  max-width: 960px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e4e4e4;
+}
+
+.main-content h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.main-content p {
+  font-size: 16px;
+  color: #555;
+  margin: 14px 0;
+  line-height: 1.6;
+}
+
+.main-content strong {
+  color: #333;
+  font-weight: 600;
+}
+
+ul {
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  list-style-type: disc; /* Dots */
+}
+
+ul li {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.images-section {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.images-section img {
+  max-width: 220px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: transform 0.3s ease;
+}
+
+.images-section img:hover {
+  transform: scale(1.05);
+}
+
+a {
+  display: inline-block;
+  margin-top: 30px;
+  color: #8667F2;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #654ac6;
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .main-content h1 {
+    font-size: 24px;
+  }
+
+  .main-content p,
+  ul li {
+    font-size: 15px;
+  }
+
+  .images-section img {
+    max-width: 100%;
+  }
+}
+
   </style>
 </head>
 <body>
