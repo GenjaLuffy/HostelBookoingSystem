@@ -79,6 +79,7 @@ nav a.active {
   height: auto;
   border-radius: 8px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .top-section h2 {
@@ -250,13 +251,16 @@ nav a.active {
     flex: 1;
     max-width: 40%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
 }
 
 .contact-info-box-inline i {
     color: #171717;
     font-size: 18px;
 }
-
+.contact-info-box-inline.book-btn:hover {
+    background-color: #218838;
+}
 
 /* Contact Box */
 .contact-box {

@@ -42,7 +42,7 @@ $result = $stmt->get_result();
                 <a class="hostel-card" href="addRoom.php?hostel_id=<?= $id ?>">
                     <img src="<?= $image ?>" alt="<?= $name ?>" />
                     <h3><?= $name ?></h3>
-                    <p><?= $price ?> ★★★★☆<br><?= $location ?></p>
+                    <p><?= $price ?> <br><?= $location ?></p>
                 </a>
                 <?php
             }

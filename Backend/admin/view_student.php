@@ -85,87 +85,127 @@ $duration = $interval->format('%m months %d days');
   <link rel="stylesheet" href="assets/css/manageS.css">
   <style>
     .details-container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 25px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      background-color: #f9f9f9;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #f8f9fc;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
+
     .details-container h2 {
       text-align: center;
-      margin-bottom: 25px;
-    }
-    .details-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .details-table td {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-    .details-table td:first-child {
+      margin-bottom: 35px;
+      font-size: 28px;
       font-weight: bold;
-      width: 40%;
-      background-color: #f0f0f0;
+      color: #343a40;
     }
+
+    .details-grid {
+      width: 800px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px 40px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 15px;
+      color: #212529;
+    }
+
+    .detail-item {
+      background-color: #ffffff;
+      padding: 18px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .detail-item label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #495057;
+    }
+
+    .detail-item span {
+      color: #343a40;
+    }
+
     .back-link {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 30px;
     }
+
+    .back-link a {
+      color: #17a2b8;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .back-link a:hover {
+      color: #117a8b;
+      text-decoration: underline;
+    }
+
     form.delete-form {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 30px;
     }
+
     form.delete-form button {
-      background-color: #d9534f;
+      background-color: #dc3545;
       color: white;
-      padding: 10px 20px;
+      padding: 12px 30px;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      border-radius: 8px;
       font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
+
     form.delete-form button:hover {
-      background-color: #c9302c;
+      background-color: #c82333;
+      box-shadow: 0 6px 14px rgba(200, 35, 51, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="details-container">
     <h2>Student Booking Details</h2>
-    <table class="details-table">
-      <tr><td>Full Name</td><td><?= htmlspecialchars($data['full_name']) ?></td></tr>
-      <tr><td>Gender</td><td><?= htmlspecialchars($data['gender']) ?></td></tr>
-      <tr><td>Contact No</td><td><?= htmlspecialchars($data['contact_no']) ?></td></tr>
-      <tr><td>Guardian Name</td><td><?= htmlspecialchars($data['guardian_name']) ?></td></tr>
-      <tr><td>Guardian Contact</td><td><?= htmlspecialchars($data['guardian_contact_no']) ?></td></tr>
+    <div class="details-grid">
+      <div class="detail-item"><label>Full Name</label><span><?= htmlspecialchars($data['full_name']) ?></span></div>
+      <div class="detail-item"><label>Gender</label><span><?= htmlspecialchars($data['gender']) ?></span></div>
+      <div class="detail-item"><label>Contact No</label><span><?= htmlspecialchars($data['contact_no']) ?></span></div>
+      <div class="detail-item"><label>Guardian Name</label><span><?= htmlspecialchars($data['guardian_name']) ?></span></div>
+      <div class="detail-item"><label>Guardian Contact</label><span><?= htmlspecialchars($data['guardian_contact_no']) ?></span></div>
 
-      <tr><td>Correspondence Address</td><td>
-        <?= nl2br(htmlspecialchars($data['corr_address'])) ?><br>
-        <?= htmlspecialchars($data['corr_city']) ?>, <?= htmlspecialchars($data['corr_district']) ?>
-      </td></tr>
+      <div class="detail-item"><label>Correspondence Address</label>
+        <span><?= nl2br(htmlspecialchars($data['corr_address'])) ?><br><?= htmlspecialchars($data['corr_city']) ?>, <?= htmlspecialchars($data['corr_district']) ?></span>
+      </div>
 
-      <tr><td>Permanent Address</td><td>
-        <?= nl2br(htmlspecialchars($data['perm_address'])) ?><br>
-        <?= htmlspecialchars($data['perm_city']) ?>, <?= htmlspecialchars($data['perm_district']) ?>
-      </td></tr>
+      <div class="detail-item"><label>Permanent Address</label>
+        <span><?= nl2br(htmlspecialchars($data['perm_address'])) ?><br><?= htmlspecialchars($data['perm_city']) ?>, <?= htmlspecialchars($data['perm_district']) ?></span>
+      </div>
 
-      <tr><td>Hostel Name</td><td><?= htmlspecialchars($data['hostel_name']) ?></td></tr>
-      <tr><td>Room No</td><td><?= htmlspecialchars($data['room_no']) ?></td></tr>
-      <tr><td>Seater</td><td><?= htmlspecialchars($data['seater']) ?></td></tr>
-      <tr><td>Food Status</td><td><?= htmlspecialchars($data['food_status']) ?></td></tr>
-
-      <tr><td>Stay From</td><td><?= htmlspecialchars($data['stay_from']) ?></td></tr>
-      <tr><td>Stay Duration (Planned)</td><td><?= htmlspecialchars($data['stay_duration']) ?> month(s)</td></tr>
-
-      <tr><td>Fee per Month</td><td>Rs. <?= number_format($data['fee_per_month'], 2) ?></td></tr>
-      <tr><td>Total Fee</td><td>Rs. <?= number_format($data['total_fee'], 2) ?></td></tr>
-
-      <tr><td>Status</td><td><?= htmlspecialchars($data['status']) ?></td></tr>
-      <tr><td>Booking Date</td><td><?= htmlspecialchars($data['created_at']) ?></td></tr>
-    </table>
+      <div class="detail-item"><label>Hostel Name</label><span><?= htmlspecialchars($data['hostel_name']) ?></span></div>
+      <div class="detail-item"><label>Room No</label><span><?= htmlspecialchars($data['room_no']) ?></span></div>
+      <div class="detail-item"><label>Seater</label><span><?= htmlspecialchars($data['seater']) ?></span></div>
+      <div class="detail-item"><label>Food Status</label><span><?= htmlspecialchars($data['food_status']) ?></span></div>
+      <div class="detail-item"><label>Stay From</label><span><?= htmlspecialchars($data['stay_from']) ?></span></div>
+      <div class="detail-item"><label>Stay Duration (Planned)</label><span><?= htmlspecialchars($data['stay_duration']) ?> month(s)</span></div>
+      <div class="detail-item"><label>Fee per Month</label><span>Rs. <?= number_format($data['fee_per_month'], 2) ?></span></div>
+      <div class="detail-item"><label>Total Fee</label><span>Rs. <?= number_format($data['total_fee'], 2) ?></span></div>
+      <div class="detail-item"><label>Status</label><span><?= htmlspecialchars($data['status']) ?></span></div>
+      <div class="detail-item"><label>Booking Date</label><span><?= htmlspecialchars($data['created_at']) ?></span></div>
+    </div>
 
     <form method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this booking?');">
       <input type="hidden" name="booking_id" value="<?= $booking_id ?>">

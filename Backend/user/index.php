@@ -141,7 +141,7 @@ $gender = $_GET['gender'] ?? '';
     <div style="flex: 1; min-width: 150px;">
       <h4 style="color: #fff;">Quick Links</h4>
       <ul style="list-style: none; padding: 0;">
-        <li><a href="book.php" style="color: #fff; text-decoration: none;">Book a Room</a></li><br>
+        <li><a href="hostel.php" style="color: #fff; text-decoration: none;">Hostel</a></li><br>
         <li><a href="about.php" style="color: #fff; text-decoration: none;">About Us</a></li><br>
       </ul>
     </div>

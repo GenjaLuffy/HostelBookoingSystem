@@ -127,7 +127,7 @@ button:hover {
 /* ===== Updated Search Box CSS ===== */
 .search-box {
   position: relative;
-  margin-bottom: 50px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -204,7 +204,7 @@ button:hover {
 }
 
 .search-btn {
-  margin-bottom: 15px;
+  bottom: 25px;
   flex: 0 0 140px;
   background-color: #8667F2;
   color: white;

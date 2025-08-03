@@ -57,9 +57,116 @@ $con->close();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Add Room</title>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/addRoom.css" />
+    
 </head>
+<style>
+    /* General Reset */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f8f4ff;
+}
+
+/* Main container */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* align content to top */
+  min-height: 100vh;
+  padding: 30px 10px 10px 10px; /* top padding = 30px */
+}
+
+
+/* Card container */
+.form-card {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+
+/* Title */
+.form-card h1 {
+  font-size: 26px;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #5a41c6;
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  font-size: 14px;
+  margin-top: 20px; /* adds 20px gap above every label */
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 8px; /* slight gap below label */
+  border: 1.8px solid #ccc;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #8667f2;
+  box-shadow: 0 0 0 3px rgba(134, 103, 242, 0.2);
+  outline: none;
+}
+
+.btn-submit {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #8667f2;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #654ac6;
+  transform: translateY(-2px);
+}
+
+
+/* Responsive Design */
+@media (max-width: 500px) {
+  .form-card {
+    padding: 30px 20px;
+  }
+
+  .form-card h1 {
+    font-size: 22px;
+  }
+
+  form input,
+  form select {
+    font-size: 14px;
+  }
+
+  .btn-submit {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+
+</style>
 <body>
     <div class="main-content">
     <div class="form-card">

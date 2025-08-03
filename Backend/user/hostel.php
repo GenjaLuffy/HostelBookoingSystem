@@ -83,6 +83,7 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
     </div>
 </section>
 
+
 <!-- Footer -->
 <footer style="background-color: #0d1b2a; color: #fff; padding: 40px 0; font-size: 14px;">
   <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding: 0 20px;">
@@ -106,7 +107,7 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
     <div style="flex: 1; min-width: 150px;">
       <h4 style="color: #fff;">Quick Links</h4>
       <ul style="list-style: none; padding: 0;">
-        <li><a href="book.php" style="color: #fff; text-decoration: none;">Book a Room</a></li><br>
+        <li><a href="hostel.php" style="color: #fff; text-decoration: none;">Hostel</a></li><br>
         <li><a href="about.php" style="color: #fff; text-decoration: none;">About Us</a></li><br>
       </ul>
     </div>
@@ -129,7 +130,6 @@ $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
     </p>
   </div>
 </footer>
-
     
 </body>
 </html>

@@ -67,9 +67,10 @@ $con->close();
   <link rel="stylesheet" href="assets/css/addAdmin.css" />
 </head>
 <body>
-<h2>Book Now</h2>
+
 
 <main class="main-content">
+  <h2>Add Owner</h2>
   <div class="form-card">
     <div class="form-header">Add Owner</div>
     <form action="addAdmin.php" method="post" enctype="multipart/form-data">
