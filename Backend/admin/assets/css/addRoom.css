@@ -18,8 +18,9 @@ header {
   font-weight: bold;
   color: #8667F2;
   text-decoration: none;
+  /* color: inherit; */
   font-family: Irish Grover;
-  cursor: pointer;
+  cursor: pointer; /* Makes it clear it's interactive */
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -29,8 +30,8 @@ header {
 }
 
 .logo:hover {
-  color: #654ac6;
-  transform: scale(1.05);
+  color: #654ac6; /* Slightly darker or playful color */
+  transform: scale(1.05); /* Slight grow effect */
 }
 
 .logo:hover span {
@@ -46,149 +47,147 @@ nav a {
 }
 
 nav a:hover {
-  color: #8667F2;
-  border-bottom: 2px solid #8667F2;
-
+  color: #8667F2; /* Change to your theme color */
+  border-bottom: 2px solid #8667F2; /* Optional underline effect */
 }
 
 nav a.active {
-  color: #8667F2;
+  color: #8667F2; /* Highlighted color */
   font-weight: bold;
 }
 
 .container {
-  display: flex;
-  min-height: 100vh;
+    display: flex;
+    min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
-  width: 60px;
-  background-color: #e8d6fb;
-  padding-top: 20px;
-  overflow-x: hidden;
-  transition: width 0.3s ease;
+    width: 60px;
+    background-color: #e8d6fb;
+    padding-top: 20px;
+    overflow-x: hidden;
+    transition: width 0.3s ease;
 }
 
 .sidebar:hover {
-  width: 200px;
+    width: 200px;
 }
 
 .sidebar nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px;
 }
 
 .sidebar nav a {
-  display: flex;
-  align-items: center;
-  color: rgb(61, 61, 61);
-  padding: 12px;
-  text-decoration: none;
-  font-size: 14px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  white-space: nowrap;
+    display: flex;
+    align-items: center;
+    color: rgb(61, 61, 61);
+    padding: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
 }
 
 .sidebar nav a i {
-  min-width: 20px;
-  font-size: 16px;
+    font-size: 16px;
+    min-width: 20px;
+    text-align: center;
 }
 
 .sidebar nav a span {
-  margin-left: 10px;
-  display: none;
+    margin-left: 10px;
+    display: none;
 }
 
 .sidebar:hover nav a span {
-  display: inline;
+    display: inline;
 }
 
 .sidebar nav a:hover {
-  background-color: #a05ce0;
-  transform: scale(1.05);
+    background-color: #a05ce0;
+    transform: scale(1.05);
 }
-
-/* Main Content */
+/* Main content */
 .main-content {
-  flex: 1;
-  padding: 30px;
-  background-color: #faf9f9;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .main-content h1 {
-  font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #3f3e3e;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #3f3e3e;
 }
 
-/* Dashboard Cards */
-.dashboard-cards {
-  display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
+/* Form Card */
+.form-card {
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-.dashboard-card {
-  width: 240px;
-  height: 130px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.dashboard-card h2 {
-  margin: 0;
-  font-size: 34px;
-  color: #333;
-}
-
-.dashboard-card p {
-  margin: 5px 0 0;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #777;
-}
-
-/* Footer Link in Card */
-.dashboard-card .card-footer {
-  position: absolute;
-  bottom: 0;
+form input[type="text"],
+form input[type="number"],
+form select {
   width: 100%;
-  background-color: #dfdede;
-  font-size: 11px;
-  padding: 6px 12px;
-  text-align: left;
-  color: #555;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  font-weight: bold;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+  border-color: #8667f2;
+  outline: none;
+}
+
+.btn-submit {
+  width: 100%;
+  background-color: #8667f2;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.dashboard-card .card-footer:hover {
-  background-color: #d3d1d1;
+.btn-submit:hover {
+  background-color: #654ac6;
 }
 
-.dashboard-card .card-footer i {
-  font-size: 10px;
+/* Responsive */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 20px;
+  }
+
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    margin-left: 0;
+    margin-right: 15px;
+  }
 }

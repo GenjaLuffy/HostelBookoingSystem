@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'includes/auth.php';
 include './includes/connect.php';
 include './includes/header.php';
@@ -9,13 +8,46 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
+$admin_id = $_SESSION['user_id'];
+
+// Handle Delete Booking POST Request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking'])) {
+    $del_booking_id = intval($_POST['booking_id']);
+
+    // Verify booking exists and admin owns the related hostel
+    $checkQuery = "SELECT b.id FROM bookings b INNER JOIN hostels h ON b.hostel_id = h.id WHERE b.id = ? AND h.created_by = ?";
+    $checkStmt = $con->prepare($checkQuery);
+    $checkStmt->bind_param("ii", $del_booking_id, $admin_id);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+
+    if ($checkResult->num_rows === 1) {
+        // Delete booking
+        $deleteQuery = "DELETE FROM bookings WHERE id = ?";
+        $deleteStmt = $con->prepare($deleteQuery);
+        $deleteStmt->bind_param("i", $del_booking_id);
+        if ($deleteStmt->execute()) {
+            $deleteStmt->close();
+            $checkStmt->close();
+            header("Location: manageS.php?msg=Booking deleted successfully");
+            exit;
+        } else {
+            echo "Failed to delete booking.";
+        }
+    } else {
+        echo "Booking not found or unauthorized.";
+    }
+
+    $checkStmt->close();
+}
+
+// Validate GET booking id
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "Invalid booking ID.";
     exit;
 }
 
 $booking_id = intval($_GET['id']);
-$admin_id = $_SESSION['user_id'];
 
 // Fetch booking detail with hostel join
 $query = "
@@ -82,6 +114,22 @@ $duration = $interval->format('%m months %d days');
       text-align: center;
       margin-top: 20px;
     }
+    form.delete-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+    form.delete-form button {
+      background-color: #d9534f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    form.delete-form button:hover {
+      background-color: #c9302c;
+    }
   </style>
 </head>
 <body>
@@ -118,6 +166,11 @@ $duration = $interval->format('%m months %d days');
       <tr><td>Status</td><td><?= htmlspecialchars($data['status']) ?></td></tr>
       <tr><td>Booking Date</td><td><?= htmlspecialchars($data['created_at']) ?></td></tr>
     </table>
+
+    <form method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+      <input type="hidden" name="booking_id" value="<?= $booking_id ?>">
+      <button type="submit" name="delete_booking">Delete Booking</button>
+    </form>
 
     <div class="back-link">
       <a href="manageS.php">← Back to Manage Students</a>

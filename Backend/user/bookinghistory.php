@@ -64,17 +64,18 @@ $user_id = $_SESSION['user_id'];
                     <td>{$row['seater']}</td>
                     <td>{$row['stay_from']}</td>
                     <td>{$row['stay_duration']} Months</td>
-                    <td><span class='status-{$row['status']}'>{$row['status']}</span></td>
+                    <td><span class='status-".htmlspecialchars($row['status'], ENT_QUOTES)."'>".htmlspecialchars($row['status'])."</span></td>
                     <td>Rs. {$row['total_fee']}</td>
                     <td>";
 
-            if ($row['status'] != 'Cancelled') {
+            // Allow cancellation only if NOT Approved or Cancelled
+            if ($row['status'] != 'Cancelled' && $row['status'] != 'Approved') {
               echo "<form action='cancel_booking.php' method='POST' onsubmit='return confirm(\"Are you sure you want to cancel this booking?\")'>
                       <input type='hidden' name='booking_id' value='{$row['id']}'>
                       <button type='submit' class='btn btn-danger btn-sm'>Cancel</button>
                     </form>";
             } else {
-              echo "<span class='text-muted'>Cancelled</span>";
+              echo "<span class='text-muted'>".htmlspecialchars($row['status'])."</span>";
             }
 
             echo "</td></tr>";

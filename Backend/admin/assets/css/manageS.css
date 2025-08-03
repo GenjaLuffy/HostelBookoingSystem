@@ -2,179 +2,125 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f2e6ff;
-    padding: 10px 30px;
-}
-
-.logo {
-    font-size: 22px;
-    max-height: fit-content;
-    font-weight: bold;
-    color: #8667F2;
-    text-decoration: none;
-    font-family: Irish Grover;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.logo span {
-    color: #c56cf0;
-    transition: color 0.3s ease;
-}
-
-.logo:hover {
-    color: #654ac6;
-    transform: scale(1.05);
-}
-
-.logo:hover span {
-    color: #a05ce0;
-}
-
-nav a {
-    margin: 0 10px;
-    text-decoration: none;
+    background: #fafafa;
     color: #333;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    padding-bottom: 4px;
 }
 
-nav a:hover {
-    color: #8667F2;
-    border-bottom: 2px solid #8667F2;
-
-}
-
-nav a.active {
-    color: #8667F2;
-    font-weight: bold;
-}
-
-/* Container Layout */
-.container {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-    width: 60px;
-    background-color: #e8d6fb;
-    padding-top: 20px;
-    overflow-x: hidden;
-    transition: width 0.3s ease;
-}
-
-.sidebar:hover {
-    width: 200px;
-}
-
-.sidebar nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 10px;
-}
-
-.sidebar nav a {
-    display: flex;
-    align-items: center;
-    color: rgb(61, 61, 61);
-    padding: 12px;
-    text-decoration: none;
-    font-size: 14px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap;
-}
-
-.sidebar nav a i {
-    font-size: 16px;
-    min-width: 20px;
-    text-align: center;
-}
-
-.sidebar nav a span {
-    margin-left: 10px;
-    display: none;
-}
-
-.sidebar:hover nav a span {
-    display: inline;
-}
-
-.sidebar nav a:hover {
-    background-color: #a05ce0;
-    color: white;
-    transform: scale(1.05);
-}
-
-/* main content */
 .main-content {
-    
-    flex-grow: 1;
-    padding: 40px;
-    background-color: #efefef;
-    transition: margin-left 0.3s ease;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
- h1 {
-    font-size: 24px;
+.main-content h1 {
+    font-size: 28px;
+    font-weight: 700;
     margin-bottom: 20px;
-    font-weight: bold;
     color: #3f3e3e;
 }
 
-.table-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 900px;
+.table-wrapper {
+    overflow-x: auto;
 }
 
-.table-container h2 {
-    margin: 0;
-    padding: 10px;
-    font-size: 18px;
-    color: #626262;
-    font-weight: bold;
-}
-
-table {
+table.booking-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    font-size: 15px;
+    min-width: 900px;
 }
 
-table th,
-table td {
-    border: 1px solid #939191;
-    padding: 10px;
-    text-align: center;
+table.booking-table thead {
+    background-color: #8667f2;
+    color: white;
 }
 
-table tbody tr {
-    background-color: #e6dfdf;
-    color: black;
+table.booking-table th,
+table.booking-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
 }
 
-table thead tr {
-    background-color: #d9d9d9;
-    color: black;
+table.booking-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-table td i {
-    margin: 0 5px;
+.actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.btn {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    color: fff;
+    color: white;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-table td i:hover {
-    color: #ffd700;
+.btn.approve {
+    background-color: #28a745;
+}
+
+.btn.approve:hover {
+    background-color: #218838;
+}
+
+.btn.not-approve {
+    background-color: #dc3545;
+}
+
+.btn.not-approve:hover {
+    background-color: #c82333;
+}
+
+.btn.view {
+    background-color: #007bff;
+}
+
+.btn.view:hover {
+    background-color: #0069d9;
+}
+
+.no-actions {
+    color: gray;
+    font-style: italic;
+    font-size: 13px;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        margin: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table.booking-table {
+        min-width: 600px;
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
 }

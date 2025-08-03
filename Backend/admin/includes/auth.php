@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
 // Check if user is logged in
 if (empty($_SESSION['role'])) {
     echo "<script>alert('Please log in first.'); window.location.href = '../user/login.php';</script>";

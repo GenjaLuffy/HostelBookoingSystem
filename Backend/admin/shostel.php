@@ -4,8 +4,6 @@ include 'includes/auth.php';
 include './includes/sheader.php';
 include './includes/connect.php'; 
 
-// Debug: uncomment to see POST data
-// echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
 
 if (isset($_POST['update_status'])) {
     $hostel_id = intval($_POST['hostel_id']);
