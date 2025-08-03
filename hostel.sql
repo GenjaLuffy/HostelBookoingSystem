@@ -10,6 +10,7 @@ CREATE TABLE admins (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     dob DATE,
+    document VARCHAR(255),
     phone VARCHAR(15),
     address TEXT,
     gender ENUM('male', 'female', 'other'),
