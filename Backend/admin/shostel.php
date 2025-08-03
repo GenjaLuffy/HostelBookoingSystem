@@ -41,7 +41,7 @@ if (!$result) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     .view-btn {
-        background-color: #3498db;
+        background-color: #b70918ff;
         color: white;
         padding: 5px 10px;
         text-decoration: none;
@@ -49,7 +49,7 @@ if (!$result) {
         margin-left: 5px;
     }
     .view-btn:hover {
-        background-color: #2980b9;
+        background-color: #780710ff;
     }
   </style>
 </head>

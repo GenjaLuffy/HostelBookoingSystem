@@ -282,7 +282,7 @@ $con->close();
                 </div>
 
                 <div class="form-group">
-                    <label for="document">Upload Document (Image or PDF)</label>
+                    <label for="document">Upload Document (PDF Image)</label>
                     <input id="document" type="file" name="document" accept="image/*,application/pdf" />
                 </div>
 

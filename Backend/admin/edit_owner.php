@@ -77,6 +77,128 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <title>Edit Owner</title>
     <link rel="stylesheet" href="./assets/css/superprofile.css" />
     <link rel="stylesheet" href="./assets/css/sowner.css" />
+
+    <style>
+        .main-content {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: auto;
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e0e0e0;
+}
+
+
+.main-content h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 26px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="file"] {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+  border-color: #a05ce0;
+  outline: none;
+}
+
+input[type="submit"] {
+  background-color: #8667F2;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+input[type="submit"]:hover {
+  background-color: #654ac6;
+}
+
+p {
+  font-size: 14px;
+  color: #333;
+}
+
+a {
+  color: #8667F2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Success & Error messages */
+p[style*='color:green'],
+p[style*='color:red'] {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p[style*='color:green'] {
+  background-color: #e6ffe6;
+  border: 1px solid #66cc66;
+  color: #2e7d32;
+}
+
+p[style*='color:red'] {
+  background-color: #ffe6e6;
+  border: 1px solid #ff6666;
+  color: #c62828;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 30px 20px;
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    text-align: center;
+  }
+}
+    </style>
 </head>
 <body>
     <main class="main-content">
@@ -89,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             <label for="phone">Contact Number:</label>
             <input type="text" name="phone" id="phone" value="<?= htmlspecialchars($existing_data['phone']); ?>" required>
 
-            <label for="document">Upload Image or PDF (optional):</label>
+            <label for="document">Upload Document (PDF Image):</label>
             <input type="file" name="document" id="document" accept=".jpg,.jpeg,.png,.pdf">
 
             <?php if (!empty($existing_data['document_path'])): ?>
