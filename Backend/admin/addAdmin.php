@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Upload document
     $document = "";
     if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {
-        $result = uploadFile($_FILES['document'], $allowedDocTypes, "document/");
+        $result = uploadFile($_FILES['document'], $allowedDocTypes, "documents/");
         if (isset($result['error'])) {
             $error_message = "Document Error: " . $result['error'];
         } else {
@@ -282,7 +282,7 @@ $con->close();
                 </div>
 
                 <div class="form-group">
-                    <label for="document">Upload Document (PDF Image)</label>
+                    <label for="document">Upload Document in PDF</label>
                     <input id="document" type="file" name="document" accept="image/*,application/pdf" />
                 </div>
 
