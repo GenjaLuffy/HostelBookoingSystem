@@ -239,10 +239,10 @@ nav a.active {
 
 .contact-info-box-inline {
     font-size: 16px;
-    color: #171717;
-    background-color: #f9f5ff;
+    color: #0a0a0a;
+    background-color: #a289fb;
     border: 1px solid #ccc;
-    padding: 10px 16px;
+    padding: 12px 30px;
     border-radius: 25px;
     display: flex;
     align-items: center;
@@ -258,8 +258,8 @@ nav a.active {
     color: #171717;
     font-size: 18px;
 }
-.contact-info-box-inline.book-btn:hover {
-    background-color: #218838;
+.contact-info-box-inline:hover {
+    background-color: #6943f4;
 }
 
 /* Contact Box */
