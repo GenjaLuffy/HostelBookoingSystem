@@ -4,7 +4,6 @@ include 'includes/auth.php';
 include './includes/sheader.php';
 include './includes/connect.php'; 
 
-
 if (isset($_POST['update_status'])) {
     $hostel_id = intval($_POST['hostel_id']);
     $new_status = $_POST['update_status'] === 'Approved' ? 'Approved' : 'Pending';
@@ -20,7 +19,6 @@ if (isset($_POST['update_status'])) {
     }
     $stmt->close();
 
-    // Redirect to prevent form resubmission and show updated data
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
@@ -29,22 +27,32 @@ $sql = "SELECT h.id, h.name as hostel_name, h.status, a.name as creator_name
         FROM hostels h
         JOIN admins a ON h.created_by = a.id";
 $result = $con->query($sql);
-
 if (!$result) {
     die("Query failed: " . $con->error);
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Manage Hostels</title>
-    <link rel="stylesheet" href="assets/css/shostel.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Hostels</title>
+  <link rel="stylesheet" href="assets/css/shostel.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .view-btn {
+        background-color: #3498db;
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-left: 5px;
+    }
+    .view-btn:hover {
+        background-color: #2980b9;
+    }
+  </style>
 </head>
-
 <body>
 <main class="main-content">
   <h1>Manage Hostels</h1>
@@ -62,29 +70,32 @@ if (!$result) {
       </thead>
       <tbody>
         <?php if ($result->num_rows > 0): ?>
-            <?php $sno = 1; ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $sno++; ?></td>
-                    <td><?= htmlspecialchars($row['hostel_name']); ?></td>
-                    <td><?= htmlspecialchars($row['creator_name']); ?></td>
-                    <td><span class="status <?= strtolower($row['status']); ?>"><?= $row['status']; ?></span></td>
-                    <td>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="hostel_id" value="<?= $row['id']; ?>">
-                            <?php if ($row['status'] === 'Approved'): ?>
-                                <button type="submit" name="update_status" value="Pending">Set Pending</button>
-                            <?php else: ?>
-                                <button type="submit" name="update_status" value="Approved">Approve</button>
-                            <?php endif; ?>
-                        </form>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
+          <?php $sno = 1; ?>
+          <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+              <td><?= $sno++; ?></td>
+              <td><?= htmlspecialchars($row['hostel_name']); ?></td>
+              <td><?= htmlspecialchars($row['creator_name']); ?></td>
+              <td><span class="status <?= strtolower($row['status']); ?>"><?= $row['status']; ?></span></td>
+              <td>
+                <form method="POST" style="display:inline;">
+                  <input type="hidden" name="hostel_id" value="<?= $row['id']; ?>">
+                  <?php if ($row['status'] === 'Approved'): ?>
+                    <button type="submit" name="update_status" value="Pending">Set Pending</button>
+                  <?php else: ?>
+                    <button type="submit" name="update_status" value="Approved">Approve</button>
+                  <?php endif; ?>
+                </form>
+                <a href="view_hostel.php?id=<?= $row['id']; ?>" class="view-btn">View</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
         <?php else: ?>
-            <tr><td colspan="5">No hostels found.</td></tr>
+          <tr><td colspan="5">No hostels found.</td></tr>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
 </main>
+</body>
+</html>
