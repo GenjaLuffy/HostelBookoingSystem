@@ -4,6 +4,7 @@ include './includes/connect.php';
 include './includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // your PHP form processing code unchanged...
   $hostelName = trim($_POST['hostelName']);
   $description = trim($_POST['description']);
   $fee = floatval($_POST['fee']);
@@ -15,8 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $amenities = isset($_POST['amenities']) ? implode(",", $_POST['amenities']) : "";
   $rules = isset($_POST['rules']) ? implode(",", $_POST['rules']) : "";
 
-  function uploadImage($fileKey)
-  {
+  function uploadImage($fileKey) {
     if (isset($_FILES[$fileKey]) && $_FILES[$fileKey]['error'] === 0) {
       $imageName = basename($_FILES[$fileKey]['name']);
       $targetDir = 'uploads/';
@@ -81,6 +81,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Add Hostels</title>
     <link rel="stylesheet" href="assets/css/addHostel.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      .image-upload-wrapper {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 1rem;
+      }
+      .image-upload-wrapper img {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+      }
+      .image-upload-wrapper img:hover {
+        border-color: #007bff;
+      }
+    </style>
 </head>
 
 <body>
@@ -95,26 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" id="hostelName" name="hostelName" required />
 
       <label>Select Images:</label>
-      <style>
-        .image-upload-wrapper {
-          display: flex;
-          gap: 10px;
-          margin-bottom: 1rem;
-        }
-        .image-upload-wrapper img {
-          width: 120px;
-          height: 90px;
-          object-fit: cover;
-          cursor: pointer;
-          border: 2px solid #ccc;
-          border-radius: 5px;
-          transition: border-color 0.3s ease;
-        }
-        .image-upload-wrapper img:hover {
-          border-color: #007bff;
-        }
-      </style>
-
       <div class="image-upload-wrapper">
         <img id="previewImage1" src="placeholder.png" alt="Main Image" title="Click to upload main image" />
         <img id="previewImage2" src="placeholder.png" alt="Image 2" title="Click to upload additional image 2" />
@@ -133,7 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label for="locationSearch">Search Location:</label>
       <input type="text" id="locationSearch" placeholder="Search location..." autocomplete="off" />
       <div id="suggestions" style="background: white; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; margin-bottom: 1rem;"></div>
-
 
       <label>Choose Location on Map:</label>
       <div id="map" style="height: 300px; margin-bottom: 1rem;"></div>
@@ -155,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label><input type="checkbox" name="amenities[]" value="Air conditioning/24/7 support" /> Air conditioning 24/7 support</label>
         <label><input type="checkbox" name="amenities[]" value="cc-tv " /> CCTV</label>
         <label><input type="checkbox" name="amenities[]" value="water supply " /> Water Supply 24/7</label>
-
       </div>
 
       <label>Hostel Rules</label>
@@ -186,8 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </main>
 
-<!-- Leaflet CSS + JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
   const map = L.map('map').setView([27.7172, 85.3240], 13); // Default: Kathmandu
@@ -209,10 +207,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   updateLatLng(27.7172, 85.3240); // initial values
 
-  marker.on('dragend', function (e) {
-    const latLng = e.target.getLatLng();
-    updateLatLng(latLng.lat, latLng.lng);
-  });
+  function onMarkerDrag() {
+    marker.on('dragend', function (e) {
+      const latLng = e.target.getLatLng();
+      updateLatLng(latLng.lat, latLng.lng);
+
+      // Reverse geocode to get address from lat,lng
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latLng.lat}&lon=${latLng.lng}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.display_name) {
+            updateLocationInput(data.display_name);
+            document.getElementById('locationSearch').value = data.display_name; // optional: update search box too
+          } else {
+            updateLocationInput('Address not found');
+          }
+        })
+        .catch(() => {
+          updateLocationInput('Address not found');
+        });
+    });
+  }
+  onMarkerDrag();
 
   // SEARCH + AUTOCOMPLETE FUNCTIONALITY (DEBOUNCED + FIXED)
   const searchInput = document.getElementById('locationSearch');
@@ -256,6 +272,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               updateLocationInput(place.display_name);
               map.setView([lat, lon], 15);
               suggestionsBox.innerHTML = '';
+
+              // Remove old dragend event and bind new one (fix)
+              marker.off('dragend');
+              onMarkerDrag();
             });
 
             suggestionsBox.appendChild(div);
