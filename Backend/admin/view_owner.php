@@ -42,44 +42,81 @@ $genderMap = [
     <link rel="stylesheet" href="assets/css/sowner.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        .owner-details {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-        .owner-details img {
-            max-width: 150px;
-            height: auto;
-            border-radius: 50%;
-            margin-bottom: 15px;
-        }
-        .owner-details h2 {
-            margin-bottom: 20px;
-        }
-        .owner-details dl {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .owner-details dt, .owner-details dd {
-            width: 50%;
-            margin: 0;
-            padding: 5px 0;
-        }
-        .owner-details dt {
-            font-weight: bold;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #007BFF;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
+
+.owner-details {
+  max-width: 650px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.owner-details h2 {
+  font-size: 28px;
+  color: #333;
+  
+}
+
+.owner-details img,
+.owner-details i.fas.fa-user {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  color: #888;
+  font-size: 64px;
+  line-height: 130px;
+  display: inline-block;
+  margin-bottom: 25px;
+}
+
+.owner-details dl {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 15px;
+  column-gap: 20px;
+  text-align: left;
+}
+
+.owner-details dt {
+  background-color: #f0ebfc;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.owner-details dd {
+  margin: 0;
+  padding: 10px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  color: #444;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  text-decoration: none;
+  color: #8667f2;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-link i {
+  margin-right: 6px;
+}
+
+.back-link:hover {
+  color: #654ac6;
+  text-decoration: underline;
+}
+
     </style>
 </head>
 <body>

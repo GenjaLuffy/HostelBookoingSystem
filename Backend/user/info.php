@@ -119,6 +119,10 @@ if (!$hostel) {
                     'quiet' => 'fa-volume-mute',
                     'noise' => 'fa-volume-mute',
                     'cleanliness' => 'fa-broom',
+                    'visitor' => 'fa-user-check',
+                    'misbehavior' => 'fa-exclamation-triangle',
+                    'not_responsible' => 'fa-exclamation-circle',
+
                 ];
 
                 $arrivalRule = '';

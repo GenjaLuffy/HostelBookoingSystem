@@ -36,7 +36,7 @@ if ($result->num_rows === 1) {
 <body>
     <header class="header">
         <a href="index.php" class="logo">Book<br><span>Mate</span></a>
-        <div class="user-name" style="color: black; margin-left: 20px; font-weight: bold;">
+        <div class="user-name" style="color: black; margin-left: 20px; font-weight: bold; cursor:pointer;">
             Welcome,<?= htmlspecialchars($admin['name']) ?>
         </div>
     </header>
