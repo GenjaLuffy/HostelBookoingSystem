@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (!is_dir($targetDir)) {
         mkdir($targetDir, 0755, true);
       }
-      $targetPath = $targetDir . time() . '_' . uniqid() . '_' . $imageName;
+      $targetPath = $targetDir . time() . '' . uniqid() . '' . $imageName;
       if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $targetPath)) {
         return $targetPath;
       }
@@ -163,10 +163,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label><input type="checkbox" name="rules[]" value="Arrival after 14:00, departure by 12:00" /> Enter Hostel by 9:00 pm</label>
         <label><input type="checkbox" name="rules[]" value="No moving or damaging furniture" /> Do not damage furniture</label>
         <label><input type="checkbox" name="rules[]" value="No guests inside rooms" /> No guests allowed inside rooms</label>
-        <label><input type="checkbox" name="rules[]" value="Strictly no alcohol, drugs, cigarettes, or illegal substances." /> Strictly no alcohol, drugs, cigarettes, or illegal substances.</label>
+        <label><input type="checkbox" name="rules[]" value="Strictly no alcohol drugs cigarettes or illegal substances." /> Strictly no alcohol, drugs, cigarettes, or illegal substances.</label>
         <label><input type="checkbox" name="rules[]" value="Avoid loud noise; maintain silence during study and rest hours." /> Avoid loud noise; maintain silence during study and rest hours.</label>
         <label><input type="checkbox" name="rules[]" value="Visitors are allowed only during fixed hours with prior registration." /> Visitors are allowed only during fixed hours with prior registration.</label>
-        <label><input type="checkbox" name="rules[]" value="Hostel is not responsible for personal items; lock your room when leaving." /> Hostel is not responsible for personal items; lock your room when leaving.</label>
+        <label><input type="checkbox" name="rules[]" value="Hostel is not responsible for personal items lock your room when leaving." /> Hostel is not responsible for personal items; lock your room when leaving.</label>
         <label><input type="checkbox" name="rules[]" value="Any misbehavior or rule violation may lead to disciplinary action." /> Any misbehavior or rule violation may lead to disciplinary action.</label>
       </div>
 
@@ -189,7 +189,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- Leaflet CSS + JS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
   const map = L.map('map').setView([27.7172, 85.3240], 13); // Default: Kathmandu
 
@@ -215,57 +214,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     updateLatLng(latLng.lat, latLng.lng);
   });
 
-  // SEARCH + AUTOCOMPLETE FUNCTIONALITY
+  // SEARCH + AUTOCOMPLETE FUNCTIONALITY (DEBOUNCED + FIXED)
   const searchInput = document.getElementById('locationSearch');
   const suggestionsBox = document.getElementById('suggestions');
+  let debounceTimeout;
 
-  searchInput.addEventListener('input', async function () {
+  searchInput.addEventListener('input', function () {
     const query = this.value.trim();
+
+    clearTimeout(debounceTimeout);
+
     if (query.length < 3) {
       suggestionsBox.innerHTML = '';
       return;
     }
 
-    try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=np`);
-      const results = await response.json();
-
-      suggestionsBox.innerHTML = '';
-      results.forEach(place => {
-        const div = document.createElement('div');
-        div.textContent = place.display_name;
-        div.style.padding = '8px';
-        div.style.cursor = 'pointer';
-        div.style.borderBottom = '1px solid #eee';
-
-        div.addEventListener('click', () => {
-          const lat = parseFloat(place.lat);
-          const lon = parseFloat(place.lon);
-
-          // Move main marker & update hidden inputs
-          marker.setLatLng([lat, lon]);
-          updateLatLng(lat, lon);
-
-          // Update location text inputs (search & form)
-          searchInput.value = place.display_name;
-          updateLocationInput(place.display_name);
-
-          map.setView([lat, lon], 15);
-
+    debounceTimeout = setTimeout(() => {
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=np`)
+        .then(response => response.json())
+        .then(results => {
           suggestionsBox.innerHTML = '';
+          if (results.length === 0) {
+            suggestionsBox.innerHTML = '<div style="padding:8px;">No results found</div>';
+            return;
+          }
+
+          results.forEach(place => {
+            const div = document.createElement('div');
+            div.textContent = place.display_name;
+            div.style.padding = '8px';
+            div.style.cursor = 'pointer';
+            div.style.borderBottom = '1px solid #eee';
+
+            div.addEventListener('click', () => {
+              const lat = parseFloat(place.lat);
+              const lon = parseFloat(place.lon);
+
+              marker.setLatLng([lat, lon]);
+              updateLatLng(lat, lon);
+              searchInput.value = place.display_name;
+              updateLocationInput(place.display_name);
+              map.setView([lat, lon], 15);
+              suggestionsBox.innerHTML = '';
+            });
+
+            suggestionsBox.appendChild(div);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching location:', error);
+          suggestionsBox.innerHTML = '<div style="padding:8px;">No results found</div>';
         });
-
-        suggestionsBox.appendChild(div);
-      });
-
-    } catch (error) {
-      console.error('Error fetching location:', error);
-      suggestionsBox.innerHTML = '<div style="padding:8px;">No results found</div>';
-    }
+    }, 500); // 500ms debounce
   });
 
   // IMAGE UPLOAD PREVIEW & CLICK TO SELECT
-
   function setupImageUpload(previewId, inputId) {
     const previewImg = document.getElementById(previewId);
     const fileInput = document.getElementById(inputId);
@@ -291,6 +294,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   setupImageUpload('previewImage3', 'image3');
   setupImageUpload('previewImage4', 'image4');
 </script>
-
 </body>
 </html>
