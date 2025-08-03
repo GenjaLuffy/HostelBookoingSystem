@@ -43,6 +43,9 @@ $stmt->close();
     .main-content h1 {
         margin-bottom: 15px;
     }
+    ul {
+        padding-left: 20px;
+    }
   </style>
 </head>
 <body>
@@ -53,8 +56,33 @@ $stmt->close();
   <p><strong>Fee:</strong> Rs. <?= htmlspecialchars($hostel['fee']) ?></p>
   <p><strong>Status:</strong> <?= htmlspecialchars($hostel['status']) ?></p>
   <p><strong>Description:</strong><br><?= nl2br(htmlspecialchars($hostel['description'])) ?></p>
-  <p><strong>Amenities:</strong><br><?= nl2br(htmlspecialchars($hostel['amenities'])) ?></p>
-  <p><strong>Rules:</strong><br><?= nl2br(htmlspecialchars($hostel['rules'])) ?></p>
+
+  <p><strong>Amenities:</strong></p>
+  <ul>
+    <?php
+    $amenities = preg_split('/\r\n|\r|\n|,/', $hostel['amenities']);
+    foreach ($amenities as $item) {
+        $item = trim($item);
+        if (!empty($item)) {
+            echo '<li>' . htmlspecialchars($item) . '</li>';
+        }
+    }
+    ?>
+  </ul>
+
+  <p><strong>Rules:</strong></p>
+  <ul>
+    <?php
+    $rules = preg_split('/\r\n|\r|\n|,/', $hostel['rules']);
+    foreach ($rules as $rule) {
+        $rule = trim($rule);
+        if (!empty($rule)) {
+            echo '<li>' . htmlspecialchars($rule) . '</li>';
+        }
+    }
+    ?>
+  </ul>
+
   <p><a href="shostel.php">← Back to Manage Hostels</a></p>
 </main>
 </body>
