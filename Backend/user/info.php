@@ -110,7 +110,7 @@ if (!$hostel) {
             <ul class="rules">
                 <?php
                 $ruleIconMap = [
-                    'guest' => 'fa-user-lock',
+                        'guest' => 'fa-user-lock',
                     'outsider' => 'fa-user-lock',
                     'furniture' => 'fa-couch',
                     'damage' => 'fa-couch',
@@ -122,7 +122,6 @@ if (!$hostel) {
                     'visitor' => 'fa-user-check',
                     'misbehavior' => 'fa-exclamation-triangle',
                     'not_responsible' => 'fa-exclamation-circle',
-
                 ];
 
                 $arrivalRule = '';
